@@ -2350,6 +2350,13 @@ function showNarration(texts, onEnd) {
 // ============================================================
 // ダイアログ（タイプライター付き）
 // ============================================================
+// 話者ごとの色分け設定
+const SPEAKER_COLORS = {
+  'ノワール': { bg: 'rgba(110,65,175,0.55)', border: 'rgba(180,140,230,0.55)', text: '#ecdcff' },
+  'ミネット': { bg: 'rgba(195,115,35,0.55)', border: 'rgba(240,170,90,0.55)',  text: '#ffe4c4' },
+  '澪':       { bg: 'rgba(45,125,85,0.55)',  border: 'rgba(110,205,150,0.55)', text: '#d4ffe2' },
+};
+
 function showDialogues(dialogues, onEnd) {
   hideAll();
   let idx = 0;
@@ -2365,6 +2372,16 @@ function showDialogues(dialogues, onEnd) {
     } else {
       $speakerTag.classList.remove('hidden');
       $speakerTag.textContent = d.speaker;
+      const c = SPEAKER_COLORS[d.speaker];
+      if (c) {
+        $speakerTag.style.background = c.bg;
+        $speakerTag.style.borderColor = c.border;
+        $speakerTag.style.color = c.text;
+      } else {
+        $speakerTag.style.background = '';
+        $speakerTag.style.borderColor = '';
+        $speakerTag.style.color = '';
+      }
     }
     $dialText.textContent = '';
     $dialBox.style.display = 'block';
@@ -2502,7 +2519,7 @@ function showPuzzle1(onClear) {
   setBg('puzzle1_cards_lamp.png');
   $brightOv.style.background = 'rgba(0,0,0,0.62)';
   showDialogues([
-    { speaker:'お客様', text:'返信がないってことは……やっぱり、嫌われたのかもしれません。' },
+    { speaker:'澪', text:'返信がないってことは……やっぱり、嫌われたのかもしれません。' },
     { speaker:'ノワール', text:'おや。悪い答えほど、ずいぶん濃く見えるようですね。' },
     { speaker:'ミネット', text:'でも見て。薄くて見えないカードもあるよ。' },
     { speaker:'ノワール', text:'では、ランプの明るさを整えてください。強すぎる光も、弱すぎる光も、答えを隠してしまうことがあります。' },
@@ -2575,22 +2592,22 @@ function handlePuzzleChoice(val, onClear) {
   if (val === 'A') {
     showDialogues([
       { speaker:'ノワール', text:'返事がないことと、嫌われたことは同じではありません。' },
-      { speaker:'お客様',   text:'でも……そう考えてしまいました。' },
+      { speaker:'澪',   text:'でも……そう考えてしまいました。' },
       { speaker:'ノワール', text:'心は、空白を見ると答えを入れたがります。ときにそれが、自分を傷つける答えであっても。' },
       { speaker:'ミネット', text:'「嫌われた」って答えを入れると、待つ時間は少しだけ終わった気がするんだよね。でもそのぶん、心がぎゅっと痛くなる。' },
-      { speaker:'お客様',   text:'たしかに……。わからないままより、嫌われたって決めた方が、怖いのに楽な気がしました。' },
+      { speaker:'澪',   text:'たしかに……。わからないままより、嫌われたって決めた方が、怖いのに楽な気がしました。' },
       { speaker:'ノワール', text:'それは、あなたが弱いからではありません。不安が、先に傷つく準備をしようとしたのです。' },
       { speaker:'システム', text:'もう一度、カードを選び直しましょう。' },
     ], () => renderPuzzle1(onClear));
   } else if (val === 'B') {
     showDialogues([
       { speaker:'ノワール', text:'迷惑だったかどうかは、まだ手紙には書かれていません。' },
-      { speaker:'お客様',   text:'私、すぐに思ってしまうんです。迷惑だったかなって。' },
+      { speaker:'澪',   text:'私、すぐに思ってしまうんです。迷惑だったかなって。' },
       { speaker:'ノワール', text:'それは、相手を大切にしたい気持ちが強いからかもしれません。' },
       { speaker:'ノワール', text:'ただ、その優しさが強すぎると、何でも自分のせいにしてしまうことがあります。' },
       { speaker:'ミネット', text:'やさしい人ほど、すぐ荷物を持っちゃうんだよね。' },
       { speaker:'ミネット', text:'「私が悪かったかな」って、まだ誰にも渡されてない荷物まで。' },
-      { speaker:'お客様',   text:'……私、いつもそうかもしれません。' },
+      { speaker:'澪',   text:'……私、いつもそうかもしれません。' },
       { speaker:'ノワール', text:'相手を思うことと、自分を責めることは、同じではありません。' },
       { speaker:'システム', text:'もう一度、カードを選び直しましょう。' },
     ], () => renderPuzzle1(onClear));
@@ -2599,14 +2616,14 @@ function handlePuzzleChoice(val, onClear) {
     setBg('puzzle1_clear_mio_recognizes_blank.png');
     showDialogues([
       { speaker:'表示',   text:'まだわからない' },
-      { speaker:'お客様', text:'まだ……わからない。' },
+      { speaker:'澪', text:'まだ……わからない。' },
       { speaker:'ノワール',text:'ええ。今ここにあるのは、「返事がない」という事実だけです。' },
-      { speaker:'お客様', text:'でも、わからないまま待つのって……怖いですね。' },
+      { speaker:'澪', text:'でも、わからないまま待つのって……怖いですね。' },
       { speaker:'ノワール',text:'ええ。人は、空白が苦手です。' },
       { speaker:'ノワール',text:'返事がない。表情が見えない。理由がわからない。' },
       { speaker:'ノワール',text:'そういう空白を見ると、心は何かを入れようとします。' },
       { speaker:'ミネット',text:'それも夜だと、だいたい怖い言葉になっちゃうんだよね。' },
-      { speaker:'お客様', text:'だから私、「嫌われた」とか「迷惑だった」とか、勝手に入れてしまったんですね。' },
+      { speaker:'澪', text:'だから私、「嫌われた」とか「迷惑だった」とか、勝手に入れてしまったんですね。' },
     ], () => fadeIn(() => playPuzzle1ClearPart2(onClear)));
   }
 }
@@ -2615,11 +2632,11 @@ function playPuzzle1ClearPart2(onClear) {
   setBg('puzzle1_mio_and_noir_close_talk.png');
   showDialogues([
     { speaker:'ノワール',text:'はい。それは、あなたが弱いからではありません。心が不安から身を守ろうとしただけです。' },
-    { speaker:'お客様', text:'守ろうと……？' },
+    { speaker:'澪', text:'守ろうと……？' },
     { speaker:'ノワール',text:'人は傷つくのが怖いとき、先に悪い結末を用意してしまうことがあります。' },
     { speaker:'ノワール',text:'驚かないように。期待しすぎないように。これ以上、傷つかないように。' },
     { speaker:'ミネット',text:'でもその結末、自分で自分を先に傷つけちゃうこともあるんだよね。' },
-    { speaker:'お客様', text:'私、返事が来る前に、もう全部終わったみたいに考えていました。' },
+    { speaker:'澪', text:'私、返事が来る前に、もう全部終わったみたいに考えていました。' },
     { speaker:'ノワール',text:'では次に、その「終わったことにしてしまう心」を見てみましょう。' },
     { speaker:'ミネット',text:'あっ。床に黒猫さんの足あとがあるよ。' },
     { speaker:'ナレーション',text:'ひとつめの答えを見つけました。' },
@@ -3955,26 +3972,28 @@ function playCustomerArrival() {
       showDialogues([
         { speaker:'ナレーション', text:'お客様は、少し戸惑ったように店内を見まわしました。' },
         { speaker:'ナレーション', text:'その指は、まだスマホをぎゅっと握ったままです。' },
-        { speaker:'ノワール',     text:'どうぞ、おかけください。' },
+        { speaker:'ノワール',     text:'どうぞ、おかけください。私はここの店主、ノワールです。そして……' },
+        { speaker:'ミネット',     text:'ミネットだよー！' },
+        { speaker:'澪',           text:'……澪です。' },
         { speaker:'ミネット',     text:'あったかいお茶、いれるね。' },
-        { speaker:'お客様',       text:'ありがとうございます……。' },
+        { speaker:'澪',           text:'ありがとうございます……。' },
       ], () => fadeIn(() => {
         setBg('p-10_phone_no_reply.png');
         showDialogues([
           { speaker:'ナレーション', text:'テーブルに置かれたスマホの画面には、返事のないメッセージが残っていました。' },
-          { speaker:'お客様',       text:'……まだ、返事が来ないんです。' },
+          { speaker:'澪',           text:'……まだ、返事が来ないんです。' },
           { speaker:'ノワール',     text:'その返事を、ずっと待っていらしたのですね。' },
-          { speaker:'お客様',       text:'はい。変なことを言ってしまったのかもしれません。迷惑だったのかも。もしかしたら……嫌われたのかもしれないって。' },
+          { speaker:'澪',           text:'はい。変なことを言ってしまったのかもしれません。迷惑だったのかも。もしかしたら……嫌われたのかもしれないって。' },
           { speaker:'ミネット',     text:'うう……。夜に考えると、どんどん大きくなるやつだ。' },
-          { speaker:'お客様',       text:'何度もスマホを見てしまうんです。見ても、何も変わらないのに。' },
+          { speaker:'澪',       text:'何度もスマホを見てしまうんです。見ても、何も変わらないのに。' },
           { speaker:'ノワール',     text:'返事がない時間は、ただの空白ではありません。不安な心にとっては、何かを書きこみたくなる余白になるのです。' },
         ], () => fadeIn(() => {
           setBg('p-11_noir_letter.png');
           showDialogues([
             { speaker:'ノワール', text:'今夜のあなたには、ひとつ手紙が届いております。' },
-            { speaker:'お客様',   text:'手紙……？' },
+            { speaker:'澪',   text:'手紙……？' },
             { speaker:'ノワール', text:'ええ。まだ届いていないはずの、返事の手紙です。' },
-            { speaker:'お客様',   text:'まだ届いていないのに……？' },
+            { speaker:'澪',   text:'まだ届いていないのに……？' },
             { speaker:'ノワール', text:'だからこそ、謎になるのです。' },
             { speaker:'ノワール', text:'画面の向こうのあなたにも、少しだけ手伝っていただきましょう。この方が、自分を責める答えを選ばなくてすむように。' },
             { speaker:'ミネット', text:'一緒に見つけよう。今夜のほんとうの返事。' },
