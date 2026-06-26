@@ -2024,6 +2024,7 @@ const $puzzle9CtrlRight    = document.getElementById('puzzle9-ctrl-right');
 // 画像
 // ============================================================
 const IMAGES = {
+  'p-4_noir_minette_player.png': 'images/p-4_noir_minette_player.png',
   'p-10_phone_no_reply.png': 'images/p-10_phone_no_reply.png',
   'p-11_noir_letter.png': 'images/p-11_noir_letter.png',
   'p-1_moonlit_cafe_exterior.png': 'images/p-1_moonlit_cafe_exterior.png',
@@ -2505,6 +2506,7 @@ function showPuzzle1(onClear) {
     { speaker:'ノワール', text:'おや。悪い答えほど、ずいぶん濃く見えるようですね。' },
     { speaker:'ミネット', text:'でも見て。薄くて見えないカードもあるよ。' },
     { speaker:'ノワール', text:'では、ランプの明るさを整えてください。強すぎる光も、弱すぎる光も、答えを隠してしまうことがあります。' },
+    { speaker:'ミネット', text:'もし詰まったら、左上の「💡ヒント」を押してみてね。月のしずくを使って、ちょっとだけ手伝ってあげられるよ。' },
   ], () => renderPuzzle1(onClear));
 }
 
@@ -5728,6 +5730,23 @@ const RESUME_FUNCTIONS = {
 // ============================================================
 // スタート画面
 // ============================================================
+// ============================================================
+// 画面サイズに応じた自動スケーリング（ブラウザの上下バーで隠れる対策）
+// ============================================================
+function fitGameToViewport() {
+  const vw = window.innerWidth;
+  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const scale = Math.min(vw / 375, vh / 667, 1);
+  $container.style.transform = `scale(${scale})`;
+  $container.style.transformOrigin = 'center center';
+}
+window.addEventListener('resize', fitGameToViewport);
+window.addEventListener('orientationchange', fitGameToViewport);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', fitGameToViewport);
+}
+fitGameToViewport();
+
 window.onload = () => {
   setBg('title_01_letter_phone_moon.png');
   const saved = loadProgress();
