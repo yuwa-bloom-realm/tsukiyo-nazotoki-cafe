@@ -13,6 +13,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-height: 100dvh;
     font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Georgia', serif;
     overflow: hidden;
   }
@@ -2431,10 +2432,10 @@ function renderChoices(choices, onNext) {
 const TAP_POINTS = [
   { id:'lamp_base',       x:8,   y:311, w:88,  h:168, msg:'ランプの台座に、小さな光が見える。',
     first:[{speaker:'ミネット',text:'わぁ、月のしずくだ！'},{speaker:'ミネット',text:'集めておくと、謎で迷ったときにヒントをもらえるよ。'},{speaker:'ノワール',text:'焦らなくて大丈夫です。謎は、急いで解くものではありませんから。'}] },
-  { id:'cup',             x:64,  y:423, w:60,  h:48,  msg:'冷めた紅茶の底で、何かがきらりと光った。', first:null },
+  { id:'cup',             x:78,  y:400, w:55,  h:45,  msg:'冷めた紅茶の底で、何かがきらりと光った。', first:null },
   { id:'bookshelf_gap',   x:325, y:367, w:48,  h:168, msg:'本と本のあいだから、月のしずくがころんと落ちた。', first:null },
   { id:'window_moonlight',x:0,   y:120, w:168, h:243, msg:'窓辺に落ちた月明かりが、静かに揺れている。', first:null },
-  { id:'noir_tail',       x:259, y:255, w:64,  h:172, msg:'ノワール店長のしっぽが、ふわりと揺れた。',
+  { id:'noir_tail',       x:270, y:230, w:55,  h:230, msg:'ノワール店長のしっぽが、ふわりと揺れた。',
     first:[{speaker:'ノワール',text:'おや。それは私のものだったのですが。'},{speaker:'ミネット',text:'見つけた人のものだよ〜。'}] },
 ];
 
@@ -2475,7 +2476,7 @@ function buildTapAreas(onEnd) {
 }
 
 function checkExploreCleared(onEnd) {
-  if (!state.exploreCleared && (state.moonDrops >= 1 || state.exploredCount >= 3)) {
+  if (!state.exploreCleared && state.exploredCount >= 5) {
     state.exploreCleared = true;
     $exploreNextBtn.style.display = 'block';
     $exploreNextBtn.onclick = () => {
