@@ -534,9 +534,9 @@
   }
 
   #book-closeup-cover {
-    width: 180px;
-    height: 280px;
-    border-radius: 6px;
+    width: 250px;
+    height: 388px;
+    border-radius: 8px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
     margin-bottom: 20px;
     position: relative;
@@ -548,12 +548,12 @@
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 78%;
-    font-size: 19px;
+    width: 84%;
+    font-size: 27px;
     color: #2a1f10;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-align: center;
-    line-height: 1.9;
+    line-height: 2.3;
   }
 
   #book-closeup-note {
@@ -2048,6 +2048,7 @@ const $puzzle9CtrlRight    = document.getElementById('puzzle9-ctrl-right');
 // 画像
 // ============================================================
 const IMAGES = {
+  'puzzle1_mio_and_noir_close_talk.png': 'images/puzzle1_mio_and_noir_close_talk.png',
   'p-4_noir_minette_player.png': 'images/p-4_noir_minette_player.png',
   'p-10_phone_no_reply.png': 'images/p-10_phone_no_reply.png',
   'p-11_noir_letter.png': 'images/p-11_noir_letter.png',
@@ -2278,6 +2279,7 @@ function hideAll() {
   $epilogueFarewellText.innerHTML = '';
   clearTapAreas();
   clearShrunkScene();
+  document.querySelectorAll('.drag-word-card').forEach(e => e.remove());
   if (typewriterTimer) { clearInterval(typewriterTimer); typewriterTimer = null; }
 }
 
@@ -2853,22 +2855,35 @@ const BOOK_COVER_IMAGES = {
   right: { small: 'images/puzzle2_book_zoom_right_small.png', medium: 'images/puzzle2_book_zoom_right_medium.png', large: 'images/puzzle2_book_zoom_right_large.png' },
 };
 
-// 本アップ画面：タイトルの各文字をタップすると「この文字を集める」
+// 本アップ画面：タイトルの各文字をタップすると「この文字を集める」、もう一度タップで取り消し
 function openBookCloseup(side, size, onClear) {
   const title = BOOKS[side][size];
   $bookCloseupCover.style.backgroundImage = `url('${BOOK_COVER_IMAGES[side][size]}')`;
   $bookCloseupTitle.innerHTML = '';
   [...title].forEach((ch, idx) => {
+    const position = idx + 1;
     const span = document.createElement('span');
     span.textContent = ch;
-    span.style.cssText = 'display:inline-block; cursor:pointer; padding:2px 4px; border-radius:4px; transition:background 0.2s;';
+    span.style.cssText = 'display:inline-block; cursor:pointer; padding:5px 8px; margin:2px 1px; border-radius:7px; transition:background 0.2s;';
+    const isCollected = () => state.puzzle2.collectedChars.some(c => c.side===side && c.size===size && c.position===position);
+    const refreshSpan = () => {
+      span.style.background = isCollected() ? 'rgba(240,192,96,0.45)' : '';
+    };
+    refreshSpan();
     span.onclick = () => {
-      span.style.background = 'rgba(240,192,96,0.35)';
-      addCollectedChar(ch, side, size, idx + 1);
+      if (isCollected()) {
+        state.puzzle2.collectedChars = state.puzzle2.collectedChars.filter(c => !(c.side===side && c.size===size && c.position===position));
+        showToast(`「${ch}」を外した`);
+      } else {
+        state.puzzle2.collectedChars.push({ ch, side, size, position });
+        showToast(`「${ch}」を集めた`);
+      }
+      refreshSpan();
+      renderAnswerSummary();
     };
     $bookCloseupTitle.appendChild(span);
   });
-  $bookCloseupNote.textContent = `${sideLabel(side)}の本棚・${sizeLabel(size)}な本　文字をタップして集める`;
+  $bookCloseupNote.textContent = `${sideLabel(side)}の本棚・${sizeLabel(size)}な本　文字をタップして集める（もう一度タップで取り消し）`;
   $bookCloseupScreen.style.display = 'flex';
 
   $bookCloseupClose.onclick = () => {
@@ -2883,8 +2898,23 @@ function addCollectedChar(ch, side, size, position) {
 }
 
 function renderAnswerSummary() {
-  const chars = state.puzzle2.collectedChars.map(c => c.ch);
-  $answerDisplay.textContent = chars.length ? chars.join('　') : '（まだ何もない）';
+  $answerDisplay.innerHTML = '';
+  if (!state.puzzle2.collectedChars.length) {
+    $answerDisplay.textContent = '（まだ何もない）';
+    return;
+  }
+  state.puzzle2.collectedChars.forEach((c) => {
+    const span = document.createElement('span');
+    span.textContent = c.ch;
+    span.style.cssText = 'display:inline-block; cursor:pointer; padding:2px 6px; margin:0 2px; border-radius:6px; background:rgba(240,192,96,0.18);';
+    span.title = 'タップで取り消し';
+    span.onclick = () => {
+      state.puzzle2.collectedChars = state.puzzle2.collectedChars.filter(x => x !== c);
+      renderAnswerSummary();
+      showToast(`「${c.ch}」を外した`);
+    };
+    $answerDisplay.appendChild(span);
+  });
 }
 
 function buildAnswerControls(onClear) {
@@ -3539,11 +3569,11 @@ function playPuzzle5Scratch(onClear) {
   let selectedTool = null;
   $puzzle5ToolsArea.innerHTML = '';
   const tools = [
-    { id:'eraser',     img:'images/puzzle5_tool_eraser.jpg' },
-    { id:'moon_light', img:'images/puzzle5_tool_moon_light.jpg' },
-    { id:'pen',        img:'images/puzzle5_tool_pen.jpg' },
-    { id:'bookmark',   img:'images/puzzle5_tool_bookmark.jpg' },
-    { id:'tea_cup',    img:'images/puzzle5_tool_tea_cup.jpg' },
+    { id:'eraser',     img:'images/puzzle5_tool_eraser.png' },
+    { id:'moon_light', img:'images/puzzle5_tool_moon_light.png' },
+    { id:'pen',        img:'images/puzzle5_tool_pen.png' },
+    { id:'bookmark',   img:'images/puzzle5_tool_bookmark.png' },
+    { id:'tea_cup',    img:'images/puzzle5_tool_tea_cup.png' },
   ];
   const toolBtns = {};
   tools.forEach(t => {
