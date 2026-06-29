@@ -709,33 +709,41 @@
     position: relative;
     width: 100%;
     min-height: 100px;
-    background: rgba(40,30,55,0.5);
-    border: 2px dashed rgba(200,180,220,0.4);
-    border-radius: 28px;
+    background: linear-gradient(165deg, #e9ddc2, #d8c9a3);
+    border: 1px solid rgba(120,95,55,0.4);
+    border-radius: 4px 14px 6px 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45), inset 0 0 24px rgba(255,250,230,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 16px;
     transition: all 0.3s;
   }
+  #speech-bubble-shape::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-top: 16px solid rgba(10,8,16,0.5);
+    border-left: 16px solid transparent;
+  }
   #speech-bubble-shape::after {
     content: '';
     position: absolute;
-    bottom: -14px; left: 40px;
-    width: 0; height: 0;
-    border-left: 10px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 18px solid rgba(200,180,220,0.4);
+    bottom: 4px; left: 18px; right: 18px;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, transparent 0 6px, rgba(120,95,55,0.3) 6px 8px);
   }
   #speech-bubble-shape.drag-over {
-    background: rgba(70,55,100,0.6);
-    border-color: rgba(240,192,96,0.6);
+    background: linear-gradient(165deg, #f3e6b8, #e6d49a);
+    border-color: rgba(200,150,60,0.6);
   }
   #speech-bubble-shape.shake {
     animation: bubble-shake 0.4s ease;
   }
   #speech-bubble-shape.crack {
-    border-color: rgba(80,40,40,0.6);
+    border-color: rgba(150,60,60,0.55);
+    background: linear-gradient(165deg, #ded0b4, #cbb993);
   }
   @keyframes bubble-shake {
     0%,100% { transform: translateX(0); }
@@ -744,13 +752,13 @@
   }
 
   #speech-bubble-label {
-    color: rgba(200,180,220,0.5);
+    color: rgba(70,55,35,0.55);
     font-size: 12px;
     letter-spacing: 0.05em;
     text-align: center;
   }
   #speech-bubble-label.filled {
-    color: #f0e0b0;
+    color: #3a2c18;
     font-size: 16px;
     letter-spacing: 0.08em;
   }
@@ -2058,6 +2066,7 @@ const $puzzle9CtrlRight    = document.getElementById('puzzle9-ctrl-right');
 // 画像
 // ============================================================
 const IMAGES = {
+  'puzzle3_mio_holds_glowing_paper.png': 'images/puzzle3_mio_holds_glowing_paper.png',
   'puzzle1_mio_and_noir_close_talk.png': 'images/puzzle1_mio_and_noir_close_talk.png',
   'p-4_noir_minette_player.png': 'images/p-4_noir_minette_player.png',
   'p-10_phone_no_reply.png': 'images/p-10_phone_no_reply.png',
@@ -2977,16 +2986,23 @@ function checkPuzzle2Answer(onClear) {
   }
 }
 
+// 謎2のヒント：①②③でルールを教え、④⑤で実例を見せ、残り4冊は自分で当てはめてもらう
+const PUZZLE2_HINTS = [
+  { cost:0, speaker:'ミネット', text:'足跡をよく見て。本棚の左から来てる足跡と、右から来てる足跡があるよ。' },
+  { cost:1, speaker:'ミネット', text:'足跡の大きさ、本の大きさと同じなんだよ。小さい足跡なら、小さい本を見てみて。' },
+  { cost:1, speaker:'ノワール', text:'足跡の白い爪、何個ある？ その数が、タイトルの何文字目を読むかを教えてくれます。' },
+  { cost:1, speaker:'ミネット', text:'試しにやってみるね。一番手前の足跡は、右に向かう小さな足跡。だから右の小さな本。白い爪は1個だから、1文字目。「まよなか珈琲」の1文字目は……「ま」だね。' },
+  { cost:1, speaker:'ミネット', text:'もう一つ。二番目の足跡は、右に向かう中くらいの足跡。だから右の中くらいの本。白い爪は3個だから、3文字目。「星くだく夜」の3文字目は……「だ」だね。' },
+];
+
 function showPuzzle2Hint() {
-  if (state.puzzle2.pawHintIndex >= PAW_PRINTS.length) {
-    showPopup('ヒントはもうありません。', null); return;
+  if (state.puzzle2.pawHintIndex >= PUZZLE2_HINTS.length) {
+    showPopup('ヒントはもうありません。残りは自分の目で確かめてみてね。', null); return;
   }
-  const isFirst = state.puzzle2.pawHintIndex === 0;
-  const cost = isFirst ? 0 : 1;
-  spendHintWithConfirm(cost, () => {
-    const data = PAW_PRINTS[state.puzzle2.pawHintIndex];
+  const h = PUZZLE2_HINTS[state.puzzle2.pawHintIndex];
+  spendHintWithConfirm(h.cost, () => {
     state.puzzle2.pawHintIndex++;
-    showPopup(`💡 ミネット「${sideLabel(data.side)}の本棚の、${sizeLabel(data.size)}な本。タイトルの${data.claw}文字目を見てみて。」`, null);
+    showPopup(`💡 ${h.speaker}「${h.text}」`, null);
   });
 }
 
@@ -3226,7 +3242,7 @@ function showPuzzle3Hint() {
 }
 
 function showPuzzle3Correct(onClear) {
-  setBg('puzzle3_mio_admits_tired.png');
+  setBg('puzzle3_mio_holds_glowing_paper.png');
   showDialogues([
     { speaker:'ナレーション', text:'破れた吹き出しは、すっかり元の形に戻ったわけではなかった。でも、破れ目には淡い光が宿っていた。' },
     { speaker:'澪', text:'……疲れている。' },
@@ -3268,7 +3284,7 @@ function playPuzzle3RestTalk(onClear) {
 }
 
 function playPuzzle3BrainTalk1(onClear) {
-  setBg('puzzle3_brain_explanation_calm.png');
+  setBg('puzzle3_mio_admits_tired.png');
   showDialogues([
     { speaker:'ナレーション', text:'月夜の喫茶に、紅茶の湯気がゆっくりとのぼっていた。澪は、さっきまで強く握っていたスマホを、テーブルの上にそっと置いた。' },
     { speaker:'澪', text:'疲れていると、不安が大きく見える……。' },
@@ -3276,12 +3292,16 @@ function playPuzzle3BrainTalk1(onClear) {
     { speaker:'ミネット', text:'出た！ノワールさんの、むずかしいけどなぜか眠くならない話！' },
     { speaker:'ノワール', text:'眠くならないよう、努力いたします。' },
     { speaker:'澪', text:'ふふ……お願いします。' },
-    { speaker:'ノワール', text:'人の脳は、わからないことがあると、それをそのままにしておくのが得意ではありません。' },
-    { speaker:'澪', text:'わからないこと……。' },
-    { speaker:'ノワール', text:'返信がない。理由がわからない。相手の気持ちが見えない。そういう「空白」があると、脳は早く意味を見つけようとします。' },
-    { speaker:'ミネット', text:'空白を見ると、脳が勝手に穴埋め問題を始めちゃうんだね。' },
-    { speaker:'ノワール', text:'その通りです。' },
-  ], () => fadeIn(() => playPuzzle3BrainTalk2(onClear)));
+  ], () => fadeIn(() => {
+    setBg('puzzle3_brain_explanation_calm.png');
+    showDialogues([
+      { speaker:'ノワール', text:'人の脳は、わからないことがあると、それをそのままにしておくのが得意ではありません。' },
+      { speaker:'澪', text:'わからないこと……。' },
+      { speaker:'ノワール', text:'返信がない。理由がわからない。相手の気持ちが見えない。そういう「空白」があると、脳は早く意味を見つけようとします。' },
+      { speaker:'ミネット', text:'空白を見ると、脳が勝手に穴埋め問題を始めちゃうんだね。' },
+      { speaker:'ノワール', text:'その通りです。' },
+    ], () => fadeIn(() => playPuzzle3BrainTalk2(onClear)));
+  }));
 }
 
 function playPuzzle3BrainTalk2(onClear) {
