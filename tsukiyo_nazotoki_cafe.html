@@ -534,33 +534,42 @@
   }
 
   #book-closeup-cover {
-    width: 250px;
-    height: 388px;
+    width: 150px;
+    height: 232px;
     border-radius: 8px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     position: relative;
     background-size: cover;
     background-position: center;
   }
 
-  #book-closeup-title {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 84%;
-    font-size: 27px;
-    color: #2a1f10;
-    letter-spacing: 0.06em;
+  #book-closeup-tap-title {
+    width: 88%;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 0.1em;
     text-align: center;
-    line-height: 2.3;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    text-shadow: 0 0 14px rgba(255,255,255,0.25);
   }
 
   #book-closeup-note {
     font-size: 12px;
     color: rgba(200,180,220,0.6);
     letter-spacing: 0.08em;
-    margin-bottom: 36px;
+    margin-bottom: 14px;
+  }
+  #book-closeup-collected {
+    font-size: 20px;
+    color: #f0e0b0;
+    letter-spacing: 0.16em;
+    text-align: center;
+    min-height: 26px;
+    margin-bottom: 22px;
+    text-shadow: 0 0 12px rgba(240,192,96,0.35);
   }
 
   #book-closeup-close {
@@ -1701,10 +1710,10 @@
 
   <!-- 本アップ表示 -->
   <div id="book-closeup-screen">
-    <div id="book-closeup-cover">
-      <div id="book-closeup-title"></div>
-    </div>
+    <div id="book-closeup-cover"></div>
+    <div id="book-closeup-tap-title"></div>
     <div id="book-closeup-note"></div>
+    <div id="book-closeup-collected"></div>
     <button id="book-closeup-close">とじる</button>
   </div>
 
@@ -1968,8 +1977,9 @@ const $container = document.getElementById('game-container');
 // 謎2用
 const $bookCloseupScreen = document.getElementById('book-closeup-screen');
 const $bookCloseupCover  = document.getElementById('book-closeup-cover');
-const $bookCloseupTitle  = document.getElementById('book-closeup-title');
+const $bookCloseupTapTitle = document.getElementById('book-closeup-tap-title');
 const $bookCloseupNote   = document.getElementById('book-closeup-note');
+const $bookCloseupCollected = document.getElementById('book-closeup-collected');
 const $bookCloseupClose  = document.getElementById('book-closeup-close');
 const $answerInputBox = document.getElementById('answer-input-box');
 const $answerPrompt   = document.getElementById('answer-prompt');
@@ -2734,7 +2744,6 @@ function playPuzzle1ClearPart2(onClear) {
     { speaker:'ミネット',text:'でもその結末、自分で自分を先に傷つけちゃうこともあるんだよね。' },
     { speaker:'澪', text:'私、返事が来る前に、もう全部終わったみたいに考えていました。' },
     { speaker:'ノワール',text:'では次に、その「終わったことにしてしまう心」を見てみましょう。' },
-    { speaker:'ミネット',text:'あっ。床に黒猫さんの足あとがあるよ。' },
     { speaker:'ナレーション',text:'ひとつめの答えを見つけました。' },
   ], () => {
     showWordGet('まだわからない', () => fadeIn(() => playPuzzle1AfterTalk(onClear)));
@@ -2859,15 +2868,15 @@ const BOOK_COVER_IMAGES = {
 function openBookCloseup(side, size, onClear) {
   const title = BOOKS[side][size];
   $bookCloseupCover.style.backgroundImage = `url('${BOOK_COVER_IMAGES[side][size]}')`;
-  $bookCloseupTitle.innerHTML = '';
+  $bookCloseupTapTitle.innerHTML = '';
   [...title].forEach((ch, idx) => {
     const position = idx + 1;
     const span = document.createElement('span');
     span.textContent = ch;
-    span.style.cssText = 'display:inline-block; cursor:pointer; padding:5px 8px; margin:2px 1px; border-radius:7px; transition:background 0.2s;';
+    span.style.cssText = 'display:inline-block; cursor:pointer; padding:6px 10px; margin:3px 2px; border-radius:9px; transition:background 0.2s;';
     const isCollected = () => state.puzzle2.collectedChars.some(c => c.side===side && c.size===size && c.position===position);
     const refreshSpan = () => {
-      span.style.background = isCollected() ? 'rgba(240,192,96,0.45)' : '';
+      span.style.background = isCollected() ? 'rgba(240,192,96,0.55)' : '';
     };
     refreshSpan();
     span.onclick = () => {
@@ -2881,9 +2890,10 @@ function openBookCloseup(side, size, onClear) {
       refreshSpan();
       renderAnswerSummary();
     };
-    $bookCloseupTitle.appendChild(span);
+    $bookCloseupTapTitle.appendChild(span);
   });
   $bookCloseupNote.textContent = `${sideLabel(side)}の本棚・${sizeLabel(size)}な本　文字をタップして集める（もう一度タップで取り消し）`;
+  renderAnswerSummary();
   $bookCloseupScreen.style.display = 'flex';
 
   $bookCloseupClose.onclick = () => {
@@ -2898,23 +2908,25 @@ function addCollectedChar(ch, side, size, position) {
 }
 
 function renderAnswerSummary() {
-  $answerDisplay.innerHTML = '';
   if (!state.puzzle2.collectedChars.length) {
     $answerDisplay.textContent = '（まだ何もない）';
-    return;
+    $bookCloseupCollected.textContent = '';
+  } else {
+    $answerDisplay.innerHTML = '';
+    state.puzzle2.collectedChars.forEach((c) => {
+      const span = document.createElement('span');
+      span.textContent = c.ch;
+      span.style.cssText = 'display:inline-block; cursor:pointer; padding:2px 6px; margin:0 2px; border-radius:6px; background:rgba(240,192,96,0.18);';
+      span.title = 'タップで取り消し';
+      span.onclick = () => {
+        state.puzzle2.collectedChars = state.puzzle2.collectedChars.filter(x => x !== c);
+        renderAnswerSummary();
+        showToast(`「${c.ch}」を外した`);
+      };
+      $answerDisplay.appendChild(span);
+    });
+    $bookCloseupCollected.textContent = '今までに集めた文字：' + state.puzzle2.collectedChars.map(c => c.ch).join('　');
   }
-  state.puzzle2.collectedChars.forEach((c) => {
-    const span = document.createElement('span');
-    span.textContent = c.ch;
-    span.style.cssText = 'display:inline-block; cursor:pointer; padding:2px 6px; margin:0 2px; border-radius:6px; background:rgba(240,192,96,0.18);';
-    span.title = 'タップで取り消し';
-    span.onclick = () => {
-      state.puzzle2.collectedChars = state.puzzle2.collectedChars.filter(x => x !== c);
-      renderAnswerSummary();
-      showToast(`「${c.ch}」を外した`);
-    };
-    $answerDisplay.appendChild(span);
-  });
 }
 
 function buildAnswerControls(onClear) {
