@@ -2568,7 +2568,7 @@ function showExploration(onEnd) {
   setBg('p-5_cafe_main_hall.png');
   showDialogues([
     { speaker:'ノワール', text:'この店では、気になる場所をそっと調べることができます。' },
-    { speaker:'ミネット', text:'きらっとしたものを見つけたら、タップしてみてね。あとで謎を解くとき、助けになるかも。' },
+    { speaker:'ミネット', text:'気になるところをタップしてみてね。あとで謎を解くとき、助けになるかも。' },
   ], () => buildTapAreas(onEnd));
 }
 
@@ -2915,8 +2915,8 @@ function renderAnswerSummary() {
     $answerDisplay.innerHTML = '';
     state.puzzle2.collectedChars.forEach((c) => {
       const span = document.createElement('span');
-      span.textContent = c.ch;
-      span.style.cssText = 'display:inline-block; cursor:pointer; padding:2px 6px; margin:0 2px; border-radius:6px; background:rgba(240,192,96,0.18);';
+      span.textContent = c.ch + ' ×';
+      span.style.cssText = 'display:inline-block; cursor:pointer; padding:2px 8px; margin:2px 3px; border-radius:6px; background:rgba(240,192,96,0.18); border:1px solid rgba(240,192,96,0.3);';
       span.title = 'タップで取り消し';
       span.onclick = () => {
         state.puzzle2.collectedChars = state.puzzle2.collectedChars.filter(x => x !== c);
@@ -2930,41 +2930,32 @@ function renderAnswerSummary() {
 }
 
 function buildAnswerControls(onClear) {
-  $answerInputBox.innerHTML = '';
+  $answerPrompt.textContent = '本の文字をタップして集めよう。集まったら、こたえるを押してね。（下の文字をタップで取り消せるよ）';
 
-  const promptEl = document.createElement('div');
-  promptEl.id = 'answer-prompt';
-  promptEl.textContent = '本の文字をタップして集めよう。集まったら、こたえるを押してね。';
-  $answerInputBox.appendChild(promptEl);
-
-  const displayEl = document.createElement('div');
-  displayEl.id = 'answer-collected-display';
-  $answerInputBox.appendChild(displayEl);
-
-  const btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex; gap:8px;';
-
-  const resetBtn = document.createElement('button');
-  resetBtn.textContent = 'やりなおす';
-  resetBtn.style.cssText = `
-    flex: 0 0 32%; padding:9px 4px;
-    background:rgba(40,30,60,0.4); border:1px solid rgba(180,150,220,0.25);
-    border-radius:9px; color:#b8a8d0; font-family:inherit; font-size:12px; cursor:pointer;
-  `;
+  // 「やりなおす」ボタンが無ければ一度だけ作って、これでこたえるボタンの横に並べる
+  let resetBtn = document.getElementById('answer-reset-btn');
+  if (!resetBtn) {
+    resetBtn = document.createElement('button');
+    resetBtn.id = 'answer-reset-btn';
+    resetBtn.textContent = 'やりなおす';
+    resetBtn.style.cssText = `
+      flex: 0 0 32%; padding:9px 4px;
+      background:rgba(40,30,60,0.4); border:1px solid rgba(180,150,220,0.25);
+      border-radius:9px; color:#b8a8d0; font-family:inherit; font-size:12px; cursor:pointer;
+    `;
+    const btnRow = document.createElement('div');
+    btnRow.id = 'answer-btn-row';
+    btnRow.style.cssText = 'display:flex; gap:8px;';
+    $answerSubmitBtn.style.flex = '1';
+    $answerSubmitBtn.parentNode.insertBefore(btnRow, $answerSubmitBtn);
+    btnRow.appendChild(resetBtn);
+    btnRow.appendChild($answerSubmitBtn);
+  }
   resetBtn.onclick = () => {
     state.puzzle2.collectedChars = [];
     renderAnswerSummary();
   };
-  btnRow.appendChild(resetBtn);
-
-  const submitBtn = document.createElement('button');
-  submitBtn.id = 'answer-submit-btn';
-  submitBtn.textContent = 'これでこたえる';
-  submitBtn.style.flex = '1';
-  submitBtn.onclick = () => checkPuzzle2Answer(onClear);
-  btnRow.appendChild(submitBtn);
-
-  $answerInputBox.appendChild(btnRow);
+  $answerSubmitBtn.onclick = () => checkPuzzle2Answer(onClear);
 
   renderAnswerSummary();
 }
