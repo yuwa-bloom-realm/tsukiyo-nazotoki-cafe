@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>月夜の謎解き喫茶</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
 
   html, body {
     position: fixed;
@@ -2421,6 +2421,23 @@ function setupShrunkScene(imageKey) {
   const path = (IMAGES[imageKey]) || ('images/' + imageKey);
   wrap.style.backgroundImage = `url('${path}')`;
   wrap.style.transform = 'scale(1)';
+  if (ZOOMABLE_IMAGES.has(imageKey)) {
+    wrap.style.cursor = 'zoom-in';
+    wrap.onclick = (e) => { e.stopPropagation(); showImageZoom(imageKey); };
+    const badge = document.createElement('div');
+    badge.textContent = '🔍 タップで拡大';
+    badge.style.cssText = `
+      position:absolute; bottom:10px; right:10px;
+      background:rgba(20,14,32,0.7); color:#d8c8e8;
+      font-size:11px; padding:4px 10px; border-radius:12px;
+      border:1px solid rgba(180,150,220,0.35);
+      letter-spacing:0.04em; pointer-events:none;
+    `;
+    wrap.appendChild(badge);
+  } else {
+    wrap.style.cursor = '';
+    wrap.onclick = null;
+  }
   return wrap;
 }
 
@@ -2434,6 +2451,7 @@ function clearShrunkScene() {
   const wrap = document.getElementById('scene-shrink-wrap');
   if (wrap) wrap.remove();
   $bg.style.display = '';
+  hideImageZoom();
 }
 
 // 情報量の多いポスター画像など、ナレーション欄(200px)に隠れず全体を見せたい時に使う
@@ -2442,6 +2460,55 @@ function setBgFullyVisible(imageKey, reservedBottom) {
     const wrap = setupShrunkScene(imageKey);
     fitShrunkSceneToAvailableHeight(wrap, reservedBottom || 200);
   }, 0);
+}
+
+// ============================================================
+// 画像タップ拡大（崩れやすいピンチズームの代わりに、特定の画像だけ
+// タップでフルスクリーン表示できるようにする安全な仕組み）
+// ============================================================
+const ZOOMABLE_IMAGES = new Set([
+  'puzzle3_brain_explanation_calm.png',
+  'puzzle3_brain_explanation_calm_2.png',
+  'puzzle3_brain_explanation_playful.png',
+  'puzzle3_brain_explanation_playful_2.png',
+]);
+
+function ensureZoomOverlay() {
+  let ov = document.getElementById('image-zoom-overlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'image-zoom-overlay';
+    ov.style.cssText = `
+      position:absolute; top:0; left:0; right:0; bottom:0;
+      background:rgba(4,2,10,0.96);
+      display:none; z-index:500;
+      align-items:center; justify-content:center;
+      flex-direction:column;
+    `;
+    const img = document.createElement('img');
+    img.id = 'image-zoom-overlay-img';
+    img.style.cssText = `max-width:94%; max-height:88%; object-fit:contain; border-radius:6px; box-shadow:0 8px 30px rgba(0,0,0,0.6);`;
+    const hint = document.createElement('div');
+    hint.textContent = 'タップして閉じる';
+    hint.style.cssText = `margin-top:14px; font-size:12px; color:rgba(216,200,232,0.7); letter-spacing:0.08em;`;
+    ov.appendChild(img);
+    ov.appendChild(hint);
+    ov.onclick = () => { ov.style.display = 'none'; };
+    $container.appendChild(ov);
+  }
+  return ov;
+}
+
+function showImageZoom(imageKey) {
+  const ov = ensureZoomOverlay();
+  const path = (IMAGES[imageKey]) || ('images/' + imageKey);
+  ov.querySelector('#image-zoom-overlay-img').src = path;
+  ov.style.display = 'flex';
+}
+
+function hideImageZoom() {
+  const ov = document.getElementById('image-zoom-overlay');
+  if (ov) ov.style.display = 'none';
 }
 
 function showSparkle(x, y) {
