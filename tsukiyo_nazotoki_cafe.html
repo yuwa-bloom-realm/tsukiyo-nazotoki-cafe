@@ -6056,6 +6056,7 @@ window.onload = () => {
     document.getElementById('game-continue-btn').onclick = (e) => {
       if (!buttonsRevealed) return;
       e.stopPropagation();
+      startBgm();
       ss.remove();
       state.moonDrops = saved.moonDrops || 0;
       state.collectedDrops = new Set(saved.collectedDrops || []);
@@ -6074,6 +6075,7 @@ window.onload = () => {
   document.getElementById('game-start-btn').onclick = (e) => {
     if (!buttonsRevealed) return;
     e.stopPropagation();
+    startBgm();
     ss.remove();
     clearProgress();
     startGame();
