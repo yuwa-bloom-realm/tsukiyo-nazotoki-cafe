@@ -11,6 +11,7 @@
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     overscroll-behavior: none;
+    touch-action: manipulation;
   }
 
   body {
@@ -1884,6 +1885,22 @@
 
 <script>
 // ============================================================
+// ピンチズーム・ダブルタップズーム防止
+// ============================================================
+document.addEventListener('gesturestart', (e) => e.preventDefault());
+document.addEventListener('gesturechange', (e) => e.preventDefault());
+document.addEventListener('gestureend', (e) => e.preventDefault());
+document.addEventListener('touchmove', (e) => {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+let __lastTouchEnd = 0;
+document.addEventListener('touchend', (e) => {
+  const now = Date.now();
+  if (now - __lastTouchEnd <= 300) e.preventDefault();
+  __lastTouchEnd = now;
+}, { passive: false, capture: true });
+
+// ============================================================
 // タイプライター
 // ============================================================
 let typewriterTimer = null;
@@ -3659,7 +3676,7 @@ function playPuzzle5Scratch(onClear) {
 
   // 道具アイコン（JSON仕様：消しゴム以外は不正解フィードバック）
   let selectedTool = null;
-  $puzzle5ToolsArea.innerHTML = '';
+  const toolBtns = {};
   const tools = [
     { id:'eraser',     img:'images/puzzle5_tool_eraser.png' },
     { id:'moon_light', img:'images/puzzle5_tool_moon_light.png' },
@@ -3667,19 +3684,32 @@ function playPuzzle5Scratch(onClear) {
     { id:'bookmark',   img:'images/puzzle5_tool_bookmark.png' },
     { id:'tea_cup',    img:'images/puzzle5_tool_tea_cup.png' },
   ];
-  const toolBtns = {};
-  tools.forEach(t => {
-    const btn = document.createElement('div');
-    btn.className = 'puzzle5-tool-btn';
-    btn.style.backgroundImage = `url('${t.img}')`;
-    btn.onclick = () => {
-      selectedTool = t.id;
-      Object.values(toolBtns).forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    };
-    toolBtns[t.id] = btn;
-    $puzzle5ToolsArea.appendChild(btn);
-  });
+  function renderTools() {
+    $puzzle5ToolsArea.innerHTML = '';
+    tools.forEach(t => {
+      const btn = document.createElement('div');
+      btn.className = 'puzzle5-tool-btn' + (selectedTool === t.id ? ' selected' : '');
+      btn.style.backgroundImage = `url('${t.img}')`;
+      btn.onclick = () => {
+        selectedTool = t.id;
+        Object.values(toolBtns).forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      };
+      toolBtns[t.id] = btn;
+      $puzzle5ToolsArea.appendChild(btn);
+    });
+  }
+  renderTools();
+
+  // セリフ表示などで画面がリセットされた後、謎5の道具選択画面を復元する
+  function restoreScratchScreen() {
+    setBg('puzzle5_choice_black_paper_table.png');
+    $puzzle5ScratchPrompt.textContent = 'まずは道具を選んで、黒い部分に試してみましょう。';
+    $puzzle5ScratchScreen.style.display = 'block';
+    $hintBtn.style.display = 'block';
+    $hintBtn.onclick = showPuzzle5Hint;
+    renderTools();
+  }
 
   const WRONG_TOOL_FEEDBACK = {
     pen: [
@@ -3771,7 +3801,7 @@ function playPuzzle5Scratch(onClear) {
       if (!toolWarned) {
         toolWarned = true;
         const feedback = WRONG_TOOL_FEEDBACK[selectedTool];
-        showDialogues(feedback, () => { toolWarned = false; });
+        showDialogues(feedback, () => { toolWarned = false; restoreScratchScreen(); });
       }
       return;
     }
