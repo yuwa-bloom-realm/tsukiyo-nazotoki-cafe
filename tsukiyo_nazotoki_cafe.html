@@ -7,6 +7,12 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    overscroll-behavior: none;
+  }
+
   body {
     background: #0a0812;
     display: flex;
@@ -396,6 +402,21 @@
   }
 
   /* ヒントボタン */
+  #bgm-mute-btn {
+    position: absolute;
+    top: 50px; right: 12px;
+    background: rgba(10,8,18,0.72);
+    border: 1px solid rgba(180,150,220,0.4);
+    border-radius: 20px;
+    color: #d4b8f0;
+    font-family: inherit;
+    font-size: 13px;
+    padding: 4px 9px;
+    cursor: pointer;
+    z-index: 100;
+    line-height: 1;
+  }
+
   #hint-btn {
     position: absolute;
     top: 12px; left: 12px;
@@ -866,7 +887,7 @@
   }
   .puzzle5-tool-btn.selected {
     border-color: rgba(240,192,96,0.8);
-    background: rgba(90,68,130,0.75);
+    box-shadow: 0 0 10px 2px rgba(240,192,96,0.5);
     transform: scale(1.08);
   }
 
@@ -1675,6 +1696,8 @@
     <span>🌙</span><span id="drop-count">0</span>
   </div>
   <button id="hint-btn">💡 ヒント</button>
+  <button id="bgm-mute-btn">🔊</button>
+  <audio id="bgm-audio" src="audio/PerituneMaterial_Wish4_loop.mp3" loop preload="auto"></audio>
   <div id="drop-toast"></div>
 
   <!-- ナレーション -->
@@ -1965,6 +1988,44 @@ const $titleScreen= document.getElementById('title-screen');
 const $titleEp   = document.getElementById('title-ep');
 const $titleMain = document.getElementById('title-main');
 const $titleStartBtn= document.getElementById('title-start-btn');
+
+// ============================================================
+// BGM
+// ============================================================
+const $bgmAudio = document.getElementById('bgm-audio');
+const $bgmMuteBtn = document.getElementById('bgm-mute-btn');
+$bgmAudio.volume = 0.25;
+
+function isBgmMuted() {
+  return localStorage.getItem('tsukiyo_bgm_muted') === '1';
+}
+
+function updateMuteBtnLabel() {
+  $bgmMuteBtn.textContent = isBgmMuted() ? '🔇' : '🔊';
+}
+
+function startBgm() {
+  $bgmAudio.muted = isBgmMuted();
+  updateMuteBtnLabel();
+  $bgmAudio.play().catch(() => {
+    // 自動再生がブロックされた場合は次のタップで再試行
+    const retryPlay = () => {
+      $bgmAudio.play().catch(()=>{});
+      document.removeEventListener('click', retryPlay);
+    };
+    document.addEventListener('click', retryPlay, { once: true });
+  });
+}
+
+$bgmMuteBtn.onclick = () => {
+  const muted = !isBgmMuted();
+  localStorage.setItem('tsukiyo_bgm_muted', muted ? '1' : '0');
+  $bgmAudio.muted = muted;
+  updateMuteBtnLabel();
+};
+
+updateMuteBtnLabel();
+
 
 const $puzzleBox = document.getElementById('puzzle-box');
 const $puzzlePrompt= document.getElementById('puzzle-prompt');
@@ -2356,6 +2417,14 @@ function clearShrunkScene() {
   const wrap = document.getElementById('scene-shrink-wrap');
   if (wrap) wrap.remove();
   $bg.style.display = '';
+}
+
+// 情報量の多いポスター画像など、ナレーション欄(200px)に隠れず全体を見せたい時に使う
+function setBgFullyVisible(imageKey, reservedBottom) {
+  setTimeout(() => {
+    const wrap = setupShrunkScene(imageKey);
+    fitShrunkSceneToAvailableHeight(wrap, reservedBottom || 200);
+  }, 0);
 }
 
 function showSparkle(x, y) {
@@ -3293,7 +3362,7 @@ function playPuzzle3BrainTalk1(onClear) {
     { speaker:'ノワール', text:'眠くならないよう、努力いたします。' },
     { speaker:'澪', text:'ふふ……お願いします。' },
   ], () => fadeIn(() => {
-    setBg('puzzle3_brain_explanation_calm.png');
+    setBgFullyVisible('puzzle3_brain_explanation_calm.png');
     showDialogues([
       { speaker:'ノワール', text:'人の脳は、わからないことがあると、それをそのままにしておくのが得意ではありません。' },
       { speaker:'澪', text:'わからないこと……。' },
@@ -3305,7 +3374,7 @@ function playPuzzle3BrainTalk1(onClear) {
 }
 
 function playPuzzle3BrainTalk2(onClear) {
-  setBg('puzzle3_brain_explanation_calm_2.png');
+  setBgFullyVisible('puzzle3_brain_explanation_calm_2.png');
   showDialogues([
     { speaker:'ノワール', text:'ただし、疲れている時の脳は、少し警戒モードに入りやすくなります。' },
     { speaker:'澪', text:'警戒モード……。' },
@@ -3318,7 +3387,7 @@ function playPuzzle3BrainTalk2(onClear) {
 }
 
 function playPuzzle3BrainTalk3(onClear) {
-  setBg('puzzle3_brain_explanation_playful.png');
+  setBgFullyVisible('puzzle3_brain_explanation_playful.png');
   showDialogues([
     { speaker:'ノワール', text:'ですが、疲れている夜は、その警報が大きく鳴りすぎることがあります。本当は小さな物音なのに、心の中では大きなサイレンのように聞こえてしまう。' },
     { speaker:'ミネット', text:'ピーポーピーポー！「返信がないぞー！危険かもー！」って？' },
@@ -3331,7 +3400,7 @@ function playPuzzle3BrainTalk3(onClear) {
 }
 
 function playPuzzle3BrainTalk4(onClear) {
-  setBg('puzzle3_brain_explanation_playful_2.png');
+  setBgFullyVisible('puzzle3_brain_explanation_playful_2.png');
   showDialogues([
     { speaker:'ミネット', text:'うん。「まあまあ、座って。あなたは何を伝えに来たの？」って聞くの。' },
     { speaker:'ノワール', text:'よい例えです。不安を追い払うのではなく、少し距離を取って眺める。そして、「今の私は疲れているのかもしれない」と気づく。' },
@@ -4036,7 +4105,7 @@ function showTitleScreen(ep, title, onStart) {
   $titleEp.textContent = ep;
   $titleMain.textContent = title;
   $titleScreen.style.display = 'flex';
-  $titleStartBtn.onclick = () => { hideAll(); if (onStart) onStart(); };
+  $titleStartBtn.onclick = () => { startBgm(); hideAll(); if (onStart) onStart(); };
 }
 
 // ============================================================
@@ -5902,6 +5971,19 @@ window.addEventListener('orientationchange', fitGameToViewport);
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', fitGameToViewport);
 }
+// キーボード表示/非表示でも追従させる（input/textareaにフォーカスした時）
+document.addEventListener('focusin', (e) => {
+  if (e.target.matches('input, textarea')) {
+    setTimeout(fitGameToViewport, 50);
+    setTimeout(fitGameToViewport, 350);
+  }
+});
+document.addEventListener('focusout', (e) => {
+  if (e.target.matches('input, textarea')) {
+    setTimeout(fitGameToViewport, 50);
+    setTimeout(fitGameToViewport, 350);
+  }
+});
 fitGameToViewport();
 
 window.onload = () => {
