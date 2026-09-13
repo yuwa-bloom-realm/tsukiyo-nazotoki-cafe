@@ -6103,13 +6103,27 @@ function checkDebugSkip() {
   const params = new URLSearchParams(window.location.search);
   const val = params.get('debug');
   if (!val) return false;
-  // 数字だけの場合は "puzzle数字" に変換
   const key = /^\d+$/.test(val) ? 'puzzle' + val : val;
   const fn = RESUME_FUNCTIONS[key];
   if (!fn) return false;
-  hideAll();
-  startBgm();
-  fn();
+  // デバッグスキップ: タップ待ち画面を出してから開始
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    display:flex;align-items:center;justify-content:center;
+    z-index:300;cursor:pointer;
+    background:rgba(6,4,14,0.7);
+  `;
+  overlay.innerHTML = `<div style="color:#d4b8f0;font-size:13px;letter-spacing:0.15em;text-align:center;">
+    🐈‍⬛ DEBUG: ${key}<br><br>タップしてスキップ
+  </div>`;
+  overlay.onclick = () => {
+    overlay.remove();
+    startBgm();
+    hideAll();
+    fn();
+  };
+  $container.appendChild(overlay);
   return true;
 }
 
