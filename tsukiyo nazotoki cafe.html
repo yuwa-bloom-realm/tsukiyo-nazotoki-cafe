@@ -2053,6 +2053,17 @@ $bgmMuteBtn.onclick = () => {
 
 updateMuteBtnLabel();
 
+// タブ切り替え・アプリ切り替え時にBGMを一時停止/再開
+document.addEventListener('visibilitychange', () => {
+  if (!$bgmAudio) return;
+  if (document.hidden) {
+    $bgmAudio.pause();
+  } else {
+    if (!isBgmMuted()) {
+      $bgmAudio.play().catch(() => {});
+    }
+  }
+});
 
 const $puzzleBox = document.getElementById('puzzle-box');
 const $puzzlePrompt= document.getElementById('puzzle-prompt');
@@ -3860,14 +3871,26 @@ function playPuzzle5Scratch(onClear) {
   function checkCleared() {
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let transparent = 0;
-    for (let i = 3; i < data.length; i += 4 * 20) { // サンプリングで軽量化
+    for (let i = 3; i < data.length; i += 4 * 20) {
       if (data[i] < 30) transparent++;
     }
     const total = data.length / (4 * 20);
-    return (transparent / total) > 0.78;
+    return (transparent / total) > 0.65;
+  }
+
+  // 「もう少し消してね」ガイド
+  function checkPartialProgress() {
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let transparent = 0;
+    for (let i = 3; i < data.length; i += 4 * 20) {
+      if (data[i] < 30) transparent++;
+    }
+    const ratio = transparent / (data.length / (4 * 20));
+    return ratio;
   }
 
   let cleared = false;
+  let guidanceShown = false;
   function onDown(e) {
     e.preventDefault();
     if (!selectedTool) {
@@ -3897,7 +3920,17 @@ function playPuzzle5Scratch(onClear) {
       finishScratch();
     }
   }
-  function onUp() { scratching = false; }
+  function onUp() {
+    scratching = false;
+    if (!cleared && selectedTool === 'eraser' && !guidanceShown) {
+      const ratio = checkPartialProgress();
+      if (ratio > 0.1 && ratio < 0.65) {
+        guidanceShown = true;
+        showToast('もう少し消してみましょう……');
+        setTimeout(() => { guidanceShown = false; }, 3000);
+      }
+    }
+  }
 
   function finishScratch() {
     canvas.removeEventListener('mousedown', onDown);
@@ -3908,6 +3941,9 @@ function playPuzzle5Scratch(onClear) {
     canvas.removeEventListener('touchend', onUp);
     $puzzle5ToolsArea.innerHTML = '';
     setTimeout(() => {
+      // スクラッチ画面を非表示にしてから、背景はそのまま維持してセリフを表示
+      $puzzle5ScratchScreen.style.display = 'none';
+      $hintBtn.style.display = 'none';
       showDialogues([
         { speaker:'澪',       text:'……これは？' },
         { speaker:'澪',       text:'田んぼみたいな札……心の形……それから、「い」……。' },
@@ -6068,37 +6104,48 @@ const RESUME_FUNCTIONS = {
 // ============================================================
 let __keyboardOpen = false;
 let __stableVH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+let __stableVW = window.innerWidth;
 
 function fitGameToViewport() {
   const vw = window.innerWidth;
   const liveVH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+  // キーボードが閉じてる時だけ安定値を更新
+  // キーボード表示中はliveVHがガクっと縮むので無視する
   if (!__keyboardOpen) {
-    __stableVH = liveVH; // キーボードが閉じている時だけ「本来の高さ」を更新
+    // 前回の安定値から大幅に縮んだ場合はキーボードが出たと判定してスキップ
+    if (liveVH < __stableVH * 0.75) return;
+    __stableVH = liveVH;
+    __stableVW = vw;
   }
-  // キーボード表示中は、キーボードに縮められた高さではなく、直前の安定した高さを使う
-  const vh = __keyboardOpen ? __stableVH : liveVH;
-  const scale = Math.min(vw / 375, vh / 667, 1);
+
+  const scale = Math.min(__stableVW / 375, __stableVH / 667, 1);
   $container.style.transform = `scale(${scale})`;
   $container.style.transformOrigin = 'center center';
 }
+
 window.addEventListener('resize', fitGameToViewport);
-window.addEventListener('orientationchange', fitGameToViewport);
+window.addEventListener('orientationchange', () => {
+  // 向き変更時は強制リセット
+  __keyboardOpen = false;
+  setTimeout(fitGameToViewport, 200);
+});
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', fitGameToViewport);
 }
-// キーボード表示/非表示でも追従させる（input/textareaにフォーカスした時）
+
 document.addEventListener('focusin', (e) => {
   if (e.target.matches('input, textarea')) {
     __keyboardOpen = true;
+    // キーボードが開く前の安定値をスナップショット
     setTimeout(fitGameToViewport, 50);
-    setTimeout(fitGameToViewport, 350);
   }
 });
 document.addEventListener('focusout', (e) => {
   if (e.target.matches('input, textarea')) {
     __keyboardOpen = false;
-    setTimeout(fitGameToViewport, 50);
-    setTimeout(fitGameToViewport, 350);
+    setTimeout(fitGameToViewport, 100);
+    setTimeout(fitGameToViewport, 400);
   }
 });
 fitGameToViewport();
