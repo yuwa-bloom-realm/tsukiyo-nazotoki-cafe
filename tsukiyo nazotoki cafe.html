@@ -6097,6 +6097,23 @@ const RESUME_FUNCTIONS = {
 };
 
 // ============================================================
+// デバッグスキップ: URL に ?debug=puzzle5 や ?debug=5 でその謎から開始
+// ============================================================
+function checkDebugSkip() {
+  const params = new URLSearchParams(window.location.search);
+  const val = params.get('debug');
+  if (!val) return false;
+  // 数字だけの場合は "puzzle数字" に変換
+  const key = /^\d+$/.test(val) ? 'puzzle' + val : val;
+  const fn = RESUME_FUNCTIONS[key];
+  if (!fn) return false;
+  hideAll();
+  startBgm();
+  fn();
+  return true;
+}
+
+// ============================================================
 // スタート画面
 // ============================================================
 // ============================================================
@@ -6152,6 +6169,8 @@ fitGameToViewport();
 
 window.onload = () => {
   setBg('title_01_letter_phone_moon.png');
+  // デバッグスキップチェック
+  if (checkDebugSkip()) return;
   const saved = loadProgress();
 
   const ss = document.createElement('div');
