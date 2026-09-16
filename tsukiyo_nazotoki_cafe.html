@@ -3806,6 +3806,7 @@ function playPuzzle5Scratch(onClear) {
 
   // セリフ表示などで画面がリセットされた後、謎5の道具選択画面を復元する
   function restoreScratchScreen() {
+    selectedTool = null; // 道具の選択をリセット
     setBg('puzzle5_choice_black_paper_table.png');
     $puzzle5ScratchPrompt.textContent = 'まずは道具を選んで、黒い部分に試してみましょう。';
     $puzzle5ScratchScreen.style.display = 'block';
