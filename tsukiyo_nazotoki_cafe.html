@@ -4005,12 +4005,12 @@ function playPuzzle5Scratch(onClear) {
       if (!done) { skipTypewriter($dialText, scratchDialogues[idx].text); done = true; return; }
       idx++;
       if (idx >= scratchDialogues.length) {
+        $dialBox.removeEventListener('click', advance);
+        $dialBox.removeEventListener('touchend', advance);
         $dialBox.style.display = 'none';
         $puzzle5ScratchScreen.style.display = 'none';
         canvas.style.display = '';
         fadeIn(() => playPuzzle5MakeOmo(onClear));
-        document.removeEventListener('click', advance);
-        document.removeEventListener('touchend', advance);
         return;
       }
       showOne();
@@ -4018,8 +4018,8 @@ function playPuzzle5Scratch(onClear) {
 
     setTimeout(() => {
       showOne();
-      document.addEventListener('click', advance);
-      document.addEventListener('touchend', advance);
+      $dialBox.addEventListener('click', advance);
+      $dialBox.addEventListener('touchend', advance);
     }, 300);
   }
 
