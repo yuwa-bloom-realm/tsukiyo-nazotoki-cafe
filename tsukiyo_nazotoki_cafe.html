@@ -4006,12 +4006,20 @@ function playPuzzle5Scratch(onClear) {
       typewrite($dialText, d.text, 70, () => { done = true; });
     }
 
-    function advance() {
-      if (!done) { skipTypewriter($dialText, scratchDialogues[idx].text); done = true; return; }
+    let scratchDialogActive = true;
+    function advance(e) {
+      if (!scratchDialogActive) return;
+      e.stopPropagation();
+      if (!done) {
+        skipTypewriter($dialText, scratchDialogues[idx].text);
+        done = true;
+        return;
+      }
       idx++;
       if (idx >= scratchDialogues.length) {
-        $dialBox.removeEventListener('click', advance);
-        $dialBox.removeEventListener('touchend', advance);
+        scratchDialogActive = false;
+        document.removeEventListener('touchend', advance, true);
+        document.removeEventListener('click', advance, true);
         $dialBox.style.display = 'none';
         $puzzle5ScratchScreen.style.display = 'none';
         canvas.style.display = '';
@@ -4023,9 +4031,9 @@ function playPuzzle5Scratch(onClear) {
 
     setTimeout(() => {
       showOne();
-      $dialBox.addEventListener('click', advance);
-      $dialBox.addEventListener('touchend', advance);
-    }, 300);
+      document.addEventListener('touchend', advance, true);
+      document.addEventListener('click', advance, true);
+    }, 400);
   }
 
   canvas.addEventListener('mousedown', onDown);
