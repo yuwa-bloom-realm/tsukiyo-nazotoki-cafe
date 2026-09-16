@@ -3955,32 +3955,71 @@ function playPuzzle5Scratch(onClear) {
     canvas.removeEventListener('mouseup', onUp);
     canvas.removeEventListener('touchend', onUp);
     $puzzle5ToolsArea.innerHTML = '';
-    // キャンバスだけ非表示(パーツは残す)
     canvas.style.display = 'none';
     $hintBtn.style.display = 'none';
-    setTimeout(() => {
-      // パーツを表示したまま、背景も維持してセリフを表示
-      showDialogues([
-        { speaker:'澪',       text:'……これは？' },
-        { speaker:'澪',       text:'田んぼみたいな札……心の形……それから、「い」……。' },
-        { speaker:'澪',       text:'小道の看板と……「−ち」？' },
-        { speaker:'ミネット', text:'うーん……これだけだと、まだわからないね？' },
-        { speaker:'ノワール', text:'ええ。今はまだ、ばらばらです。' },
-        { speaker:'澪',       text:'まだ、ばらばら……。' },
-        { speaker:'澪',       text:'この言葉も、ヒントなんでしょうか。' },
-        { speaker:'ノワール', text:'その可能性はあります。' },
-        { speaker:'澪',       text:'でも、ばらばらのものを、どうすれば……。' },
-        { speaker:'ミネット', text:'ノワールさんと、ミネット！' },
-        { speaker:'澪',       text:'え？ ノワールさんと、ミネット……？' },
-        { speaker:'ノワール', text:'ほほう。' },
-        { speaker:'ミネット', text:'わたしたち、二人でひとつだね！' },
-        { speaker:'ノワール', text:'そうですね。' },
-        { speaker:'澪',       text:'二人で、ひとつ……。' },
-      ], () => {
+    // パーツを表示したまま直接ダイアログボックスだけ使ってセリフを流す
+    // (showDialoguesはhideAll()を呼ぶのでスクラッチ画面が消えてしまう)
+    const scratchDialogues = [
+      { speaker:'澪',       text:'……これは？' },
+      { speaker:'澪',       text:'田んぼみたいな札……心の形……それから、「い」……。' },
+      { speaker:'澪',       text:'小道の看板と……「−ち」？' },
+      { speaker:'ミネット', text:'うーん……これだけだと、まだわからないね？' },
+      { speaker:'ノワール', text:'ええ。今はまだ、ばらばらです。' },
+      { speaker:'澪',       text:'まだ、ばらばら……。' },
+      { speaker:'澪',       text:'この言葉も、ヒントなんでしょうか。' },
+      { speaker:'ノワール', text:'その可能性はあります。' },
+      { speaker:'澪',       text:'でも、ばらばらのものを、どうすれば……。' },
+      { speaker:'ミネット', text:'ノワールさんと、ミネット！' },
+      { speaker:'澪',       text:'え？ ノワールさんと、ミネット……？' },
+      { speaker:'ノワール', text:'ほほう。' },
+      { speaker:'ミネット', text:'わたしたち、二人でひとつだね！' },
+      { speaker:'ノワール', text:'そうですね。' },
+      { speaker:'澪',       text:'二人で、ひとつ……。' },
+    ];
+    let idx = 0;
+    let done = false;
+    // ダイアログボックスを直接表示(hideAll不要)
+    $dialBox.style.display = 'block';
+    $dialBackBtn.style.display = 'none';
+
+    function showOne() {
+      done = false;
+      const d = scratchDialogues[idx];
+      $speakerTag.classList.remove('hidden');
+      $speakerTag.textContent = d.speaker;
+      const c = SPEAKER_COLORS[d.speaker];
+      if (c) {
+        $speakerTag.style.background = c.bg;
+        $speakerTag.style.borderColor = c.border;
+        $speakerTag.style.color = c.text;
+      } else {
+        $speakerTag.style.background = '';
+        $speakerTag.style.borderColor = '';
+        $speakerTag.style.color = '';
+      }
+      $dialText.textContent = '';
+      typewrite($dialText, d.text, 70, () => { done = true; });
+    }
+
+    function advance() {
+      if (!done) { skipTypewriter($dialText, scratchDialogues[idx].text); done = true; return; }
+      idx++;
+      if (idx >= scratchDialogues.length) {
+        $dialBox.style.display = 'none';
         $puzzle5ScratchScreen.style.display = 'none';
         canvas.style.display = '';
         fadeIn(() => playPuzzle5MakeOmo(onClear));
-      });
+        document.removeEventListener('click', advance);
+        document.removeEventListener('touchend', advance);
+        return;
+      }
+      showOne();
+    }
+
+    setTimeout(() => {
+      showOne();
+      document.addEventListener('click', advance);
+      document.addEventListener('touchend', advance);
     }, 300);
   }
 
