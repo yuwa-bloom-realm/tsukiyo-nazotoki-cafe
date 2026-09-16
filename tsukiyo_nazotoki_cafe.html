@@ -3758,9 +3758,24 @@ function playPuzzle5Scratch(onClear) {
   hideAll();
   setBg('puzzle5_choice_black_paper_table.png');
   $puzzle5ScratchPrompt.textContent = 'まずは道具を選んで、黒い部分に試してみましょう。';
-  $puzzle5ScratchScreen.style.display = 'block';
   $hintBtn.style.display = 'block';
   $hintBtn.onclick = showPuzzle5Hint;
+
+  // 背景画像が読み込まれてからスクラッチ画面を表示(黒が早く出る問題を防ぐ)
+  const bgEl = document.getElementById('bg-image');
+  function showScratchScreen() {
+    $puzzle5ScratchScreen.style.display = 'block';
+    initScratch();
+  }
+  if (bgEl.complete && bgEl.naturalWidth > 0) {
+    showScratchScreen();
+  } else {
+    bgEl.onload = showScratchScreen;
+    bgEl.onerror = showScratchScreen;
+    setTimeout(showScratchScreen, 800); // タイムアウト保険
+  }
+
+  function initScratch() {
 
   // 道具アイコン（JSON仕様：消しゴム以外は不正解フィードバック）
   let selectedTool = null;
@@ -3875,7 +3890,7 @@ function playPuzzle5Scratch(onClear) {
       if (data[i] < 30) transparent++;
     }
     const total = data.length / (4 * 20);
-    return (transparent / total) > 0.65;
+    return (transparent / total) > 0.50;
   }
 
   // 「もう少し消してね」ガイド
@@ -3924,7 +3939,7 @@ function playPuzzle5Scratch(onClear) {
     scratching = false;
     if (!cleared && selectedTool === 'eraser' && !guidanceShown) {
       const ratio = checkPartialProgress();
-      if (ratio > 0.1 && ratio < 0.65) {
+      if (ratio > 0.1 && ratio < 0.50) {
         guidanceShown = true;
         showToast('もう少し消してみましょう……');
         setTimeout(() => { guidanceShown = false; }, 3000);
@@ -3940,10 +3955,11 @@ function playPuzzle5Scratch(onClear) {
     canvas.removeEventListener('mouseup', onUp);
     canvas.removeEventListener('touchend', onUp);
     $puzzle5ToolsArea.innerHTML = '';
+    // キャンバスだけ非表示(パーツは残す)
+    canvas.style.display = 'none';
+    $hintBtn.style.display = 'none';
     setTimeout(() => {
-      // スクラッチ画面を非表示にしてから、背景はそのまま維持してセリフを表示
-      $puzzle5ScratchScreen.style.display = 'none';
-      $hintBtn.style.display = 'none';
+      // パーツを表示したまま、背景も維持してセリフを表示
       showDialogues([
         { speaker:'澪',       text:'……これは？' },
         { speaker:'澪',       text:'田んぼみたいな札……心の形……それから、「い」……。' },
@@ -3960,8 +3976,12 @@ function playPuzzle5Scratch(onClear) {
         { speaker:'ミネット', text:'わたしたち、二人でひとつだね！' },
         { speaker:'ノワール', text:'そうですね。' },
         { speaker:'澪',       text:'二人で、ひとつ……。' },
-      ], () => fadeIn(() => playPuzzle5MakeOmo(onClear)));
-    }, 500);
+      ], () => {
+        $puzzle5ScratchScreen.style.display = 'none';
+        canvas.style.display = '';
+        fadeIn(() => playPuzzle5MakeOmo(onClear));
+      });
+    }, 300);
   }
 
   canvas.addEventListener('mousedown', onDown);
@@ -3970,6 +3990,7 @@ function playPuzzle5Scratch(onClear) {
   canvas.addEventListener('touchmove', onMove, { passive:false });
   canvas.addEventListener('mouseup', onUp);
   canvas.addEventListener('touchend', onUp);
+  } // end initScratch
 }
 
 function playPuzzle5MakeOmo(onClear) {
