@@ -3793,11 +3793,15 @@ function playPuzzle5Scratch(onClear) {
       const btn = document.createElement('div');
       btn.className = 'puzzle5-tool-btn' + (selectedTool === t.id ? ' selected' : '');
       btn.style.backgroundImage = `url('${t.img}')`;
-      btn.onclick = () => {
+      const select = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         selectedTool = t.id;
         Object.values(toolBtns).forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
       };
+      btn.addEventListener('touchstart', select, { passive: false });
+      btn.addEventListener('click', select);
       toolBtns[t.id] = btn;
       $puzzle5ToolsArea.appendChild(btn);
     });
