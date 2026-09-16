@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>月夜の謎解き喫茶</title>
+<meta name="description" content="夜だけ開く、不思議な喫茶店。ノワールとミネットと一緒に、謎を解きながら今夜のあなたの気持ちを見つけにいく、謎解き×ノベル体験。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="月夜の謎解き喫茶">
+<meta property="og:description" content="夜だけ開く、不思議な喫茶店。ノワールとミネットと一緒に、謎を解きながら今夜のあなたの気持ちを見つけにいく、謎解き×ノベル体験。">
+<meta property="og:image" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/images/title_01_letter_phone_moon.png">
+<meta property="og:url" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/tsukiyo_nazotoki_cafe.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="月夜の謎解き喫茶">
+<meta name="twitter:description" content="夜だけ開く、不思議な喫茶店。ノワールとミネットと一緒に、謎を解きながら今夜のあなたの気持ちを見つけにいく、謎解き×ノベル体験。">
+<meta name="twitter:image" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/images/title_01_letter_phone_moon.png">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
 
@@ -840,9 +850,9 @@
   }
   #puzzle5-scratch-wrap {
     position: absolute;
-    top: 201px; left: 66px;
-    width: 201px;
-    height: 233px;
+    top: 239px; left: 90px;
+    width: 159px;
+    height: 206px;
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 8px 30px rgba(0,0,0,0.5);
@@ -2043,6 +2053,17 @@ $bgmMuteBtn.onclick = () => {
 
 updateMuteBtnLabel();
 
+// タブ切り替え・アプリ切り替え時にBGMを一時停止/再開
+document.addEventListener('visibilitychange', () => {
+  if (!$bgmAudio) return;
+  if (document.hidden) {
+    $bgmAudio.pause();
+  } else {
+    if (!isBgmMuted()) {
+      $bgmAudio.play().catch(() => {});
+    }
+  }
+});
 
 const $puzzleBox = document.getElementById('puzzle-box');
 const $puzzlePrompt= document.getElementById('puzzle-prompt');
@@ -3797,14 +3818,14 @@ function playPuzzle5Scratch(onClear) {
     ],
   };
 
-  // 黒の下に最初からパーツを配置（5枚、紙の領域201x233に収まるよう配置）
+  // 黒の下に最初からパーツを配置（5枚、紙の領域159x206に収まるよう配置）
   $puzzle5ScratchParts.innerHTML = '';
   const partLayout = [
-    { id:'part_ta',        img:'images/puzzle5_part_ta.png',        x:14,  y:8,   size:42 },
-    { id:'part_kokoro',    img:'images/puzzle5_part_kokoro.png',    x:112, y:10,  size:42 },
-    { id:'part_i',         img:'images/puzzle5_part_i.png',         x:62,  y:72,  size:42 },
-    { id:'part_komichi',   img:'images/puzzle5_part_komichi.png',   x:14,  y:148, size:46 },
-    { id:'part_minus_chi', img:'images/puzzle5_part_minus_chi.png', x:112, y:153, size:42 },
+    { id:'part_ta',        img:'images/puzzle5_part_ta.png',        x:10,  y:6,   size:40 },
+    { id:'part_kokoro',    img:'images/puzzle5_part_kokoro.png',    x:109, y:6,   size:40 },
+    { id:'part_i',         img:'images/puzzle5_part_i.png',         x:60,  y:80,  size:40 },
+    { id:'part_komichi',   img:'images/puzzle5_part_komichi.png',   x:8,   y:158, size:44 },
+    { id:'part_minus_chi', img:'images/puzzle5_part_minus_chi.png', x:107, y:158, size:44 },
   ];
   partLayout.forEach(p => {
     const el = document.createElement('div');
@@ -3818,8 +3839,8 @@ function playPuzzle5Scratch(onClear) {
   });
 
   const canvas = $puzzle5ScratchCanvas;
-  canvas.width = 201;
-  canvas.height = 233;
+  canvas.width = 159;
+  canvas.height = 206;
   const ctx = canvas.getContext('2d');
 
   // 黒い塗りつぶし＋「まだ、ばらばら」の文字
@@ -3850,14 +3871,26 @@ function playPuzzle5Scratch(onClear) {
   function checkCleared() {
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let transparent = 0;
-    for (let i = 3; i < data.length; i += 4 * 20) { // サンプリングで軽量化
+    for (let i = 3; i < data.length; i += 4 * 20) {
       if (data[i] < 30) transparent++;
     }
     const total = data.length / (4 * 20);
-    return (transparent / total) > 0.78;
+    return (transparent / total) > 0.65;
+  }
+
+  // 「もう少し消してね」ガイド
+  function checkPartialProgress() {
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let transparent = 0;
+    for (let i = 3; i < data.length; i += 4 * 20) {
+      if (data[i] < 30) transparent++;
+    }
+    const ratio = transparent / (data.length / (4 * 20));
+    return ratio;
   }
 
   let cleared = false;
+  let guidanceShown = false;
   function onDown(e) {
     e.preventDefault();
     if (!selectedTool) {
@@ -3887,7 +3920,17 @@ function playPuzzle5Scratch(onClear) {
       finishScratch();
     }
   }
-  function onUp() { scratching = false; }
+  function onUp() {
+    scratching = false;
+    if (!cleared && selectedTool === 'eraser' && !guidanceShown) {
+      const ratio = checkPartialProgress();
+      if (ratio > 0.1 && ratio < 0.65) {
+        guidanceShown = true;
+        showToast('もう少し消してみましょう……');
+        setTimeout(() => { guidanceShown = false; }, 3000);
+      }
+    }
+  }
 
   function finishScratch() {
     canvas.removeEventListener('mousedown', onDown);
@@ -3898,6 +3941,9 @@ function playPuzzle5Scratch(onClear) {
     canvas.removeEventListener('touchend', onUp);
     $puzzle5ToolsArea.innerHTML = '';
     setTimeout(() => {
+      // スクラッチ画面を非表示にしてから、背景はそのまま維持してセリフを表示
+      $puzzle5ScratchScreen.style.display = 'none';
+      $hintBtn.style.display = 'none';
       showDialogues([
         { speaker:'澪',       text:'……これは？' },
         { speaker:'澪',       text:'田んぼみたいな札……心の形……それから、「い」……。' },
@@ -6051,40 +6097,94 @@ const RESUME_FUNCTIONS = {
 };
 
 // ============================================================
+// デバッグスキップ: URL に ?debug=puzzle5 や ?debug=5 でその謎から開始
+// ============================================================
+function checkDebugSkip() {
+  const params = new URLSearchParams(window.location.search);
+  const val = params.get('debug');
+  if (!val) return false;
+  const key = /^\d+$/.test(val) ? 'puzzle' + val : val;
+  const fn = RESUME_FUNCTIONS[key];
+  if (!fn) return false;
+  // デバッグスキップ: タップ待ち画面を出してから開始
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    display:flex;align-items:center;justify-content:center;
+    z-index:300;cursor:pointer;
+    background:rgba(6,4,14,0.7);
+  `;
+  overlay.innerHTML = `<div style="color:#d4b8f0;font-size:13px;letter-spacing:0.15em;text-align:center;">
+    🐈‍⬛ DEBUG: ${key}<br><br>タップしてスキップ
+  </div>`;
+  overlay.onclick = () => {
+    overlay.remove();
+    startBgm();
+    hideAll();
+    fn();
+  };
+  $container.appendChild(overlay);
+  return true;
+}
+
+// ============================================================
 // スタート画面
 // ============================================================
 // ============================================================
 // 画面サイズに応じた自動スケーリング（ブラウザの上下バーで隠れる対策）
 // ============================================================
+let __keyboardOpen = false;
+let __stableVH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+let __stableVW = window.innerWidth;
+
 function fitGameToViewport() {
   const vw = window.innerWidth;
-  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-  const scale = Math.min(vw / 375, vh / 667, 1);
+  const liveVH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+  // キーボードが閉じてる時だけ安定値を更新
+  // キーボード表示中はliveVHがガクっと縮むので無視する
+  if (!__keyboardOpen) {
+    // 前回の安定値から大幅に縮んだ場合はキーボードが出たと判定してスキップ
+    if (liveVH < __stableVH * 0.75) return;
+    __stableVH = liveVH;
+    __stableVW = vw;
+  }
+
+  const scale = Math.min(__stableVW / 375, __stableVH / 667, 1);
   $container.style.transform = `scale(${scale})`;
   $container.style.transformOrigin = 'center center';
 }
+
 window.addEventListener('resize', fitGameToViewport);
-window.addEventListener('orientationchange', fitGameToViewport);
+window.addEventListener('orientationchange', () => {
+  // 向き変更時は強制リセット
+  __keyboardOpen = false;
+  setTimeout(fitGameToViewport, 200);
+});
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', fitGameToViewport);
 }
-// キーボード表示/非表示でも追従させる（input/textareaにフォーカスした時）
+
 document.addEventListener('focusin', (e) => {
   if (e.target.matches('input, textarea')) {
+    __keyboardOpen = true;
+    // キーボードが開く前の安定値をスナップショット
     setTimeout(fitGameToViewport, 50);
-    setTimeout(fitGameToViewport, 350);
   }
 });
 document.addEventListener('focusout', (e) => {
   if (e.target.matches('input, textarea')) {
-    setTimeout(fitGameToViewport, 50);
-    setTimeout(fitGameToViewport, 350);
+    __keyboardOpen = false;
+    setTimeout(fitGameToViewport, 100);
+    setTimeout(fitGameToViewport, 400);
   }
 });
 fitGameToViewport();
 
 window.onload = () => {
   setBg('title_01_letter_phone_moon.png');
+  // デバッグスキップチェック
+  if (checkDebugSkip()) return;
   const saved = loadProgress();
 
   const ss = document.createElement('div');
