@@ -1351,6 +1351,7 @@
     z-index: 200;
   }
   .puzzle8-kana-card.placed {
+    z-index: 90;
     box-shadow: 0 0 16px rgba(240,192,96,0.6);
   }
   #puzzle8-success-text {
@@ -5257,6 +5258,10 @@ function shuffleArray(arr) {
 
 function startPuzzle8Reorder(onClear) {
   hideAll();
+  // 前半で皿にのせたカードが画面に残って、文字を隠してしまうので片付ける
+  document.querySelectorAll('.puzzle8-card').forEach(el => el.remove());
+  // やり直したときに、前に並べた文字カードも片付ける
+  document.querySelectorAll('.puzzle8-kana-card').forEach(el => el.remove());
   setBg('puzzle8_scale_empty.png');
   $puzzle8ReorderScreen.style.display = 'block';
   $puzzle8ReorderPrompt.textContent = '「できること」の裏に浮かんだ文字を、正しい順番に並べましょう。';
@@ -5388,6 +5393,7 @@ function finishPuzzle8Reorder(onClear) {
   $puzzle8SuccessText.classList.add('show');
   setTimeout(() => {
     hideAll();
+    document.querySelectorAll('.puzzle8-kana-card').forEach(el => el.remove()); // 並べた文字カードを片付ける
     playPuzzle8Clear(onClear);
   }, 1800);
 }
