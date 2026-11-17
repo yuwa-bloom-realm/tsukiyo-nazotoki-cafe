@@ -3303,13 +3303,19 @@ function attachDragHandlers(card, word, onClear) {
     return { x: e.clientX, y: e.clientY };
   }
 
+  // 画面に合わせて全体を拡大縮小しているので、その倍率で割って位置を合わせる
+  function gameScale() {
+    const r = $container.getBoundingClientRect();
+    return ($container.offsetWidth ? r.width / $container.offsetWidth : 1) || 1;
+  }
   function onStart(e) {
     e.preventDefault();
     dragging = true;
+    const sc = gameScale();
     const rect = card.getBoundingClientRect();
     const containerRect = $container.getBoundingClientRect();
-    origLeft = rect.left - containerRect.left;
-    origTop = rect.top - containerRect.top;
+    origLeft = (rect.left - containerRect.left) / sc;
+    origTop = (rect.top - containerRect.top) / sc;
     const p = getPoint(e);
     startX = p.x; startY = p.y;
 
@@ -3329,8 +3335,9 @@ function attachDragHandlers(card, word, onClear) {
     if (!dragging) return;
     e.preventDefault();
     const p = getPoint(e);
-    const dx = p.x - startX;
-    const dy = p.y - startY;
+    const sc = gameScale();
+    const dx = (p.x - startX) / sc;
+    const dy = (p.y - startY) / sc;
     card.style.left = (origLeft + dx) + 'px';
     card.style.top = (origTop + dy) + 'px';
 
@@ -4124,15 +4131,30 @@ function attachPuzzle5DragHandlers(card, part, onDropSuccess) {
     if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
     return { x: e.clientX, y: e.clientY };
   }
+  // 画面に合わせて全体を拡大縮小しているので、その倍率で割って位置を合わせる
+  function gameScale() {
+    const r = $container.getBoundingClientRect();
+    return ($container.offsetWidth ? r.width / $container.offsetWidth : 1) || 1;
+  }
+  let homeParent = null, homeNext = null;
+  function returnHome() {
+    // 元の場所(パーツの並ぶところ)へ戻す
+    if (homeParent) homeParent.insertBefore(card, homeNext && homeNext.parentNode === homeParent ? homeNext : null);
+    card.style.position = '';
+    card.style.left = '';
+    card.style.top = '';
+  }
   function onStart(e) {
     e.preventDefault();
     dragging = true;
+    const sc = gameScale();
     const rect = card.getBoundingClientRect();
     const containerRect = $container.getBoundingClientRect();
-    origLeft = rect.left - containerRect.left;
-    origTop = rect.top - containerRect.top;
+    origLeft = (rect.left - containerRect.left) / sc;
+    origTop = (rect.top - containerRect.top) / sc;
     const p = getPoint(e);
     startX = p.x; startY = p.y;
+    homeParent = card.parentNode; homeNext = card.nextSibling;
     card.style.position = 'absolute';
     card.style.left = origLeft + 'px';
     card.style.top = origTop + 'px';
@@ -4147,8 +4169,9 @@ function attachPuzzle5DragHandlers(card, part, onDropSuccess) {
     if (!dragging) return;
     e.preventDefault();
     const p = getPoint(e);
-    const dx = p.x - startX;
-    const dy = p.y - startY;
+    const sc = gameScale();
+    const dx = (p.x - startX) / sc;
+    const dy = (p.y - startY) / sc;
     card.style.left = (origLeft + dx) + 'px';
     card.style.top = (origTop + dy) + 'px';
     if (isOverPuzzle5Target(card)) {
@@ -4170,9 +4193,7 @@ function attachPuzzle5DragHandlers(card, part, onDropSuccess) {
     if (isOverPuzzle5Target(card)) {
       onDropSuccess();
     } else {
-      card.style.position = 'static';
-      card.style.left = '';
-      card.style.top = '';
+      returnHome(); // 外で離したら、元の場所に戻す（消えないように）
     }
   }
   card.addEventListener('mousedown', onStart);
@@ -5050,6 +5071,8 @@ function startPuzzle8Sort(onClear) {
     card.dataset.cardId = cardData.id;
     card.style.left = layout[i].x + 'px';
     card.style.top  = layout[i].y + 'px';
+    card.dataset.homeX = layout[i].x;  // まちがえた時に戻る場所
+    card.dataset.homeY = layout[i].y;
     card.onclick = () => {
       if (card.classList.contains('face-down') && !card.classList.contains('dragging-enabled')) {
         card.classList.remove('face-down');
@@ -5069,13 +5092,27 @@ function attachPuzzle8DragHandlers(card, cardData, onClear) {
     if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
     return { x: e.clientX, y: e.clientY };
   }
+  // 画面に合わせて全体を拡大縮小しているので、その倍率で割って位置を合わせる
+  function gameScale() {
+    const r = $container.getBoundingClientRect();
+    return ($container.offsetWidth ? r.width / $container.offsetWidth : 1) || 1;
+  }
+  function returnHome() {
+    // 元の場所(カードの山)へ戻す
+    $puzzle8CardsArea.appendChild(card);
+    card.style.position = 'absolute';
+    card.style.left = card.dataset.homeX + 'px';
+    card.style.top  = card.dataset.homeY + 'px';
+    card.style.zIndex = '';
+  }
   function onStart(e) {
     e.preventDefault();
     dragging = true;
+    const sc = gameScale();
     const rect = card.getBoundingClientRect();
     const containerRect = $container.getBoundingClientRect();
-    origLeft = rect.left - containerRect.left;
-    origTop = rect.top - containerRect.top;
+    origLeft = (rect.left - containerRect.left) / sc;
+    origTop = (rect.top - containerRect.top) / sc;
     const p = getPoint(e);
     startX = p.x; startY = p.y;
     card.style.position = 'absolute';
@@ -5092,8 +5129,9 @@ function attachPuzzle8DragHandlers(card, cardData, onClear) {
     if (!dragging) return;
     e.preventDefault();
     const p = getPoint(e);
-    const dx = p.x - startX;
-    const dy = p.y - startY;
+    const sc = gameScale();
+    const dx = (p.x - startX) / sc;
+    const dy = (p.y - startY) / sc;
     card.style.left = (origLeft + dx) + 'px';
     card.style.top = (origTop + dy) + 'px';
     $puzzle8PlateLeft.classList.toggle('drag-over', isOverZone(card, $puzzle8PlateLeft));
@@ -5123,16 +5161,17 @@ function attachPuzzle8DragHandlers(card, cardData, onClear) {
         snapCardToPlate(card, droppedSide === 'left' ? $puzzle8PlateLeft : $puzzle8PlateRight, droppedSide === 'left' ? state.puzzle8.leftPlaced.size : state.puzzle8.rightPlaced.size);
         checkPuzzle8SortComplete(onClear);
       } else {
+        // ちがう皿 → ふるえて、元の場所へ戻る（消えないように）
         card.classList.add('placed-wrong');
         setTimeout(() => card.classList.remove('placed-wrong'), 400);
-        card.style.position = 'static';
-        card.style.left = '';
-        card.style.top = '';
+        returnHome();
+        showToast(droppedSide === 'left'
+          ? 'それは、自分の手では決められないことかもしれません……'
+          : 'それは、今の自分にもできることかもしれません……', 2600);
       }
     } else {
-      card.style.position = 'static';
-      card.style.left = '';
-      card.style.top = '';
+      // 皿の外で離した → 元の場所へ戻る
+      returnHome();
     }
   }
   card.addEventListener('mousedown', onStart);
@@ -5150,9 +5189,10 @@ function isOverZone(card, zone) {
 function snapCardToPlate(card, zone, indexInPlate) {
   const containerRect = $container.getBoundingClientRect();
   const zoneRect = zone.getBoundingClientRect();
+  const sc = ($container.offsetWidth ? containerRect.width / $container.offsetWidth : 1) || 1;
   const offsetX = ((indexInPlate - 1) % 4) * 8;
-  const targetLeft = (zoneRect.left - containerRect.left) + zoneRect.width/2 - 46 + offsetX;
-  const targetTop  = (zoneRect.top - containerRect.top) + zoneRect.height/2 - 61 - (indexInPlate * 4);
+  const targetLeft = (zoneRect.left - containerRect.left) / sc + (zoneRect.width / sc)/2 - 46 + offsetX;
+  const targetTop  = (zoneRect.top - containerRect.top) / sc + (zoneRect.height / sc)/2 - 61 - (indexInPlate * 4);
   card.style.left = targetLeft + 'px';
   card.style.top = targetTop + 'px';
   card.style.zIndex = 60 + indexInPlate;
@@ -5238,15 +5278,30 @@ function attachPuzzle8KanaDragHandlers(card, kanaData, slots, onClear) {
     if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
     return { x: e.clientX, y: e.clientY };
   }
+  // 画面に合わせて全体を拡大縮小しているので、その倍率で割って位置を合わせる
+  function gameScale() {
+    const r = $container.getBoundingClientRect();
+    return ($container.offsetWidth ? r.width / $container.offsetWidth : 1) || 1;
+  }
+  let homeParent = null, homeNext = null;
+  function returnHome() {
+    // 元の場所(文字の並ぶトレイ)へ戻す
+    if (homeParent) homeParent.insertBefore(card, homeNext && homeNext.parentNode === homeParent ? homeNext : null);
+    card.style.position = '';
+    card.style.left = '';
+    card.style.top = '';
+  }
   function onStart(e) {
     e.preventDefault();
     dragging = true;
+    const sc = gameScale();
     const rect = card.getBoundingClientRect();
     const containerRect = $container.getBoundingClientRect();
-    origLeft = rect.left - containerRect.left;
-    origTop = rect.top - containerRect.top;
+    origLeft = (rect.left - containerRect.left) / sc;
+    origTop = (rect.top - containerRect.top) / sc;
     const p = getPoint(e);
     startX = p.x; startY = p.y;
+    homeParent = card.parentNode; homeNext = card.nextSibling;
     card.style.position = 'absolute';
     card.style.left = origLeft + 'px';
     card.style.top = origTop + 'px';
@@ -5261,8 +5316,9 @@ function attachPuzzle8KanaDragHandlers(card, kanaData, slots, onClear) {
     if (!dragging) return;
     e.preventDefault();
     const p = getPoint(e);
-    const dx = p.x - startX;
-    const dy = p.y - startY;
+    const sc = gameScale();
+    const dx = (p.x - startX) / sc;
+    const dy = (p.y - startY) / sc;
     card.style.left = (origLeft + dx) + 'px';
     card.style.top = (origTop + dy) + 'px';
     slots.forEach(s => s.classList.toggle('drag-over', isOverZone(card, s)));
@@ -5284,15 +5340,14 @@ function attachPuzzle8KanaDragHandlers(card, kanaData, slots, onClear) {
       targetSlot.classList.add('filled');
       const containerRect = $container.getBoundingClientRect();
       const slotRect = targetSlot.getBoundingClientRect();
-      card.style.left = (slotRect.left - containerRect.left) + 'px';
-      card.style.top = (slotRect.top - containerRect.top) + 'px';
+      const sc = gameScale();
+      card.style.left = (slotRect.left - containerRect.left) / sc + 'px';
+      card.style.top = (slotRect.top - containerRect.top) / sc + 'px';
       card.classList.add('placed');
       card.style.pointerEvents = 'none';
       checkPuzzle8ReorderComplete(onClear);
     } else {
-      card.style.position = 'static';
-      card.style.left = '';
-      card.style.top = '';
+      returnHome(); // 枠の外で離したら、トレイに戻す（消えないように）
     }
   }
   card.addEventListener('mousedown', onStart);
