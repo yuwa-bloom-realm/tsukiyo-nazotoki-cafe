@@ -3763,7 +3763,10 @@ function playPuzzle5Scratch(onClear) {
 
   // 背景画像が読み込まれてからスクラッチ画面を表示(黒が早く出る問題を防ぐ)
   const bgEl = document.getElementById('bg-image');
+  let scratchStarted = false; // 2回呼ばれても1回だけ動かす(画像の読み込み完了とタイムアウトの両方から呼ばれるため)
   function showScratchScreen() {
+    if (scratchStarted) return;
+    scratchStarted = true;
     $puzzle5ScratchScreen.style.display = 'block';
     initScratch();
   }
@@ -4007,8 +4010,12 @@ function playPuzzle5Scratch(onClear) {
     }
 
     let scratchDialogActive = true;
+    let lastTouchAt = 0;
     function advance(e) {
       if (!scratchDialogActive) return;
+      // iPhoneは1回のタップで touchend と click の両方が来るので、2回進まないようにする
+      if (e.type === 'touchend') lastTouchAt = Date.now();
+      else if (e.type === 'click' && Date.now() - lastTouchAt < 600) return;
       e.stopPropagation();
       if (!done) {
         skipTypewriter($dialText, scratchDialogues[idx].text);
@@ -4036,6 +4043,17 @@ function playPuzzle5Scratch(onClear) {
     }, 400);
   }
 
+  // 前回(やり直し・2回目のプレイなど)の操作がキャンバスに残っていたら外す
+  if (canvas.__p5handlers) {
+    const h = canvas.__p5handlers;
+    canvas.removeEventListener('mousedown', h.onDown);
+    canvas.removeEventListener('touchstart', h.onDown);
+    canvas.removeEventListener('mousemove', h.onMove);
+    canvas.removeEventListener('touchmove', h.onMove);
+    canvas.removeEventListener('mouseup', h.onUp);
+    canvas.removeEventListener('touchend', h.onUp);
+  }
+  canvas.__p5handlers = { onDown, onMove, onUp };
   canvas.addEventListener('mousedown', onDown);
   canvas.addEventListener('touchstart', onDown, { passive:false });
   canvas.addEventListener('mousemove', onMove);
