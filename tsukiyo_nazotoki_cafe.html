@@ -5105,30 +5105,42 @@ function attachPuzzle8DragHandlers(card, cardData, onClear) {
     card.style.top  = card.dataset.homeY + 'px';
     card.style.zIndex = '';
   }
-  function onStart(e) {
-    e.preventDefault();
-    dragging = true;
+  // タップしただけでは動かさない（指が少し動いてから持ち上げる）。ダブルタップで消えないように。
+  let lifted = false;
+  function lift() {
+    lifted = true;
     const sc = gameScale();
     const rect = card.getBoundingClientRect();
     const containerRect = $container.getBoundingClientRect();
     origLeft = (rect.left - containerRect.left) / sc;
     origTop = (rect.top - containerRect.top) / sc;
-    const p = getPoint(e);
-    startX = p.x; startY = p.y;
     card.style.position = 'absolute';
     card.style.left = origLeft + 'px';
     card.style.top = origTop + 'px';
     card.classList.add('dragging');
     $container.appendChild(card);
+  }
+  function onStart(e) {
+    e.preventDefault();
+    if (dragging) return;
+    dragging = true;
+    lifted = false;
+    const p = getPoint(e);
+    startX = p.x; startY = p.y;
     document.addEventListener('mousemove', onMove);
     document.addEventListener('touchmove', onMove, { passive:false });
     document.addEventListener('mouseup', onEnd);
     document.addEventListener('touchend', onEnd);
+    document.addEventListener('touchcancel', onEnd);
   }
   function onMove(e) {
     if (!dragging) return;
     e.preventDefault();
     const p = getPoint(e);
+    if (!lifted) {
+      if (Math.hypot(p.x - startX, p.y - startY) < 6) return;
+      lift();
+    }
     const sc = gameScale();
     const dx = (p.x - startX) / sc;
     const dy = (p.y - startY) / sc;
@@ -5147,6 +5159,9 @@ function attachPuzzle8DragHandlers(card, cardData, onClear) {
     document.removeEventListener('touchmove', onMove);
     document.removeEventListener('mouseup', onEnd);
     document.removeEventListener('touchend', onEnd);
+    document.removeEventListener('touchcancel', onEnd);
+    if (!lifted) return;               // タップだけ → 何もしない
+    if (e && e.type === 'touchcancel') { returnHome(); return; }
 
     const overLeft  = isOverZone(card, $puzzle8PlateLeft);
     const overRight = isOverZone(card, $puzzle8PlateRight);
