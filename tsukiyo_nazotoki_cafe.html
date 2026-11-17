@@ -1083,6 +1083,8 @@
   }
   #puzzle7-paper-list {
     font-size: 13px;
+    display: table;      /* 紙のまんなかに寄せる（左にはみ出さないように） */
+    margin: 0 auto;
   }
   #puzzle7-paper-list .glow {
     color: #8a4a10;
@@ -4846,24 +4848,37 @@ function startPuzzle7Game(onClear) {
     return best;
   }
 
-  function tryAdvance(x, y) {
+  // 次の星にふれたら進む。通り道でほかの星をかすめても、やり直しにはしない。
+  // （なぞっても、1つずつタップしても、どちらでも遊べる）
+  function lastOrder() {
+    const i = state.puzzle7.traceIndex;
+    return i === 0 ? 0 : (i === 6 ? 1 : i);
+  }
+  function advanceTo(expectedOrder, expectedPoint) {
+    state.puzzle7.traceIndex = expectedOrder;
+    state.puzzle7.points.push({ x: expectedPoint.x, y: expectedPoint.y });
+    updatePath();
+    litUpTo(Math.min(expectedOrder, 5));
+    if (expectedOrder === 6) {
+      state.puzzle7.tracing = false;
+      finishPuzzle7(onClear);
+    }
+  }
+  function tryAdvance(x, y, isTap) {
     const expectedOrder = state.puzzle7.traceIndex + 1;
     // 6番目は1番目と同じ座標
     const expectedPoint = expectedOrder === 6 ? pointAt(1) : pointAt(expectedOrder);
     const hit = nearestPointWithinRadius(x, y);
-    if (hit && expectedPoint && hit.order === expectedPoint.order) {
-      state.puzzle7.traceIndex = expectedOrder;
-      state.puzzle7.points.push({ x: expectedPoint.x, y: expectedPoint.y });
-      updatePath();
-      litUpTo(Math.min(expectedOrder, 5));
-      if (expectedOrder === 6) {
-        finishPuzzle7(onClear);
-      }
-    } else if (hit && state.puzzle7.traceIndex === 0 && hit.order !== 1) {
-      // 最初のタッチが1以外ならリセット（無反応のまま）
-    } else if (hit) {
-      resetTrace();
+    if (!hit || !expectedPoint) return;
+    if (hit.order === expectedPoint.order) {
+      advanceTo(expectedOrder, expectedPoint);
+      return;
     }
+    if (!isTap) return;                 // なぞっている途中は、ちがう星を通ってもOK
+    if (hit.order === lastOrder()) return; // 今いる星をもう一度さわっただけ
+    // ちがう星をタップしたら、最初からやり直し（1の星をタップしたなら、そこから再スタート）
+    resetTrace();
+    if (hit.order === 1) advanceTo(1, pointAt(1));
   }
 
   function onDown(evt) {
@@ -4871,27 +4886,26 @@ function startPuzzle7Game(onClear) {
     if (state.puzzle7.traceIndex >= 6) return;
     state.puzzle7.tracing = true;
     const { x, y } = svgCoordsFromEvent(evt);
-    if (state.puzzle7.traceIndex === 0) {
-      tryAdvance(x, y);
-    }
+    tryAdvance(x, y, true);
   }
   function onMove(evt) {
     if (!state.puzzle7.tracing || state.puzzle7.traceIndex >= 6) return;
     evt.preventDefault();
     const { x, y } = svgCoordsFromEvent(evt);
-    tryAdvance(x, y);
+    tryAdvance(x, y, false);
   }
   function onUp() {
     state.puzzle7.tracing = false;
   }
 
+  // ポインターイベントだけで受ける（タッチと二重に反応しないように）
   $puzzle7Svg.onpointerdown = onDown;
   $puzzle7Svg.onpointermove = onMove;
   $puzzle7Svg.onpointerup = onUp;
+  $puzzle7Svg.onpointercancel = onUp;
   $puzzle7Svg.onpointerleave = onUp;
-  $puzzle7Svg.addEventListener('touchstart', onDown, { passive:false });
-  $puzzle7Svg.addEventListener('touchmove', onMove, { passive:false });
-  $puzzle7Svg.addEventListener('touchend', onUp);
+
+  showToast('星を1から順番に、タップしてみましょう', 4000);
 
   litUpTo(0);
 }
