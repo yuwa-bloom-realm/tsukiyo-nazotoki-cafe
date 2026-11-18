@@ -2261,6 +2261,7 @@ const IMAGES = {
   'puzzle10_noir_gives_pen.jpg': 'images/puzzle10_noir_gives_pen.jpg',
   'puzzle10_blank_letter_table.jpg': 'images/puzzle10_blank_letter_table.jpg',
   'puzzle10_words_appear.jpg': 'images/puzzle10_words_appear.jpg',
+  'puzzle10_letter_glow.jpg': 'images/puzzle10_letter_glow.jpg',
   'puzzle10_matching_screen.jpg': 'images/puzzle10_matching_screen.jpg',
   'puzzle10_after_three_talk.jpg': 'images/puzzle10_after_three_talk.jpg',
   'puzzle10_mio_gentle_smile.jpg': 'images/puzzle10_mio_gentle_smile.jpg',
@@ -6116,7 +6117,7 @@ function showPuzzle10RevealFragment(text) {
 }
 
 function playPuzzle10Clear(onClear) {
-  setBg('puzzle10_matching_screen.jpg');
+  setBg('puzzle10_letter_glow.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'便箋が、淡く光った。' },
     { speaker:'ナレーション', text:'こわかったね。苦しかったね。さみしかった気持ちも、ここにあるよ。ちゃんと、ここに届いてる。' },
@@ -6354,8 +6355,32 @@ function playEpilogueFarewell(onClear) {
     }, 400);
     setTimeout(() => {
       onClear();
+      showEndingTopButton();
     }, 3200);
   });
+}
+
+// 最後に「タイトルへ戻る」ボタンを出す
+function showEndingTopButton() {
+  if (document.getElementById('ending-top-btn')) return;
+  clearProgress(); // 最後まで遊んだので、次は「はじめから」になるように
+  const btn = document.createElement('button');
+  btn.id = 'ending-top-btn';
+  btn.textContent = 'タイトルへ戻る';
+  btn.style.cssText = `
+    position:absolute; left:50%; bottom:90px; transform:translateX(-50%);
+    z-index:200; opacity:0; transition:opacity 1.2s ease;
+    background:rgba(70,45,120,0.75); border:1px solid rgba(240,210,150,0.6);
+    border-radius:24px; color:#fff3cf; font-family:inherit; font-size:15px;
+    letter-spacing:0.18em; padding:14px 40px; cursor:pointer; white-space:nowrap;
+    box-shadow:0 4px 16px rgba(0,0,0,0.5);
+  `;
+  btn.onclick = (e) => {
+    e.stopPropagation();
+    location.href = location.pathname; // ?debug などを外して最初の画面へ
+  };
+  $container.appendChild(btn);
+  setTimeout(() => { btn.style.opacity = '1'; }, 300);
 }
 
 
