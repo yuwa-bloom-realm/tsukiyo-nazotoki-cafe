@@ -528,6 +528,8 @@
     letter-spacing: 0.04em;
     margin-bottom: 16px;
     white-space: pre-wrap;
+    max-height: 55vh;
+    overflow-y: auto;
   }
   #popup-btn-row {
     display: flex;
@@ -2617,7 +2619,52 @@ function showSparkle(x, y) {
 
 const $popupCancelBtn = document.getElementById('popup-cancel-btn');
 
+// ============================================================
+// ヒントのふりかえり：一度見たヒントは、何度でも無料で見直せる
+// ============================================================
+const __hintLog = new Map();   // 謎ごと（ヒントボタンの動き）に、見たヒントをためる
+let __hintReviewing = false;
+function logHint(text) {
+  const owner = $hintBtn.onclick;
+  if (!owner || __hintReviewing) return;
+  if (!__hintLog.has(owner)) __hintLog.set(owner, []);
+  const list = __hintLog.get(owner);
+  if (!list.includes(text)) list.push(text);
+}
+// ヒントボタンを押したとき、見たヒントがあれば「見直す／次へ」を選べるようにする
+let __hintBypass = false;
+$hintBtn.addEventListener('click', (e) => {
+  if (__hintBypass) return;
+  const owner = $hintBtn.onclick;
+  const list = owner && __hintLog.get(owner);
+  if (!list || !list.length) return;
+  e.stopImmediatePropagation();
+  e.preventDefault();
+  $popupText.textContent = `これまでに見たヒントが${list.length}つあります。`;
+  $popupBox.style.display = 'block';
+  $popupCancelBtn.style.display = 'inline-block';
+  $popupOkBtn.textContent = '次のヒントへ';
+  $popupCancelBtn.textContent = '見直す';
+  const reset = () => {
+    $popupBox.style.display = 'none';
+    $popupCancelBtn.style.display = 'none';
+    $popupOkBtn.textContent = 'OK';
+  };
+  $popupOkBtn.onclick = () => {
+    reset();
+    __hintBypass = true;
+    try { owner.call($hintBtn, e); } finally { __hintBypass = false; }
+  };
+  $popupCancelBtn.onclick = () => {
+    reset();
+    __hintReviewing = true;
+    showPopup(list.join('\n\n──────\n\n'), null);
+    __hintReviewing = false;
+  };
+}, true);
+
 function showPopup(text, cb) {
+  if (typeof text === 'string' && text.startsWith('💡')) logHint(text);
   $popupText.textContent = text;
   $popupBox.style.display = 'block';
   $popupCancelBtn.style.display = 'none';
@@ -2652,7 +2699,8 @@ function showConfirm(text, onYes, onNo) {
 function spendHintWithConfirm(cost, onProceed) {
   if (cost <= 0) { onProceed(); return; }
   if (state.moonDrops < cost) {
-    showPopup(`月のしずくが${cost}個必要です。\n今：${state.moonDrops}個`, null);
+    // しずくが足りなくても、止まらないように。ノワールがそっと教えてくれる
+    showPopup('月のしずくが足りないようです。\n\nけれど今夜は特別に、ノワールがそっと教えてくれるそうです。', onProceed);
     return;
   }
   showConfirm(`月のしずくを${cost}個使ってヒントを見ますか？\n（今の月のしずく：${state.moonDrops}個）`, () => {
