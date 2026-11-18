@@ -1382,7 +1382,7 @@
   }
   #puzzle9-prompt {
     position: absolute;
-    top: 14px; left: 12px; right: 12px;
+    top: 80px; left: 12px; right: 12px;
     font-size: 12px;
     color: #d8c8e8;
     text-align: center;
@@ -1393,7 +1393,7 @@
   }
   #puzzle9-maze-grid {
     position: absolute;
-    top: 56px; left: 0; right: 0;
+    top: 118px; left: 0; right: 0;
     z-index: 71;
   }
   .puzzle9-cell {
@@ -1401,11 +1401,13 @@
     box-sizing: border-box;
   }
   .puzzle9-cell.wall {
+    filter: brightness(0.45) saturate(0.7);
     background-image: url('images/puzzle9_wall_tile.png');
     background-size: cover;
     background-position: center;
   }
   .puzzle9-cell.path {
+    filter: brightness(1.35);
     background-image: url('images/puzzle9_path_tile.png');
     background-size: cover;
     background-position: center;
@@ -1441,6 +1443,7 @@
     transition: left 0.18s ease, top 0.18s ease;
     filter: drop-shadow(0 0 6px rgba(180,210,255,0.6));
   }
+  .puzzle9-shadow.resting { opacity: 0.45; }
   .puzzle9-shadow {
     position: absolute;
     background-image: url('images/puzzle9_shadow_mini.png');
@@ -1449,7 +1452,7 @@
     background-repeat: no-repeat;
     z-index: 73;
     transition: left 0.18s ease, top 0.18s ease;
-    filter: drop-shadow(0 0 8px rgba(140,40,170,0.7));
+    filter: drop-shadow(0 0 3px rgba(255,255,255,0.5)) drop-shadow(0 0 8px rgba(200,110,255,0.95));
   }
   #puzzle9-controls {
     position: absolute;
@@ -1482,7 +1485,7 @@
   #puzzle9-ctrl-right { top: 55px; left: 110px; }
   #puzzle9-item-counter {
     position: absolute;
-    top: 30px; right: 12px;
+    top: 98px; right: 16px;
     font-size: 12px;
     color: #f0e0b0;
     letter-spacing: 0.04em;
@@ -5441,41 +5444,36 @@ function startPuzzleFlow_puzzle8(onClear) {
 // ============================================================
 // 謎9：迷路（影に追われる）
 // ============================================================
-// マップ：1=壁, 0=道, 行8 x 列8（(3,6)と(6,1)は行き止まりの寄り道）
+// マップ：1=壁, 0=道, 9 x 9（ぐるっと回れる道と、かけらのある行き止まりがある）
 const PUZZLE9_MAP = [
-  [1,1,1,1,1,1,1,1],
-  [1,0,0,0,1,0,1,1],
-  [1,1,1,0,1,0,1,1],
-  [1,0,0,0,0,0,0,1],
-  [1,0,1,1,1,0,1,1],
-  [1,0,0,0,0,0,1,1],
-  [1,0,1,1,1,1,1,1],
-  [1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,1,0,0,0,1],
+  [1,0,1,0,1,0,1,0,1],
+  [1,0,0,0,0,0,1,0,1],
+  [1,1,1,0,1,1,0,0,1],
+  [1,0,0,0,0,1,0,1,1],
+  [1,0,1,1,0,1,0,0,1],
+  [1,0,0,0,0,0,1,0,1],
+  [1,1,1,1,1,1,1,1,1],
 ];
 const PUZZLE9_START = { r:1, c:1 };
-const PUZZLE9_GOAL  = { r:5, c:5 };
+const PUZZLE9_GOAL  = { r:7, c:7 };
 const PUZZLE9_ITEMS_INIT = [
-  { r:1, c:5, id:'i1', icon:'🪶' },
-  { r:3, c:6, id:'i2', icon:'🪶' },
-  { r:6, c:1, id:'i3', icon:'🪶' },
+  { r:1, c:7, id:'i1', icon:'🪶' },
+  { r:5, c:1, id:'i2', icon:'🪶' },
+  { r:7, c:3, id:'i3', icon:'🪶' },
+  { r:3, c:4, id:'i4', icon:'🪶' },
 ];
-// 影の固定ルート（本道のみを巡回する大きなループ。行き止まりの寄り道には入らない）
-const PUZZLE9_SHADOW_ROUTE = [
-  { r:1, c:1 }, { r:1, c:2 }, { r:1, c:3 }, { r:2, c:3 }, { r:3, c:3 },
-  { r:3, c:4 }, { r:3, c:5 }, { r:2, c:5 }, { r:3, c:5 }, { r:3, c:4 },
-  { r:3, c:3 }, { r:3, c:2 }, { r:3, c:1 }, { r:4, c:1 }, { r:5, c:1 },
-  { r:5, c:2 }, { r:5, c:3 }, { r:5, c:4 }, { r:5, c:5 }, { r:5, c:4 },
-  { r:5, c:3 }, { r:5, c:2 }, { r:5, c:1 }, { r:4, c:1 }, { r:3, c:1 },
-  { r:3, c:2 }, { r:3, c:3 }, { r:2, c:3 }, { r:1, c:3 }, { r:1, c:2 },
-];
-// 影の開始位置：スタートからできるだけ離れたインデックスにする
-const PUZZLE9_SHADOW_START_INDEX = 18; // (5,5) 付近からスタート
+// 影は澪を追いかけてくる。ただし3歩に1回は立ち止まる（うすくなる）
+const PUZZLE9_SHADOW_START = { r:7, c:1 };
+const PUZZLE9_SHADOW_REST_EVERY = 3;
 
 state.puzzle9 = {
   player: { r: PUZZLE9_START.r, c: PUZZLE9_START.c },
-  shadowRouteIndex: 0,
+  shadow: { r: PUZZLE9_SHADOW_START.r, c: PUZZLE9_SHADOW_START.c },
+  turn: 0,
   itemsCollected: new Set(),
-  cellSize: 44,
+  cellSize: 38,
   moving: false,
   cleared: false,
   hintIndex: 0,
@@ -5484,7 +5482,7 @@ state.puzzle9 = {
 const PUZZLE9_HINTS = [
   {
     cost:0, title:'月しずく 1滴目',
-    text:'影は、澪が一歩進むたびに一歩近づきます。まずは、影の動きも一緒に見てみましょう。',
+    text:'影は、澪が一歩進むたびに近づいてきます。でも3歩に1回、影がうすくなって立ち止まります。そのすきに距離をとりましょう。',
     after: [
       { speaker:'澪', text:'私が動くと、影も動く……。ただ逃げるだけじゃ、だめなんですね。' },
       { speaker:'ノワール', text:'ええ。影の動きを見ることも、道を選ぶ力になります。' },
@@ -5509,6 +5507,14 @@ const PUZZLE9_HINTS = [
   },
 ];
 
+// 会話などで画面が消えたあと、迷路の画面を元に戻す（迷路の進み具合はそのまま）
+function restorePuzzle9Screen() {
+  setBg('puzzle9_mio_faces_shadow_maze.png');
+  $puzzle9Screen.style.display = 'block';
+  $hintBtn.style.display = 'block';
+  $hintBtn.onclick = showPuzzle9Hint;
+}
+
 function showPuzzle9Hint() {
   if (state.puzzle9.hintIndex >= PUZZLE9_HINTS.length) {
     showPopup('ヒントはもうありません。', null); return;
@@ -5518,7 +5524,7 @@ function showPuzzle9Hint() {
     state.puzzle9.hintIndex++;
     showPopup(`💡 ${h.title}\n${h.text}`, () => {
       if (h.after && h.after.length) {
-        showDialogues(h.after, () => {});
+        showDialogues(h.after, restorePuzzle9Screen); // 会話のあと迷路に戻る
       }
     });
   });
@@ -5589,6 +5595,32 @@ function playPuzzle9IntroPart3(onClear) {
   ], () => fadeIn(() => startPuzzle9Maze(onClear)));
 }
 
+// 影の1歩：澪までの近道を1マス進む
+function puzzle9ShadowStep(from, target) {
+  const rows = PUZZLE9_MAP.length, cols = PUZZLE9_MAP[0].length;
+  const key = (r, c) => r * cols + c;
+  const dist = new Map([[key(target.r, target.c), 0]]);
+  const q = [target];
+  const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+  while (q.length) {
+    const p = q.shift();
+    for (const [dr, dc] of dirs) {
+      const r = p.r + dr, c = p.c + dc;
+      if (r < 0 || c < 0 || r >= rows || c >= cols || PUZZLE9_MAP[r][c] === 1) continue;
+      if (dist.has(key(r, c))) continue;
+      dist.set(key(r, c), dist.get(key(p.r, p.c)) + 1);
+      q.push({ r, c });
+    }
+  }
+  let best = from, bestD = Infinity;
+  for (const [dr, dc] of dirs) {
+    const r = from.r + dr, c = from.c + dc;
+    const d = dist.get(key(r, c));
+    if (d !== undefined && d < bestD) { bestD = d; best = { r, c }; }
+  }
+  return best;
+}
+
 function buildPuzzle9Grid() {
   const rows = PUZZLE9_MAP.length;
   const cols = PUZZLE9_MAP[0].length;
@@ -5640,7 +5672,7 @@ function positionPuzzle9Entities() {
   const pOffset = (cell - pSize) / 2;
   $puzzle9PlayerEl.style.left = (state.puzzle9.player.c * cell + pOffset) + 'px';
   $puzzle9PlayerEl.style.top  = (state.puzzle9.player.r * cell + pOffset - cell*0.15) + 'px';
-  const shadowPos = PUZZLE9_SHADOW_ROUTE[state.puzzle9.shadowRouteIndex];
+  const shadowPos = state.puzzle9.shadow;
   const sSize = Math.round(cell * 1.1);
   const sOffset = (cell - sSize) / 2;
   $puzzle9ShadowEl.style.left = (shadowPos.c * cell + sOffset) + 'px';
@@ -5660,7 +5692,8 @@ function startPuzzle9Maze(onClear) {
   $hintBtn.onclick = showPuzzle9Hint;
 
   state.puzzle9.player = { r: PUZZLE9_START.r, c: PUZZLE9_START.c };
-  state.puzzle9.shadowRouteIndex = PUZZLE9_SHADOW_START_INDEX;
+  state.puzzle9.shadow = { r: PUZZLE9_SHADOW_START.r, c: PUZZLE9_SHADOW_START.c };
+  state.puzzle9.turn = 0;
   state.puzzle9.itemsCollected = new Set();
   state.puzzle9.moving = false;
   state.puzzle9.cleared = false;
@@ -5694,10 +5727,19 @@ function startPuzzle9Maze(onClear) {
     if (PUZZLE9_MAP[nr][nc] === 1) return;
 
     state.puzzle9.moving = true;
+    const prevPlayer = state.puzzle9.player;
     state.puzzle9.player = { r: nr, c: nc };
 
-    // 影が1歩進む
-    state.puzzle9.shadowRouteIndex = (state.puzzle9.shadowRouteIndex + 1) % PUZZLE9_SHADOW_ROUTE.length;
+    // 影が動く：澪に近づく。3歩に1回は立ち止まる
+    const prevShadow = state.puzzle9.shadow;
+    state.puzzle9.turn++;
+    const resting = state.puzzle9.turn % PUZZLE9_SHADOW_REST_EVERY === 0;
+    if (!resting) state.puzzle9.shadow = puzzle9ShadowStep(prevShadow, state.puzzle9.player);
+    // 次のターンに休むなら、うすくして知らせる
+    $puzzle9ShadowEl.classList.toggle('resting', (state.puzzle9.turn + 1) % PUZZLE9_SHADOW_REST_EVERY === 0);
+    // すれちがい（入れ替わり）も、つかまった扱い
+    const swapped = state.puzzle9.shadow.r === prevPlayer.r && state.puzzle9.shadow.c === prevPlayer.c
+                 && prevShadow.r === nr && prevShadow.c === nc;
 
     positionPuzzle9Entities();
 
@@ -5714,8 +5756,8 @@ function startPuzzle9Maze(onClear) {
 
     setTimeout(() => {
       // 衝突判定
-      const shadowPos = PUZZLE9_SHADOW_ROUTE[state.puzzle9.shadowRouteIndex];
-      if (shadowPos.r === state.puzzle9.player.r && shadowPos.c === state.puzzle9.player.c) {
+      const shadowPos = state.puzzle9.shadow;
+      if (swapped || (shadowPos.r === state.puzzle9.player.r && shadowPos.c === state.puzzle9.player.c)) {
         catchPuzzle9ByShadow(onClear);
         return;
       }
@@ -5739,7 +5781,9 @@ function startPuzzle9Maze(onClear) {
     setTimeout(() => {
       $puzzle9CaughtFlash.classList.remove('flash');
       state.puzzle9.player = { r: PUZZLE9_START.r, c: PUZZLE9_START.c };
-      state.puzzle9.shadowRouteIndex = PUZZLE9_SHADOW_START_INDEX;
+      state.puzzle9.shadow = { r: PUZZLE9_SHADOW_START.r, c: PUZZLE9_SHADOW_START.c };
+      state.puzzle9.turn = 0;
+      $puzzle9ShadowEl.classList.remove('resting');
       positionPuzzle9Entities();
       state.puzzle9.moving = false;
       showPopup('影に触れた。けれど、これは終わりではない。もう一度、道を選ぼう。', null);
@@ -5974,7 +6018,7 @@ function startPuzzle10Matching(onClear) {
       } else {
         const feedback = PUZZLE10_WRONG_FEEDBACK[replyText];
         if (feedback) {
-          showDialogues(feedback, () => {});
+          showDialogues(feedback, restorePuzzle10Screen); // 会話のあと選ぶ画面に戻る
         } else {
           showPopup('それは、今の澪さんの声には少し違うようです。', null);
         }
@@ -5982,6 +6026,14 @@ function startPuzzle10Matching(onClear) {
     };
     $puzzle10RepliesArea.appendChild(el);
   });
+}
+
+// 会話などで画面が消えたあと、返事を選ぶ画面を元に戻す（正解したものはそのまま）
+function restorePuzzle10Screen() {
+  setBg('puzzle10_matching_screen.png');
+  $puzzle10Screen.style.display = 'block';
+  $hintBtn.style.display = 'block';
+  $hintBtn.onclick = showPuzzle10Hint;
 }
 
 function showPuzzle10RevealFragment(text) {
