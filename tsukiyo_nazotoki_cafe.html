@@ -8,12 +8,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="月夜の謎解き喫茶">
 <meta property="og:description" content="夜だけ開く、不思議な喫茶店。ノワールとミネットと一緒に、謎を解きながら今夜のあなたの気持ちを見つけにいく、謎解き×ノベル体験。">
-<meta property="og:image" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/images/title_01_letter_phone_moon.png">
+<meta property="og:image" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/images/title_01_letter_phone_moon.jpg">
 <meta property="og:url" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/tsukiyo_nazotoki_cafe.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="月夜の謎解き喫茶">
 <meta name="twitter:description" content="夜だけ開く、不思議な喫茶店。ノワールとミネットと一緒に、謎を解きながら今夜のあなたの気持ちを見つけにいく、謎解き×ノベル体験。">
-<meta name="twitter:image" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/images/title_01_letter_phone_moon.png">
+<meta name="twitter:image" content="https://yuwa-bloom-realm.github.io/tsukiyo-nazotoki-cafe/images/title_01_letter_phone_moon.jpg">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
 
@@ -1417,18 +1417,18 @@
   }
   .puzzle9-cell.wall {
     filter: brightness(0.45) saturate(0.7);
-    background-image: url('images/puzzle9_wall_tile.png');
+    background-image: url('images/puzzle9_wall_tile.jpg');
     background-size: cover;
     background-position: center;
   }
   .puzzle9-cell.path {
     filter: brightness(1.35);
-    background-image: url('images/puzzle9_path_tile.png');
+    background-image: url('images/puzzle9_path_tile.jpg');
     background-size: cover;
     background-position: center;
   }
   .puzzle9-cell.goal {
-    background-image: url('images/puzzle9_path_tile.png');
+    background-image: url('images/puzzle9_path_tile.jpg');
     background-size: cover;
     background-position: center;
     box-shadow: inset 0 0 16px rgba(240,192,96,0.55);
@@ -1523,7 +1523,7 @@
     top: 50%; left: 50%;
     width: 70px; height: 124px;
     margin-left: -35px; margin-top: -62px;
-    background-image: url('images/puzzle9_moon_feather_pen.png');
+    background-image: url('images/puzzle9_moon_feather_pen.jpg');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -2188,183 +2188,193 @@ const $puzzle9CtrlRight    = document.getElementById('puzzle9-ctrl-right');
 // 画像
 // ============================================================
 const IMAGES = {
-  'puzzle3_mio_holds_glowing_paper.png': 'images/puzzle3_mio_holds_glowing_paper.png',
-  'puzzle1_mio_and_noir_close_talk.png': 'images/puzzle1_mio_and_noir_close_talk.png',
-  'p-4_noir_minette_player.png': 'images/p-4_noir_minette_player.png',
-  'p-10_phone_no_reply.png': 'images/p-10_phone_no_reply.png',
-  'p-11_noir_letter.png': 'images/p-11_noir_letter.png',
-  'p-1_moonlit_cafe_exterior.png': 'images/p-1_moonlit_cafe_exterior.png',
-  'p-2_noir_counter.png': 'images/p-2_noir_counter.png',
-  'p-3_minette_appears.png': 'images/p-3_minette_appears.png',
-  'p-7_door_bell.png': 'images/p-7_door_bell.png',
-  'p-8_customer_at_door.png': 'images/p-8_customer_at_door.png',
-  'p-9_customer_sits.png': 'images/p-9_customer_sits.png',
-  'puzzle1_after_talk_mio_table.png': 'images/puzzle1_after_talk_mio_table.png',
-  'puzzle1_clear_mio_recognizes_blank.png': 'images/puzzle1_clear_mio_recognizes_blank.png',
-  'puzzle1_mio_quiet_realization.png': 'images/puzzle1_mio_quiet_realization.png',
-  'puzzle3_brain_explanation_calm.png': 'images/puzzle3_brain_explanation_calm.png',
-  'puzzle3_brain_explanation_calm_2.png': 'images/puzzle3_brain_explanation_calm_2.png',
-  'puzzle3_brain_explanation_playful.png': 'images/puzzle3_brain_explanation_playful.png',
-  'puzzle3_brain_explanation_playful_2.png': 'images/puzzle3_brain_explanation_playful_2.png',
-  'puzzle3_envelope_glows_kana.png': 'images/puzzle3_envelope_glows_kana.png',
-  'puzzle3_intro_torn_speech_bubble.png': 'images/puzzle3_intro_torn_speech_bubble.png',
-  'puzzle3_mio_admits_tired.png': 'images/puzzle3_mio_admits_tired.png',
-  'puzzle3_mio_holds_teacup.png': 'images/puzzle3_mio_holds_teacup.png',
-  'puzzle3_torn_paper_falls.png': 'images/puzzle3_torn_paper_falls.png',
-  'puzzle4_chars_connecting.png': 'images/puzzle4_chars_connecting.png',
-  'puzzle4_dark_words_appear.png': 'images/puzzle4_dark_words_appear.png',
-  'puzzle4_eraser_appears.png': 'images/puzzle4_eraser_appears.png',
-  'puzzle4_letter_light_fades.png': 'images/puzzle4_letter_light_fades.png',
-  'puzzle4_letter_opens.png': 'images/puzzle4_letter_opens.png',
-  'puzzle4_mio_confused_reading.png': 'images/puzzle4_mio_confused_reading.png',
-  'puzzle4_mio_realization.png': 'images/puzzle4_mio_realization.png',
-  'puzzle5_psychology_talk_mio_listening.png': 'images/puzzle5_psychology_talk_mio_listening.png',
-  'puzzle6_psychology_talk_window_side.png': 'images/puzzle6_psychology_talk_window_side.png',
-  'puzzle7_psychology_talk_closeup.png': 'images/puzzle7_psychology_talk_closeup.png',
-  'puzzle8_psychology_talk_scale_glow.png': 'images/puzzle8_psychology_talk_scale_glow.png',
-  'title_01_letter_phone_moon.png': 'images/title_01_letter_phone_moon.png',
-  'p-5_cafe_main_hall.png': 'images/p-5_cafe_main_hall.png',
-  'puzzle1_cards_lamp.png': 'images/puzzle1_cards_lamp.png',
-  'puzzle4_kana_letter.png': 'images/puzzle4_kana_letter.png',
-  'puzzle2_bookshelf_puzzle.png': 'images/puzzle2_bookshelf_puzzle.png',
-  'puzzle2_intro_bookshelf_six_books.png': 'images/puzzle2_intro_bookshelf_six_books.png',
-  'puzzle2_clear_words_align.png': 'images/puzzle2_clear_words_align.png',
-  'puzzle5_choice_black_paper_table.png': 'images/puzzle5_choice_black_paper_table.png',
-  'puzzle5_intro_black_underneath.png': 'images/puzzle5_intro_black_underneath.png',
-  'puzzle5_clear_omoikomi.png': 'images/puzzle5_clear_omoikomi.png',
-  'puzzle5_to_puzzle6_words_appear.png': 'images/puzzle5_to_puzzle6_words_appear.png',
-  'puzzle6_intro_window_reflection.png': 'images/puzzle6_intro_window_reflection.png',
-  'puzzle6_window_puzzle.png': 'images/puzzle6_window_puzzle.png',
-  'puzzle6_clear_fact.png': 'images/puzzle6_clear_fact.png',
-  'puzzle6_to_puzzle7_box_appears.png': 'images/puzzle6_to_puzzle7_box_appears.png',
+  'puzzle3_mio_holds_glowing_paper.jpg': 'images/puzzle3_mio_holds_glowing_paper.jpg',
+  'puzzle1_mio_and_noir_close_talk.jpg': 'images/puzzle1_mio_and_noir_close_talk.jpg',
+  'p-4_noir_minette_player.jpg': 'images/p-4_noir_minette_player.jpg',
+  'p-10_phone_no_reply.jpg': 'images/p-10_phone_no_reply.jpg',
+  'p-11_noir_letter.jpg': 'images/p-11_noir_letter.jpg',
+  'p-1_moonlit_cafe_exterior.jpg': 'images/p-1_moonlit_cafe_exterior.jpg',
+  'p-2_noir_counter.jpg': 'images/p-2_noir_counter.jpg',
+  'p-3_minette_appears.jpg': 'images/p-3_minette_appears.jpg',
+  'p-7_door_bell.jpg': 'images/p-7_door_bell.jpg',
+  'p-8_customer_at_door.jpg': 'images/p-8_customer_at_door.jpg',
+  'p-9_customer_sits.jpg': 'images/p-9_customer_sits.jpg',
+  'puzzle1_after_talk_mio_table.jpg': 'images/puzzle1_after_talk_mio_table.jpg',
+  'puzzle1_clear_mio_recognizes_blank.jpg': 'images/puzzle1_clear_mio_recognizes_blank.jpg',
+  'puzzle1_mio_quiet_realization.jpg': 'images/puzzle1_mio_quiet_realization.jpg',
+  'puzzle3_brain_explanation_calm.jpg': 'images/puzzle3_brain_explanation_calm.jpg',
+  'puzzle3_brain_explanation_calm_2.jpg': 'images/puzzle3_brain_explanation_calm_2.jpg',
+  'puzzle3_brain_explanation_playful.jpg': 'images/puzzle3_brain_explanation_playful.jpg',
+  'puzzle3_brain_explanation_playful_2.jpg': 'images/puzzle3_brain_explanation_playful_2.jpg',
+  'puzzle3_envelope_glows_kana.jpg': 'images/puzzle3_envelope_glows_kana.jpg',
+  'puzzle3_intro_torn_speech_bubble.jpg': 'images/puzzle3_intro_torn_speech_bubble.jpg',
+  'puzzle3_mio_admits_tired.jpg': 'images/puzzle3_mio_admits_tired.jpg',
+  'puzzle3_mio_holds_teacup.jpg': 'images/puzzle3_mio_holds_teacup.jpg',
+  'puzzle3_torn_paper_falls.jpg': 'images/puzzle3_torn_paper_falls.jpg',
+  'puzzle4_chars_connecting.jpg': 'images/puzzle4_chars_connecting.jpg',
+  'puzzle4_dark_words_appear.jpg': 'images/puzzle4_dark_words_appear.jpg',
+  'puzzle4_eraser_appears.jpg': 'images/puzzle4_eraser_appears.jpg',
+  'puzzle4_letter_light_fades.jpg': 'images/puzzle4_letter_light_fades.jpg',
+  'puzzle4_letter_opens.jpg': 'images/puzzle4_letter_opens.jpg',
+  'puzzle4_mio_confused_reading.jpg': 'images/puzzle4_mio_confused_reading.jpg',
+  'puzzle4_mio_realization.jpg': 'images/puzzle4_mio_realization.jpg',
+  'puzzle5_psychology_talk_mio_listening.jpg': 'images/puzzle5_psychology_talk_mio_listening.jpg',
+  'puzzle6_psychology_talk_window_side.jpg': 'images/puzzle6_psychology_talk_window_side.jpg',
+  'puzzle7_psychology_talk_closeup.jpg': 'images/puzzle7_psychology_talk_closeup.jpg',
+  'puzzle8_psychology_talk_scale_glow.jpg': 'images/puzzle8_psychology_talk_scale_glow.jpg',
+  'title_01_letter_phone_moon.jpg': 'images/title_01_letter_phone_moon.jpg',
+  'p-5_cafe_main_hall.jpg': 'images/p-5_cafe_main_hall.jpg',
+  'puzzle1_cards_lamp.jpg': 'images/puzzle1_cards_lamp.jpg',
+  'puzzle4_kana_letter.jpg': 'images/puzzle4_kana_letter.jpg',
+  'puzzle2_bookshelf_puzzle.jpg': 'images/puzzle2_bookshelf_puzzle.jpg',
+  'puzzle2_intro_bookshelf_six_books.jpg': 'images/puzzle2_intro_bookshelf_six_books.jpg',
+  'puzzle2_clear_words_align.jpg': 'images/puzzle2_clear_words_align.jpg',
+  'puzzle5_choice_black_paper_table.jpg': 'images/puzzle5_choice_black_paper_table.jpg',
+  'puzzle5_intro_black_underneath.jpg': 'images/puzzle5_intro_black_underneath.jpg',
+  'puzzle5_clear_omoikomi.jpg': 'images/puzzle5_clear_omoikomi.jpg',
+  'puzzle5_to_puzzle6_words_appear.jpg': 'images/puzzle5_to_puzzle6_words_appear.jpg',
+  'puzzle6_intro_window_reflection.jpg': 'images/puzzle6_intro_window_reflection.jpg',
+  'puzzle6_window_puzzle.jpg': 'images/puzzle6_window_puzzle.jpg',
+  'puzzle6_clear_fact.jpg': 'images/puzzle6_clear_fact.jpg',
+  'puzzle6_to_puzzle7_box_appears.jpg': 'images/puzzle6_to_puzzle7_box_appears.jpg',
   // 謎7（仮：未反映。実ファイル受領後にこのパスを images/ 実体に差し替え）
-  'puzzle7_star_box.png': 'images/puzzle7_star_box.png',
-  'puzzle7_star_box_2.png': 'images/puzzle7_star_box_2.png',
-  'puzzle7_star_box_puzzle.png': 'images/puzzle7_star_box_puzzle.png',
-  'puzzle7_star_box_open.png': 'images/puzzle7_star_box_open.png',
+  'puzzle7_star_box.jpg': 'images/puzzle7_star_box.jpg',
+  'puzzle7_star_box_2.jpg': 'images/puzzle7_star_box_2.jpg',
+  'puzzle7_star_box_puzzle.jpg': 'images/puzzle7_star_box_puzzle.jpg',
+  'puzzle7_star_box_open.jpg': 'images/puzzle7_star_box_open.jpg',
   // 謎8（仮：未反映。実ファイル受領後に images/ 実体へ差し替え）
-  'puzzle8_scale_cards.png': 'images/puzzle8_scale_cards.png',
-  'puzzle8_scale_empty.png': 'images/puzzle8_scale_empty.png',
-  'puzzle8_clear.png': 'images/puzzle8_clear.png',
+  'puzzle8_scale_cards.jpg': 'images/puzzle8_scale_cards.jpg',
+  'puzzle8_scale_empty.jpg': 'images/puzzle8_scale_empty.jpg',
+  'puzzle8_clear.jpg': 'images/puzzle8_clear.jpg',
   // 謎9（仮：未反映。実ファイル受領後に images/ 実体へ差し替え）
-  'puzzle9_maze_board_intro.png': 'images/puzzle9_maze_board_intro.png',
-  'puzzle9_mio_faces_shadow_maze.png': 'images/puzzle9_mio_faces_shadow_maze.png',
-  'puzzle9_mio_determined_before_maze.png': 'images/puzzle9_mio_determined_before_maze.png',
-  'puzzle9_maze_clear_pen_appears.png': 'images/puzzle9_maze_clear_pen_appears.png',
-  'puzzle9_after_clear_talk.png': 'images/puzzle9_after_clear_talk.png',
+  'puzzle9_maze_board_intro.jpg': 'images/puzzle9_maze_board_intro.jpg',
+  'puzzle9_mio_faces_shadow_maze.jpg': 'images/puzzle9_mio_faces_shadow_maze.jpg',
+  'puzzle9_mio_determined_before_maze.jpg': 'images/puzzle9_mio_determined_before_maze.jpg',
+  'puzzle9_maze_clear_pen_appears.jpg': 'images/puzzle9_maze_clear_pen_appears.jpg',
+  'puzzle9_after_clear_talk.jpg': 'images/puzzle9_after_clear_talk.jpg',
   // 謎10〜エンディング〜エピローグ（仮：未反映。実ファイル受領後に images/ 実体へ差し替え）
-  'puzzle10_intro_three_talk.png': 'images/puzzle10_intro_three_talk.png',
-  'puzzle10_noir_gives_pen.png': 'images/puzzle10_noir_gives_pen.png',
-  'puzzle10_blank_letter_table.png': 'images/puzzle10_blank_letter_table.png',
-  'puzzle10_words_appear.png': 'images/puzzle10_words_appear.png',
-  'puzzle10_matching_screen.png': 'images/puzzle10_matching_screen.png',
-  'puzzle10_after_three_talk.png': 'images/puzzle10_after_three_talk.png',
-  'puzzle10_mio_gentle_smile.png': 'images/puzzle10_mio_gentle_smile.png',
-  'puzzle10_noir_minette_smile.png': 'images/puzzle10_noir_minette_smile.png',
-  'ending_phone_lights_up.png': 'images/ending_phone_lights_up.png',
-  'ending_mio_takes_phone.png': 'images/ending_mio_takes_phone.png',
-  'ending_phone_message_screen.png': 'images/ending_phone_message_screen.png',
-  'ending_mio_teary_smile_minette_comfort.png': 'images/ending_mio_teary_smile_minette_comfort.png',
-  'ending_mio_leaves_cafe.png': 'images/ending_mio_leaves_cafe.png',
-  'epilogue_noir_minette_cafe.png': 'images/epilogue_noir_minette_cafe.png',
-  'epilogue_noir_minette_greet_player.png': 'images/epilogue_noir_minette_greet_player.png',
-  'epilogue_cafe_door_close.png': 'images/epilogue_cafe_door_close.png',
-  'epilogue_next_guest_awaiting.png': 'images/epilogue_next_guest_awaiting.png',
-  'epilogue_farewell_see_you_again.png': 'images/epilogue_farewell_see_you_again.png',
+  'puzzle10_intro_three_talk.jpg': 'images/puzzle10_intro_three_talk.jpg',
+  'puzzle10_noir_gives_pen.jpg': 'images/puzzle10_noir_gives_pen.jpg',
+  'puzzle10_blank_letter_table.jpg': 'images/puzzle10_blank_letter_table.jpg',
+  'puzzle10_words_appear.jpg': 'images/puzzle10_words_appear.jpg',
+  'puzzle10_matching_screen.jpg': 'images/puzzle10_matching_screen.jpg',
+  'puzzle10_after_three_talk.jpg': 'images/puzzle10_after_three_talk.jpg',
+  'puzzle10_mio_gentle_smile.jpg': 'images/puzzle10_mio_gentle_smile.jpg',
+  'puzzle10_noir_minette_smile.jpg': 'images/puzzle10_noir_minette_smile.jpg',
+  'ending_phone_lights_up.jpg': 'images/ending_phone_lights_up.jpg',
+  'ending_mio_takes_phone.jpg': 'images/ending_mio_takes_phone.jpg',
+  'ending_phone_message_screen.jpg': 'images/ending_phone_message_screen.jpg',
+  'ending_mio_teary_smile_minette_comfort.jpg': 'images/ending_mio_teary_smile_minette_comfort.jpg',
+  'ending_mio_leaves_cafe.jpg': 'images/ending_mio_leaves_cafe.jpg',
+  'epilogue_noir_minette_cafe.jpg': 'images/epilogue_noir_minette_cafe.jpg',
+  'epilogue_noir_minette_greet_player.jpg': 'images/epilogue_noir_minette_greet_player.jpg',
+  'epilogue_cafe_door_close.jpg': 'images/epilogue_cafe_door_close.jpg',
+  'epilogue_next_guest_awaiting.jpg': 'images/epilogue_next_guest_awaiting.jpg',
+  'epilogue_farewell_see_you_again.jpg': 'images/epilogue_farewell_see_you_again.jpg',
 };
 
 const BG_COLORS = {
-  'p-1_moonlit_cafe_exterior.png': '#0d0918',
-  'p-2_noir_counter.png':          '#0e0b18',
-  'p-3_minette_appears.png':       '#100d1a',
-  'p-4_noir_minette_player.png':   '#0d0a18',
-  'p-5_cafe_main_hall.png':        '#130f1e',
-  'puzzle2_bookshelf_puzzle.png':  '#0f0c1a',
-  'puzzle2_intro_bookshelf_six_books.png': '#0f0c1a',
-  'puzzle2_clear_words_align.png': '#0f0c1a',
-  'p-7_door_bell.png':             '#090712',
-  'p-8_customer_at_door.png':      '#0d0a1a',
-  'p-9_customer_sits.png':         '#0e0b18',
-  'p-10_phone_no_reply.png':       '#090710',
-  'p-11_noir_letter.png':          '#0c0a18',
-  'title_01_letter_phone_moon.png':'#08060f',
-  'puzzle1_cards_lamp.png':        '#0e0b18',
-  'puzzle1_after_talk_mio_table.png': '#100c1a',
-  'puzzle1_mio_quiet_realization.png': '#100c1a',
-  'puzzle1_mio_and_noir_close_talk.png': '#100c1a',
-  'puzzle3_intro_torn_speech_bubble.png': '#0e0a16',
-  'puzzle3_clear_mio_realizes_tired.png': '#0f0c1a',
-  'puzzle3_brain_talk_table_01.png': '#100c19',
-  'puzzle3_brain_talk_table_02.png': '#100c19',
-  'puzzle3_brain_talk_table_03.png': '#100c19',
-  'puzzle3_brain_talk_table_04.png': '#0f0c1a',
-  'puzzle3_to_puzzle4_envelope_appears.png': '#0c0a16',
-  'puzzle4_kana_letter.png': '#15121f',
+  'p-1_moonlit_cafe_exterior.jpg': '#0d0918',
+  'p-2_noir_counter.jpg':          '#0e0b18',
+  'p-3_minette_appears.jpg':       '#100d1a',
+  'p-4_noir_minette_player.jpg':   '#0d0a18',
+  'p-5_cafe_main_hall.jpg':        '#130f1e',
+  'puzzle2_bookshelf_puzzle.jpg':  '#0f0c1a',
+  'puzzle2_intro_bookshelf_six_books.jpg': '#0f0c1a',
+  'puzzle2_clear_words_align.jpg': '#0f0c1a',
+  'p-7_door_bell.jpg':             '#090712',
+  'p-8_customer_at_door.jpg':      '#0d0a1a',
+  'p-9_customer_sits.jpg':         '#0e0b18',
+  'p-10_phone_no_reply.jpg':       '#090710',
+  'p-11_noir_letter.jpg':          '#0c0a18',
+  'title_01_letter_phone_moon.jpg':'#08060f',
+  'puzzle1_cards_lamp.jpg':        '#0e0b18',
+  'puzzle1_after_talk_mio_table.jpg': '#100c1a',
+  'puzzle1_mio_quiet_realization.jpg': '#100c1a',
+  'puzzle1_mio_and_noir_close_talk.jpg': '#100c1a',
+  'puzzle3_intro_torn_speech_bubble.jpg': '#0e0a16',
+  'puzzle3_clear_mio_realizes_tired.jpg': '#0f0c1a',
+  'puzzle3_brain_talk_table_01.jpg': '#100c19',
+  'puzzle3_brain_talk_table_02.jpg': '#100c19',
+  'puzzle3_brain_talk_table_03.jpg': '#100c19',
+  'puzzle3_brain_talk_table_04.jpg': '#0f0c1a',
+  'puzzle3_to_puzzle4_envelope_appears.jpg': '#0c0a16',
+  'puzzle4_kana_letter.jpg': '#15121f',
   // --- 新規発注分（イラスト到着まで色のみ表示） ---
-  'puzzle1_clear_mio_recognizes_blank.png': '#0e0b18',
-  'puzzle3_envelope_glows_kana.png': '#0c0a16',
-  'puzzle3_torn_paper_falls.png': '#0e0a16',
-  'puzzle3_mio_admits_tired.png': '#0f0c1a',
-  'puzzle3_mio_holds_teacup.png': '#100c1a',
-  'puzzle3_brain_explanation_calm.png': '#100c19',
-  'puzzle3_brain_explanation_calm_2.png': '#100c19',
-  'puzzle3_brain_explanation_playful.png': '#100c19',
-  'puzzle3_brain_explanation_playful_2.png': '#100c19',
-  'puzzle4_letter_opens.png': '#15121f',
-  'puzzle4_mio_confused_reading.png': '#15121f',
-  'puzzle4_chars_connecting.png': '#15121f',
-  'puzzle4_mio_realization.png': '#15121f',
-  'puzzle4_letter_light_fades.png': '#15121f',
-  'puzzle4_dark_words_appear.png': '#120a14',
-  'puzzle4_eraser_appears.png': '#100c19',
-  'p-6_exploration_hint.png': '#130f1e',
-  'puzzle5_intro_black_underneath.png': '#15121f',
-  'puzzle5_choice_black_paper_table.png': '#100c19',
-  'puzzle5_clear_omoikomi.png': '#15121f',
-  'puzzle5_psychology_talk_mio_listening.png': '#15121f',
-  'puzzle5_to_puzzle6_words_appear.png': '#15121f',
-  'puzzle6_intro_window_reflection.png': '#11131f',
-  'puzzle6_window_puzzle.png': '#0d1018',
-  'puzzle6_clear_fact.png': '#15121f',
-  'puzzle6_psychology_talk_window_side.png': '#15121f',
-  'puzzle6_to_puzzle7_box_appears.png': '#15121f',
-  'puzzle7_star_box.png': '#10141f',
-  'puzzle7_star_box_2.png': '#10141f',
-  'puzzle7_star_box_puzzle.png': '#0c0f18',
-  'puzzle7_star_box_open.png': '#1c1830',
-  'puzzle7_psychology_talk_closeup.png': '#1c1830',
-  'puzzle8_scale_cards.png': '#15110c',
-  'puzzle8_scale_empty.png': '#15110c',
-  'puzzle8_clear.png': '#1c1830',
-  'puzzle8_psychology_talk_scale_glow.png': '#1c1830',
-  'puzzle9_maze_board_intro.png': '#0a0712',
-  'puzzle9_mio_faces_shadow_maze.png': '#0a0712',
-  'puzzle9_mio_determined_before_maze.png': '#0a0712',
-  'puzzle9_maze_clear_pen_appears.png': '#1c1830',
-  'puzzle9_after_clear_talk.png': '#1c1830',
-  'puzzle10_intro_three_talk.png': '#1c1830',
-  'puzzle10_noir_gives_pen.png': '#1c1830',
-  'puzzle10_blank_letter_table.png': '#241c30',
-  'puzzle10_words_appear.png': '#241c30',
-  'puzzle10_matching_screen.png': '#181226',
-  'puzzle10_after_three_talk.png': '#1c1830',
-  'puzzle10_mio_gentle_smile.png': '#1c1830',
-  'puzzle10_noir_minette_smile.png': '#1c1830',
-  'ending_phone_lights_up.png': '#1c1830',
-  'ending_mio_takes_phone.png': '#1c1830',
-  'ending_phone_message_screen.png': '#101018',
-  'ending_mio_teary_smile_minette_comfort.png': '#1c1830',
-  'ending_mio_leaves_cafe.png': '#202035',
-  'epilogue_noir_minette_cafe.png': '#15101f',
-  'epilogue_noir_minette_greet_player.png': '#15101f',
-  'epilogue_cafe_door_close.png': '#0a0712',
-  'epilogue_next_guest_awaiting.png': '#0a0712',
-  'epilogue_farewell_see_you_again.png': '#15101f',
+  'puzzle1_clear_mio_recognizes_blank.jpg': '#0e0b18',
+  'puzzle3_envelope_glows_kana.jpg': '#0c0a16',
+  'puzzle3_torn_paper_falls.jpg': '#0e0a16',
+  'puzzle3_mio_admits_tired.jpg': '#0f0c1a',
+  'puzzle3_mio_holds_teacup.jpg': '#100c1a',
+  'puzzle3_brain_explanation_calm.jpg': '#100c19',
+  'puzzle3_brain_explanation_calm_2.jpg': '#100c19',
+  'puzzle3_brain_explanation_playful.jpg': '#100c19',
+  'puzzle3_brain_explanation_playful_2.jpg': '#100c19',
+  'puzzle4_letter_opens.jpg': '#15121f',
+  'puzzle4_mio_confused_reading.jpg': '#15121f',
+  'puzzle4_chars_connecting.jpg': '#15121f',
+  'puzzle4_mio_realization.jpg': '#15121f',
+  'puzzle4_letter_light_fades.jpg': '#15121f',
+  'puzzle4_dark_words_appear.jpg': '#120a14',
+  'puzzle4_eraser_appears.jpg': '#100c19',
+  'p-6_exploration_hint.jpg': '#130f1e',
+  'puzzle5_intro_black_underneath.jpg': '#15121f',
+  'puzzle5_choice_black_paper_table.jpg': '#100c19',
+  'puzzle5_clear_omoikomi.jpg': '#15121f',
+  'puzzle5_psychology_talk_mio_listening.jpg': '#15121f',
+  'puzzle5_to_puzzle6_words_appear.jpg': '#15121f',
+  'puzzle6_intro_window_reflection.jpg': '#11131f',
+  'puzzle6_window_puzzle.jpg': '#0d1018',
+  'puzzle6_clear_fact.jpg': '#15121f',
+  'puzzle6_psychology_talk_window_side.jpg': '#15121f',
+  'puzzle6_to_puzzle7_box_appears.jpg': '#15121f',
+  'puzzle7_star_box.jpg': '#10141f',
+  'puzzle7_star_box_2.jpg': '#10141f',
+  'puzzle7_star_box_puzzle.jpg': '#0c0f18',
+  'puzzle7_star_box_open.jpg': '#1c1830',
+  'puzzle7_psychology_talk_closeup.jpg': '#1c1830',
+  'puzzle8_scale_cards.jpg': '#15110c',
+  'puzzle8_scale_empty.jpg': '#15110c',
+  'puzzle8_clear.jpg': '#1c1830',
+  'puzzle8_psychology_talk_scale_glow.jpg': '#1c1830',
+  'puzzle9_maze_board_intro.jpg': '#0a0712',
+  'puzzle9_mio_faces_shadow_maze.jpg': '#0a0712',
+  'puzzle9_mio_determined_before_maze.jpg': '#0a0712',
+  'puzzle9_maze_clear_pen_appears.jpg': '#1c1830',
+  'puzzle9_after_clear_talk.jpg': '#1c1830',
+  'puzzle10_intro_three_talk.jpg': '#1c1830',
+  'puzzle10_noir_gives_pen.jpg': '#1c1830',
+  'puzzle10_blank_letter_table.jpg': '#241c30',
+  'puzzle10_words_appear.jpg': '#241c30',
+  'puzzle10_matching_screen.jpg': '#181226',
+  'puzzle10_after_three_talk.jpg': '#1c1830',
+  'puzzle10_mio_gentle_smile.jpg': '#1c1830',
+  'puzzle10_noir_minette_smile.jpg': '#1c1830',
+  'ending_phone_lights_up.jpg': '#1c1830',
+  'ending_mio_takes_phone.jpg': '#1c1830',
+  'ending_phone_message_screen.jpg': '#101018',
+  'ending_mio_teary_smile_minette_comfort.jpg': '#1c1830',
+  'ending_mio_leaves_cafe.jpg': '#202035',
+  'epilogue_noir_minette_cafe.jpg': '#15101f',
+  'epilogue_noir_minette_greet_player.jpg': '#15101f',
+  'epilogue_cafe_door_close.jpg': '#0a0712',
+  'epilogue_next_guest_awaiting.jpg': '#0a0712',
+  'epilogue_farewell_see_you_again.jpg': '#15101f',
 };
 
+// 電波が弱くて画像の読み込みに失敗したら、少し待ってもう一度読み込む（最大2回）
+$bg.addEventListener('error', () => {
+  const tries = parseInt($bg.dataset.retry || '0', 10);
+  const base = ($bg.dataset.base || '');
+  if (!base || tries >= 2) return;
+  $bg.dataset.retry = tries + 1;
+  setTimeout(() => { $bg.src = base + '?retry=' + Date.now(); }, 800);
+});
 function setBg(key) {
   const path = IMAGES[key];
   if (path) {
+    $bg.dataset.base = path;
+    $bg.dataset.retry = '0';
     $bg.src = path;
     $bg.style.display = 'block';
     $bgColor.style.background = BG_COLORS[key] || '#0a0812';
@@ -2511,10 +2521,10 @@ function setBgFullyVisible(imageKey, reservedBottom) {
 // タップでフルスクリーン表示できるようにする安全な仕組み）
 // ============================================================
 const ZOOMABLE_IMAGES = new Set([
-  'puzzle3_brain_explanation_calm.png',
-  'puzzle3_brain_explanation_calm_2.png',
-  'puzzle3_brain_explanation_playful.png',
-  'puzzle3_brain_explanation_playful_2.png',
+  'puzzle3_brain_explanation_calm.jpg',
+  'puzzle3_brain_explanation_calm_2.jpg',
+  'puzzle3_brain_explanation_playful.jpg',
+  'puzzle3_brain_explanation_playful_2.jpg',
 ]);
 
 function ensureZoomOverlay() {
@@ -2811,7 +2821,7 @@ const TAP_POINTS = [
 
 function showExploration(onEnd) {
   hideAll();
-  setBg('p-5_cafe_main_hall.png');
+  setBg('p-5_cafe_main_hall.jpg');
   showDialogues([
     { speaker:'ノワール', text:'この店では、気になる場所をそっと調べることができます。' },
     { speaker:'ミネット', text:'気になるところをタップしてみてね。あとで謎を解くとき、助けになるかも。' },
@@ -2868,7 +2878,7 @@ const HINTS = [
 
 function showPuzzle1(onClear) {
   hideAll();
-  setBg('puzzle1_cards_lamp.png');
+  setBg('puzzle1_cards_lamp.jpg');
   $brightOv.style.background = 'rgba(0,0,0,0.62)';
   showDialogues([
     { speaker:'澪', text:'返信がないってことは……やっぱり、嫌われたのかもしれません。' },
@@ -2965,7 +2975,7 @@ function handlePuzzleChoice(val, onClear) {
     ], () => renderPuzzle1(onClear));
   } else {
     $brightOv.style.background = 'rgba(0,0,0,0)';
-    setBg('puzzle1_clear_mio_recognizes_blank.png');
+    setBg('puzzle1_clear_mio_recognizes_blank.jpg');
     showDialogues([
       { speaker:'表示',   text:'まだわからない' },
       { speaker:'澪', text:'まだ……わからない。' },
@@ -2981,7 +2991,7 @@ function handlePuzzleChoice(val, onClear) {
 }
 
 function playPuzzle1ClearPart2(onClear) {
-  setBg('puzzle1_mio_and_noir_close_talk.png');
+  setBg('puzzle1_mio_and_noir_close_talk.jpg');
   showDialogues([
     { speaker:'ノワール',text:'はい。それは、あなたが弱いからではありません。心が不安から身を守ろうとしただけです。' },
     { speaker:'澪', text:'守ろうと……？' },
@@ -2997,7 +3007,7 @@ function playPuzzle1ClearPart2(onClear) {
 }
 
 function playPuzzle1AfterTalk(onClear) {
-  setBg('puzzle1_after_talk_mio_table.png');
+  setBg('puzzle1_after_talk_mio_table.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪さんは、スマホをそっと伏せました。けれど、その指先にはまだ、何度も画面を開こうとした名残が残っていました。' },
     { speaker:'澪',           text:'私、昔からこうなんです。誰かの返事が少し遅いだけで、何か間違えたのかなって考えてしまう。相手の顔色が少し変わっただけで、あ、私のせいかもって思ってしまうんです。' },
@@ -3011,7 +3021,7 @@ function playPuzzle1AfterTalk(onClear) {
 }
 
 function playPuzzle1AfterTalkPart2(onClear) {
-  setBg('puzzle1_mio_quiet_realization.png');
+  setBg('puzzle1_mio_quiet_realization.jpg');
   showDialogues([
     { speaker:'ノワール',     text:'返事がない。それだけで、心が昔の傷を思い出す。そして、まだ起きていないことまで、先に怖がろうとするのです。' },
     { speaker:'澪',           text:'……だから私は、返事が来る前に、悪い結末を決めたくなってしまうんですね。' },
@@ -3055,7 +3065,7 @@ const PAW_PRINTS = [
 
 const PUZZLE2_ANSWER = 'まだきめない';
 
-// タップ座標（puzzle2_bookshelf_puzzle.png 背景画像から実測。375x667基準）
+// タップ座標（puzzle2_bookshelf_puzzle.jpg 背景画像から実測。375x667基準）
 const BOOK_TAP_LAYOUT = [
   { key:'left-small',  side:'left',  size:'small',  x:31,  y:60,  w:69, h:42 },
   { key:'left-medium', side:'left',  size:'medium', x:30,  y:110, w:70, h:50 },
@@ -3067,7 +3077,7 @@ const BOOK_TAP_LAYOUT = [
 
 function showPuzzle2Intro(onClear) {
   hideAll();
-  setBg('puzzle2_intro_bookshelf_six_books.png');
+  setBg('puzzle2_intro_bookshelf_six_books.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'本棚には、6冊の本が並んでいました。' },
     { speaker:'ミネット', text:'気になる本をタップしてみて。' },
@@ -3082,7 +3092,7 @@ function renderPuzzle2(onClear) {
   $hintBtn.style.display = 'block';
   $hintBtn.onclick = showPuzzle2Hint;
 
-  const wrap = setupShrunkScene('puzzle2_bookshelf_puzzle.png');
+  const wrap = setupShrunkScene('puzzle2_bookshelf_puzzle.jpg');
   requestAnimationFrame(() => {
     const reserved = $answerInputBox.getBoundingClientRect().height;
     fitShrunkSceneToAvailableHeight(wrap, reserved);
@@ -3106,8 +3116,8 @@ function sideLabel(s) { return s === 'left' ? '左' : '右'; }
 function sizeLabel(s) { return s === 'small' ? '小さい' : s === 'medium' ? '中くらい' : '大きい'; }
 
 const BOOK_COVER_IMAGES = {
-  left:  { small: 'images/puzzle2_book_zoom_left_small.png',  medium: 'images/puzzle2_book_zoom_left_medium.png',  large: 'images/puzzle2_book_zoom_left_large.png' },
-  right: { small: 'images/puzzle2_book_zoom_right_small.png', medium: 'images/puzzle2_book_zoom_right_medium.png', large: 'images/puzzle2_book_zoom_right_large.png' },
+  left:  { small: 'images/puzzle2_book_zoom_left_small.jpg',  medium: 'images/puzzle2_book_zoom_left_medium.jpg',  large: 'images/puzzle2_book_zoom_left_large.jpg' },
+  right: { small: 'images/puzzle2_book_zoom_right_small.jpg', medium: 'images/puzzle2_book_zoom_right_medium.jpg', large: 'images/puzzle2_book_zoom_right_large.jpg' },
 };
 
 // 本アップ画面：タイトルの各文字をタップすると「この文字を集める」、もう一度タップで取り消し
@@ -3210,7 +3220,7 @@ function checkPuzzle2Answer(onClear) {
   const answer = state.puzzle2.collectedChars.map(c => c.ch).join('');
   if (answer === PUZZLE2_ANSWER) {
     hideAll();
-    setBg('puzzle2_clear_words_align.png');
+    setBg('puzzle2_clear_words_align.jpg');
     showDialogues([
       { speaker:'ナレーション', text:'文字が静かに並び、ひとつの言葉になりました。' },
       { speaker:'表示', text:'まだきめない' },
@@ -3294,7 +3304,7 @@ const PUZZLE3_HINTS = [
 ];
 
 function playPuzzle3Intro(onClear) {
-  setBg('puzzle3_torn_paper_falls.png');
+  setBg('puzzle3_torn_paper_falls.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'本棚の奥から、ふわりと白い紙片が舞い落ちた。それは、ところどころ破れた吹き出しの形をしていた。まるで、誰かの言葉になりかけた気持ちが、途中でちぎれてしまったみたいだった。' },
     { speaker:'澪',       text:'……これ、私の言葉……？' },
@@ -3306,7 +3316,7 @@ function playPuzzle3Intro(onClear) {
     { speaker:'澪',       text:'……さっき、まだ決めないって思ったんです。返事がない理由を、今すぐ怖い方に決めなくていいって。' },
     { speaker:'ノワール', text:'ええ。' },
   ], () => fadeIn(() => {
-    setBg('puzzle3_torn_paper_falls.png');
+    setBg('puzzle3_torn_paper_falls.jpg');
     showDialogues([
       { speaker:'澪',       text:'でも……まだ怖いです。返事が来ていない画面を見ると、胸がぎゅっとなって。やっぱり、何か悪いことをしたのかなって思ってしまうんです。' },
       { speaker:'ミネット', text:'まだ怖いんだね。' },
@@ -3330,7 +3340,7 @@ function playPuzzle3Intro(onClear) {
 
 function showPuzzle3Question(onClear) {
   hideAll();
-  setBg('puzzle3_intro_torn_speech_bubble.png');
+  setBg('puzzle3_intro_torn_speech_bubble.jpg');
   $dragPuzzlePrompt.textContent = 'ちぎれた吹き出しに、今の澪の状態を表す言葉をはめてください。';
   $speechBubbleLabel.textContent = 'ここに言葉をはめる';
   $speechBubbleLabel.className = '';
@@ -3486,7 +3496,7 @@ function showPuzzle3Hint() {
 }
 
 function showPuzzle3Correct(onClear) {
-  setBg('puzzle3_mio_holds_glowing_paper.png');
+  setBg('puzzle3_mio_holds_glowing_paper.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'破れた吹き出しは、すっかり元の形に戻ったわけではなかった。でも、破れ目には淡い光が宿っていた。' },
     { speaker:'澪', text:'……疲れている。' },
@@ -3509,7 +3519,7 @@ function showPuzzle3Correct(onClear) {
 }
 
 function playPuzzle3RestTalk(onClear) {
-  setBg('puzzle3_mio_holds_teacup.png');
+  setBg('puzzle3_mio_holds_teacup.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪は、握りしめていたスマホからそっと手を離し、テーブルの上の紅茶を見つめた。' },
     { speaker:'澪', text:'疲れているって、認めるの……少し怖いです。' },
@@ -3528,7 +3538,7 @@ function playPuzzle3RestTalk(onClear) {
 }
 
 function playPuzzle3BrainTalk1(onClear) {
-  setBg('puzzle3_mio_admits_tired.png');
+  setBg('puzzle3_mio_admits_tired.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'月夜の喫茶に、紅茶の湯気がゆっくりとのぼっていた。澪は、さっきまで強く握っていたスマホを、テーブルの上にそっと置いた。' },
     { speaker:'澪', text:'疲れていると、不安が大きく見える……。' },
@@ -3537,7 +3547,7 @@ function playPuzzle3BrainTalk1(onClear) {
     { speaker:'ノワール', text:'眠くならないよう、努力いたします。' },
     { speaker:'澪', text:'ふふ……お願いします。' },
   ], () => fadeIn(() => {
-    setBgFullyVisible('puzzle3_brain_explanation_calm.png');
+    setBgFullyVisible('puzzle3_brain_explanation_calm.jpg');
     showDialogues([
       { speaker:'ノワール', text:'人の脳は、わからないことがあると、それをそのままにしておくのが得意ではありません。' },
       { speaker:'澪', text:'わからないこと……。' },
@@ -3549,7 +3559,7 @@ function playPuzzle3BrainTalk1(onClear) {
 }
 
 function playPuzzle3BrainTalk2(onClear) {
-  setBgFullyVisible('puzzle3_brain_explanation_calm_2.png');
+  setBgFullyVisible('puzzle3_brain_explanation_calm_2.jpg');
   showDialogues([
     { speaker:'ノワール', text:'ただし、疲れている時の脳は、少し警戒モードに入りやすくなります。' },
     { speaker:'澪', text:'警戒モード……。' },
@@ -3562,7 +3572,7 @@ function playPuzzle3BrainTalk2(onClear) {
 }
 
 function playPuzzle3BrainTalk3(onClear) {
-  setBgFullyVisible('puzzle3_brain_explanation_playful.png');
+  setBgFullyVisible('puzzle3_brain_explanation_playful.jpg');
   showDialogues([
     { speaker:'ノワール', text:'ですが、疲れている夜は、その警報が大きく鳴りすぎることがあります。本当は小さな物音なのに、心の中では大きなサイレンのように聞こえてしまう。' },
     { speaker:'ミネット', text:'ピーポーピーポー！「返信がないぞー！危険かもー！」って？' },
@@ -3575,7 +3585,7 @@ function playPuzzle3BrainTalk3(onClear) {
 }
 
 function playPuzzle3BrainTalk4(onClear) {
-  setBgFullyVisible('puzzle3_brain_explanation_playful_2.png');
+  setBgFullyVisible('puzzle3_brain_explanation_playful_2.jpg');
   showDialogues([
     { speaker:'ミネット', text:'うん。「まあまあ、座って。あなたは何を伝えに来たの？」って聞くの。' },
     { speaker:'ノワール', text:'よい例えです。不安を追い払うのではなく、少し距離を取って眺める。そして、「今の私は疲れているのかもしれない」と気づく。' },
@@ -3596,7 +3606,7 @@ function playPuzzle3BrainTalk4(onClear) {
 }
 
 function playPuzzle3ToPuzzle4(onClear) {
-  setBg('puzzle3_envelope_glows_kana.png');
+  setBg('puzzle3_envelope_glows_kana.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'その時、カウンターの上に置かれていた封筒が、月明かりを受けて淡く光った。差出人の名前が、ゆっくりと浮かび上がる。' },
     { speaker:'ナレーション', text:'かな' },
@@ -3624,7 +3634,7 @@ const PUZZLE4_HINTS = [
 ];
 
 function playPuzzle4Intro(onClear) {
-  setBg('puzzle4_letter_opens.png');
+  setBg('puzzle4_letter_opens.jpg');
   showDialogues([
     { speaker:'澪',       text:'……かなさん……' },
     { speaker:'ミネット', text:'届いたね。' },
@@ -3642,7 +3652,7 @@ function playPuzzle4Intro(onClear) {
 }
 
 function playPuzzle4LetterShow(onClear) {
-  setBg('puzzle4_kana_letter.png');
+  setBg('puzzle4_kana_letter.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪は深く息を吸い、封筒を開いた。中には、月明かりを吸い込んだような便箋が一枚入っていた。' },
     { speaker:'澪',           text:'……不思議な手紙ですね。' },
@@ -3657,7 +3667,7 @@ function playPuzzle4LetterShow(onClear) {
 
 function showPuzzle4Question(onClear) {
   hideAll();
-  setBg('puzzle4_kana_letter.png');
+  setBg('puzzle4_kana_letter.jpg');
   $textPuzzlePrompt.textContent = 'かなさんの手紙を読んで、隠された言葉を見つけましょう。';
   $textPuzzleInput.value = '';
   $textPuzzleBox.style.display = 'block';
@@ -3702,13 +3712,13 @@ function checkPuzzle4Answer(onClear) {
       ],
     ];
     const pick = patterns[Math.floor(Math.random() * patterns.length)];
-    setBg('puzzle4_mio_confused_reading.png');
+    setBg('puzzle4_mio_confused_reading.jpg');
     showDialogues(pick, () => showPuzzle4Question(onClear));
   }
 }
 
 function showPuzzle4Correct(onClear) {
-  setBg('puzzle4_chars_connecting.png');
+  setBg('puzzle4_chars_connecting.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'拾い集めた音が、月明かりの中でゆっくりとつながっていく。' },
     { speaker:'澪', text:'……い、ま、の、わ、た、し。' },
@@ -3716,7 +3726,7 @@ function showPuzzle4Correct(onClear) {
     { speaker:'澪', text:'私、かなさんの返事を読もうとしていました。かなさんがどう思っているのか、私のことを嫌になったのか、迷惑だったのか……そればかり知りたくて。' },
     { speaker:'ミネット', text:'うん。' },
   ], () => fadeIn(() => {
-    setBg('puzzle4_mio_realization.png');
+    setBg('puzzle4_mio_realization.jpg');
     showDialogues([
       { speaker:'澪', text:'でも、この手紙に隠れていたのは、かなさんの気持ちじゃなくて……今の私だった。' },
       { speaker:'ノワール', text:'返事を待つ夜、澪様はずっと、相手の心を読もうとしていました。ですが、本当に置き去りにされていたのは、今ここにいる澪様ご自身だったのかもしれません。' },
@@ -3734,7 +3744,7 @@ function showPuzzle4Correct(onClear) {
 }
 
 function playPuzzle4AfterTalk(onClear) {
-  setBg('puzzle4_letter_light_fades.png');
+  setBg('puzzle4_letter_light_fades.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'手紙の文字が、ふわりと淡く光る。その光は、澪の胸元へゆっくりと溶けていった。' },
     { speaker:'澪',       text:'不思議です。返事はまだ来ていないのに、少しだけ落ち着きました。' },
@@ -3749,7 +3759,7 @@ function playPuzzle4AfterTalk(onClear) {
 }
 
 function playPuzzle4ToPuzzle5(onClear) {
-  setBg('puzzle4_dark_words_appear.png');
+  setBg('puzzle4_dark_words_appear.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'その時、便箋の端に、黒い鉛筆の跡のような文字が浮かび上がった。そこには、澪が何度も心の中で書き足してしまった言葉があった。' },
     { speaker:'ナレーション', text:'どうせ、嫌われた。' },
@@ -3757,7 +3767,7 @@ function playPuzzle4ToPuzzle5(onClear) {
     { speaker:'ミネット', text:'澪ちゃんが、不安な夜に何度も書き足してしまった言葉だね。' },
     { speaker:'ノワール', text:'次の謎では、その思い込みを消していただきます。' },
   ], () => fadeIn(() => {
-    setBg('puzzle4_eraser_appears.png');
+    setBg('puzzle4_eraser_appears.jpg');
     showDialogues([
       { speaker:'ミネット', text:'消しゴムの出番だよ！' },
       { speaker:'澪',       text:'消す……。私が、自分で書いてしまった言葉を……。' },
@@ -3792,7 +3802,7 @@ function showPuzzle5Hint() {
 }
 
 function playPuzzle5Intro(onClear) {
-  setBg('puzzle5_intro_black_underneath.png');
+  setBg('puzzle5_intro_black_underneath.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'かなさんの手紙に隠れていた「今の私」という言葉を、澪はしばらく黙って見つめていた。その言葉は、月あかりのように静かだった。けれど静かだからこそ、澪の胸に残っているざわめきが、かえって大きく聞こえるようだった。' },
     { speaker:'澪',       text:'……今の私。' },
@@ -3826,7 +3836,7 @@ function playPuzzle5Intro(onClear) {
 
 function playPuzzle5Scratch(onClear) {
   hideAll();
-  setBg('puzzle5_choice_black_paper_table.png');
+  setBg('puzzle5_choice_black_paper_table.jpg');
   $puzzle5ScratchPrompt.textContent = 'まずは道具を選んで、黒い部分に試してみましょう。';
   $hintBtn.style.display = 'block';
   $hintBtn.onclick = showPuzzle5Hint;
@@ -3854,11 +3864,11 @@ function playPuzzle5Scratch(onClear) {
   let selectedTool = null;
   const toolBtns = {};
   const tools = [
-    { id:'eraser',     img:'images/puzzle5_tool_eraser.png' },
-    { id:'moon_light', img:'images/puzzle5_tool_moon_light.png' },
-    { id:'pen',        img:'images/puzzle5_tool_pen.png' },
-    { id:'bookmark',   img:'images/puzzle5_tool_bookmark.png' },
-    { id:'tea_cup',    img:'images/puzzle5_tool_tea_cup.png' },
+    { id:'eraser',     img:'images/puzzle5_tool_eraser.jpg' },
+    { id:'moon_light', img:'images/puzzle5_tool_moon_light.jpg' },
+    { id:'pen',        img:'images/puzzle5_tool_pen.jpg' },
+    { id:'bookmark',   img:'images/puzzle5_tool_bookmark.jpg' },
+    { id:'tea_cup',    img:'images/puzzle5_tool_tea_cup.jpg' },
   ];
   function renderTools() {
     $puzzle5ToolsArea.innerHTML = '';
@@ -3884,7 +3894,7 @@ function playPuzzle5Scratch(onClear) {
   // セリフ表示などで画面がリセットされた後、謎5の道具選択画面を復元する
   function restoreScratchScreen() {
     selectedTool = null; // 道具の選択をリセット
-    setBg('puzzle5_choice_black_paper_table.png');
+    setBg('puzzle5_choice_black_paper_table.jpg');
     $puzzle5ScratchPrompt.textContent = 'まずは道具を選んで、黒い部分に試してみましょう。';
     $puzzle5ScratchScreen.style.display = 'block';
     $hintBtn.style.display = 'block';
@@ -3914,11 +3924,11 @@ function playPuzzle5Scratch(onClear) {
   // 黒の下に最初からパーツを配置（5枚、紙の領域159x206に収まるよう配置）
   $puzzle5ScratchParts.innerHTML = '';
   const partLayout = [
-    { id:'part_ta',        img:'images/puzzle5_part_ta.png',        x:10,  y:6,   size:40 },
-    { id:'part_kokoro',    img:'images/puzzle5_part_kokoro.png',    x:109, y:6,   size:40 },
-    { id:'part_i',         img:'images/puzzle5_part_i.png',         x:60,  y:80,  size:40 },
-    { id:'part_komichi',   img:'images/puzzle5_part_komichi.png',   x:8,   y:158, size:44 },
-    { id:'part_minus_chi', img:'images/puzzle5_part_minus_chi.png', x:107, y:158, size:44 },
+    { id:'part_ta',        img:'images/puzzle5_part_ta.jpg',        x:10,  y:6,   size:40 },
+    { id:'part_kokoro',    img:'images/puzzle5_part_kokoro.jpg',    x:109, y:6,   size:40 },
+    { id:'part_i',         img:'images/puzzle5_part_i.jpg',         x:60,  y:80,  size:40 },
+    { id:'part_komichi',   img:'images/puzzle5_part_komichi.jpg',   x:8,   y:158, size:44 },
+    { id:'part_minus_chi', img:'images/puzzle5_part_minus_chi.jpg', x:107, y:158, size:44 },
   ];
   partLayout.forEach(p => {
     const el = document.createElement('div');
@@ -4135,7 +4145,7 @@ function playPuzzle5Scratch(onClear) {
 
 function playPuzzle5MakeOmo(onClear) {
   hideAll();
-  setBg('puzzle5_choice_black_paper_table.png');
+  setBg('puzzle5_choice_black_paper_table.jpg');
   $puzzle5CombinePrompt.textContent = '田の札と、心のチャームを重ねてみましょう。';
   $puzzle5CombineScreen.style.display = 'block';
   $hintBtn.style.display = 'block';
@@ -4143,8 +4153,8 @@ function playPuzzle5MakeOmo(onClear) {
   $puzzle5TargetZone.style.display = 'block';
 
   buildPuzzle5Parts([
-    { id:'part_ta',     img:'images/puzzle5_part_ta.png' },
-    { id:'part_kokoro', img:'images/puzzle5_part_kokoro.png' },
+    { id:'part_ta',     img:'images/puzzle5_part_ta.jpg' },
+    { id:'part_kokoro', img:'images/puzzle5_part_kokoro.jpg' },
   ], (droppedId) => {
     // 2つとも置かれたら合体成立とみなす簡易判定はbuildPuzzle5Combineで処理
   }, onClear, 'omo');
@@ -4173,8 +4183,8 @@ function buildPuzzle5Parts(parts, onDropCallback, onClear, stageKey) {
 }
 
 const PUZZLE5_COMBINE_RESULT_IMAGES = {
-  omo:  'images/puzzle5_result_omo.png',
-  komi: 'images/puzzle5_result_komi.png',
+  omo:  'images/puzzle5_result_omo.jpg',
+  komi: 'images/puzzle5_result_komi.jpg',
 };
 
 function showPuzzle5CombineResult(stageKey) {
@@ -4295,7 +4305,7 @@ function handlePuzzle5StageComplete(stageKey, onClear) {
 
 function playPuzzle5MakeKomi(onClear) {
   hideAll();
-  setBg('puzzle5_choice_black_paper_table.png');
+  setBg('puzzle5_choice_black_paper_table.jpg');
   $puzzle5CombinePrompt.textContent = '小道の看板と、「−ち」を重ねてみましょう。';
   $puzzle5CombineScreen.style.display = 'block';
   $hintBtn.style.display = 'block';
@@ -4303,14 +4313,14 @@ function playPuzzle5MakeKomi(onClear) {
   $puzzle5TargetZone.style.display = 'block';
 
   buildPuzzle5Parts([
-    { id:'part_komichi',   img:'images/puzzle5_part_komichi.png' },
-    { id:'part_minus_chi', img:'images/puzzle5_part_minus_chi.png' },
+    { id:'part_komichi',   img:'images/puzzle5_part_komichi.jpg' },
+    { id:'part_minus_chi', img:'images/puzzle5_part_minus_chi.jpg' },
   ], null, onClear, 'komi');
 }
 
 function playPuzzle5Assemble(onClear) {
   hideAll();
-  setBg('puzzle5_choice_black_paper_table.png');
+  setBg('puzzle5_choice_black_paper_table.jpg');
   $textPuzzlePrompt.textContent = '「思」「い」「こみ」を、自然な言葉になるように並べて入力しましょう。';
   $textPuzzleInput.value = '';
   $textPuzzleBox.style.display = 'block';
@@ -4334,7 +4344,7 @@ function checkPuzzle5Answer(onClear) {
 }
 
 function showPuzzle5Correct(onClear) {
-  setBg('puzzle5_clear_omoikomi.png');
+  setBg('puzzle5_clear_omoikomi.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'三つの言葉が、月あかりの中で静かに並んだ。' },
     { speaker:'ナレーション', text:'思い込み。' },
@@ -4362,7 +4372,7 @@ function showPuzzle5Correct(onClear) {
 }
 
 function playPuzzle5PsychologyTalk(onClear) {
-  setBg('puzzle5_clear_omoikomi.png');
+  setBg('puzzle5_clear_omoikomi.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'黒が消えた紙の上で、「思い込み」という言葉が淡く光っていた。' },
     { speaker:'ノワール', text:'人の脳は、不安を感じると、空白をそのままにしておくのが苦手になります。' },
@@ -4374,7 +4384,7 @@ function playPuzzle5PsychologyTalk(onClear) {
 }
 
 function playPuzzle5PsychologyTalkPart2(onClear) {
-  setBg('puzzle5_psychology_talk_mio_listening.png');
+  setBg('puzzle5_psychology_talk_mio_listening.jpg');
   showDialogues([
     { speaker:'ノワール', text:'ですが、ソースがかかったからといって、お皿そのものが変わったわけではありません。' },
     { speaker:'澪', text:'事実そのものが、変わったわけじゃない……。' },
@@ -4389,7 +4399,7 @@ function playPuzzle5PsychologyTalkPart2(onClear) {
 }
 
 function playPuzzle5ToPuzzle6(onClear) {
-  setBg('puzzle5_to_puzzle6_words_appear.png');
+  setBg('puzzle5_to_puzzle6_words_appear.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'「思い込み」という言葉がふっとほどけると、紙の余白にいくつかの言葉が浮かび上がった。' },
     { speaker:'澪', text:'……また、言葉が。' },
@@ -4434,14 +4444,14 @@ function startGame() {
 }
 
 function playPrologue() {
-  setBg('p-1_moonlit_cafe_exterior.png');
+  setBg('p-1_moonlit_cafe_exterior.jpg');
   showNarration([
     'ここは、いつも夜にひっそりと開く喫茶店。',
     '誰でも来られる場所ではありません。\n必要としている人だけが、見つけられる喫茶店です。',
     '寂しい人。うれしい人。\n深く考えごとをしている人。\n少し疲れてしまった人。',
     'その夜のお客様は、その夜になってみないとわかりません。',
   ], () => fadeIn(() => {
-    setBg('p-2_noir_counter.png');
+    setBg('p-2_noir_counter.jpg');
     showDialogues([
       { speaker:'ノワール', text:'……あ、失礼しました。まだ名乗っていませんでしたね。' },
       { speaker:'ノワール', text:'私、この喫茶店の店主、ノワールです。' },
@@ -4449,13 +4459,13 @@ function playPrologue() {
       { speaker:'ノワール', text:'けれど、こちらからお客様を選ぶことはありません。' },
       { speaker:'ノワール', text:'必要な方が、必要な夜に、この灯りを見つけるのです。' },
     ], () => fadeIn(() => {
-      setBg('p-3_minette_appears.png');
+      setBg('p-3_minette_appears.jpg');
       showDialogues([
         { speaker:'ノワール', text:'そしてこちらが、私の大切な仲間、ミネット。' },
         { speaker:'ミネット', text:'こんばんは。迷ったときは、ちょっとだけお手伝いするね。' },
         { speaker:'ミネット', text:'でも、答えを急がなくても大丈夫だよ。ここは、ゆっくり考えていい場所だから。' },
       ], () => fadeIn(() => {
-        setBg('p-4_noir_minette_player.png');
+        setBg('p-4_noir_minette_player.jpg');
         showChoiceScene({
           dialogues:[
             { speaker:'ノワール', text:'今夜も、ひとりのお客様をお迎えします。' },
@@ -4490,12 +4500,12 @@ function playPrologue() {
 }
 
 function playCustomerArrival() {
-  setBg('p-7_door_bell.png');
+  setBg('p-7_door_bell.jpg');
   showDialogues([
     { speaker:'ミネット', text:'あっ。お客様だ。' },
     { speaker:'ノワール', text:'今夜の方が、見つけられたようですね。' },
   ], () => fadeIn(() => {
-    setBg('p-8_customer_at_door.png');
+    setBg('p-8_customer_at_door.jpg');
     showDialogues([
       { speaker:'ナレーション', text:'扉の向こうに立っていたのは、スマホを握りしめた、ひとりの女性でした。' },
       { speaker:'お客様',       text:'……ここ、喫茶店ですか？' },
@@ -4503,7 +4513,7 @@ function playCustomerArrival() {
       { speaker:'お客様',       text:'私のため……？' },
       { speaker:'ミネット',     text:'うん。寒かったでしょ。中に入って。' },
     ], () => fadeIn(() => {
-      setBg('p-9_customer_sits.png');
+      setBg('p-9_customer_sits.jpg');
       showDialogues([
         { speaker:'ナレーション', text:'お客様は、少し戸惑ったように店内を見まわしました。' },
         { speaker:'ナレーション', text:'その指は、まだスマホをぎゅっと握ったままです。' },
@@ -4513,7 +4523,7 @@ function playCustomerArrival() {
         { speaker:'ミネット',     text:'あったかいお茶、いれるね。' },
         { speaker:'澪',           text:'ありがとうございます……。' },
       ], () => fadeIn(() => {
-        setBg('p-10_phone_no_reply.png');
+        setBg('p-10_phone_no_reply.jpg');
         showDialogues([
           { speaker:'ナレーション', text:'テーブルに置かれたスマホの画面には、返事のないメッセージが残っていました。' },
           { speaker:'澪',           text:'……まだ、返事が来ないんです。' },
@@ -4523,7 +4533,7 @@ function playCustomerArrival() {
           { speaker:'澪',       text:'何度もスマホを見てしまうんです。見ても、何も変わらないのに。' },
           { speaker:'ノワール',     text:'返事がない時間は、ただの空白ではありません。不安な心にとっては、何かを書きこみたくなる余白になるのです。' },
         ], () => fadeIn(() => {
-          setBg('p-11_noir_letter.png');
+          setBg('p-11_noir_letter.jpg');
           showDialogues([
             { speaker:'ノワール', text:'今夜のあなたには、ひとつ手紙が届いております。' },
             { speaker:'澪',   text:'手紙……？' },
@@ -4540,7 +4550,7 @@ function playCustomerArrival() {
 }
 
 function startNight1FromTitle() {
-  setBg('title_01_letter_phone_moon.png');
+  setBg('title_01_letter_phone_moon.jpg');
   showTitleScreen('第1夜', '返信のない手紙', () => {
     fadeIn(() => startPuzzleFlow_puzzle1());
   });
@@ -4592,7 +4602,7 @@ function showPuzzle6Hint() {
 }
 
 function playPuzzle6Intro(onClear) {
-  setBg('puzzle6_intro_window_reflection.png');
+  setBg('puzzle6_intro_window_reflection.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'「思い込み」という言葉が紙の上で淡く光っていた。澪はその光を見つめたまま、ゆっくりと息を吐いた。' },
     { speaker:'澪',       text:'……思い込み。そう言われると、少しわかる気がします。' },
@@ -4657,7 +4667,7 @@ const PUZZLE6_TAP_FEEDBACK = {
 
 function playPuzzle6Question(onClear) {
   hideAll();
-  setBg('puzzle6_window_puzzle.png');
+  setBg('puzzle6_window_puzzle.jpg');
   $puzzle6WindowPrompt.textContent = '窓に映る言葉に触れて、外にあるものだけを見分けましょう。';
   $puzzle6WindowScreen.style.display = 'block';
   $puzzle6FactReveal.classList.remove('show');
@@ -4706,7 +4716,7 @@ function checkPuzzle6Progress(onClear) {
 }
 
 function showPuzzle6Correct(onClear) {
-  setBg('puzzle6_clear_fact.png');
+  setBg('puzzle6_clear_fact.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'窓の下に、月あかりがすっと線を描いた。その光は、ひとつの言葉になる。' },
     { speaker:'澪', text:'……事実。' },
@@ -4727,7 +4737,7 @@ function showPuzzle6Correct(onClear) {
 }
 
 function playPuzzle6PsychologyTalk(onClear) {
-  setBg('puzzle6_clear_fact.png');
+  setBg('puzzle6_clear_fact.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'窓の外では、雲の間から月が顔を出していた。' },
     { speaker:'ノワール', text:'人の心は、不安なときほど、事実と想像を混ぜてしまうことがあります。' },
@@ -4747,7 +4757,7 @@ function playPuzzle6PsychologyTalk(onClear) {
 }
 
 function playPuzzle6PsychologyTalkPart2(onClear) {
-  setBg('puzzle6_psychology_talk_window_side.png');
+  setBg('puzzle6_psychology_talk_window_side.jpg');
   showDialogues([
     { speaker:'澪', text:'分けると、どうなるんでしょう。' },
     { speaker:'ノワール', text:'心の中に、少し余白ができます。' },
@@ -4765,7 +4775,7 @@ function playPuzzle6PsychologyTalkPart2(onClear) {
 }
 
 function playPuzzle6ToPuzzle7(onClear) {
-  setBg('puzzle6_to_puzzle7_box_appears.png');
+  setBg('puzzle6_to_puzzle7_box_appears.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'窓に残った「返信がない」という言葉の下に、淡い月の線が伸びていった。その線は、ひとつの小さな箱を形づくる。' },
     { speaker:'澪', text:'今度は……箱？' },
@@ -4808,7 +4818,7 @@ function showPuzzle7Hint() {
 }
 
 function playPuzzle7Intro(onClear) {
-  setBg('puzzle7_star_box.png');
+  setBg('puzzle7_star_box.jpg');
   showDialogues([
     { speaker:'澪',       text:'……箱？ 窓辺に、こんなのありましたっけ。' },
     { speaker:'ミネット', text:'反射が消えたら、今度は星の箱。ここの喫茶店、演出が手厚いね。' },
@@ -4822,7 +4832,7 @@ function playPuzzle7Intro(onClear) {
 }
 
 function playPuzzle7AtmosphereAndGame(onClear) {
-  setBg('puzzle7_star_box_2.png');
+  setBg('puzzle7_star_box_2.jpg');
   showDialogues([
     { speaker:'ミネット', text:'困ったら、月しずくを使えるみたい。最初の一滴は無料だって。やさしい世界。' },
     { speaker:'ノワール', text:'月しずくは、答えを教えるものではありません。見落としていた光を、少しだけ照らすものです。' },
@@ -4842,7 +4852,7 @@ const PUZZLE7_STAR_POINTS = [
 
 function startPuzzle7Game(onClear) {
   hideAll();
-  setBg('puzzle7_star_box_puzzle.png');
+  setBg('puzzle7_star_box_puzzle.jpg');
   $puzzle7StarScreen.style.display = 'block';
   $hintBtn.style.display = 'block';
   $hintBtn.onclick = showPuzzle7Hint;
@@ -5010,7 +5020,7 @@ function finishPuzzle7(onClear) {
 }
 
 function playPuzzle7Clear(onClear) {
-  setBg('puzzle7_star_box_open.png');
+  setBg('puzzle7_star_box_open.jpg');
   showDialogues([
     { speaker:'澪',       text:'……まだ、途中。' },
     { speaker:'ミネット', text:'終わりの札が出たわけじゃない、ってことだね。' },
@@ -5036,7 +5046,7 @@ function playPuzzle7Clear(onClear) {
 }
 
 function playPuzzle7PsychologyTalk(onClear) {
-  setBg('puzzle7_psychology_talk_closeup.png');
+  setBg('puzzle7_psychology_talk_closeup.jpg');
   showDialogues([
     { speaker:'ノワール', text:'人の脳は、わからないことがあると、早く意味をつけようとします。空白のままにしておくのは、とても苦手なのです。' },
     { speaker:'ミネット', text:'未読とか返信待ちとか、脳からしたらホラー映画の予告編みたいなものだもんね。' },
@@ -5092,7 +5102,7 @@ function showPuzzle8Hint() {
 }
 
 function playPuzzle8Intro(onClear) {
-  setBg('puzzle8_scale_cards.png');
+  setBg('puzzle8_scale_cards.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'箱が開くと、古びた天秤と、八枚の白いカードが現れた。' },
     { speaker:'澪',       text:'天秤……？ それに、カードが八枚。' },
@@ -5109,7 +5119,7 @@ function playPuzzle8Intro(onClear) {
 
 function startPuzzle8Sort(onClear) {
   hideAll();
-  setBg('puzzle8_scale_cards.png');
+  setBg('puzzle8_scale_cards.jpg');
   $puzzle8Screen.style.display = 'block';
   $puzzle8Prompt.textContent = 'カードをめくり、「できること」は左の皿へ、「決められないこと」は右の皿へ運びましょう。';
   $hintBtn.style.display = 'block';
@@ -5287,7 +5297,7 @@ function checkPuzzle8SortComplete(onClear) {
 }
 
 function playPuzzle8SortClear(onClear) {
-  setBg('puzzle8_scale_cards.png');
+  setBg('puzzle8_scale_cards.jpg');
   showDialogues([
     { speaker:'澪',       text:'……できること、四つ。決められないこと、四つ。' },
     { speaker:'ノワール', text:'天秤が、静かに均衡を取りました。' },
@@ -5322,7 +5332,7 @@ function startPuzzle8Reorder(onClear) {
   document.querySelectorAll('.puzzle8-card').forEach(el => el.remove());
   // やり直したときに、前に並べた文字カードも片付ける
   document.querySelectorAll('.puzzle8-kana-card').forEach(el => el.remove());
-  setBg('puzzle8_scale_empty.png');
+  setBg('puzzle8_scale_empty.jpg');
   $puzzle8ReorderScreen.style.display = 'block';
   $puzzle8ReorderPrompt.textContent = '「できること」の裏に浮かんだ文字を、正しい順番に並べましょう。';
   $puzzle8SuccessText.classList.remove('show');
@@ -5459,7 +5469,7 @@ function finishPuzzle8Reorder(onClear) {
 }
 
 function playPuzzle8Clear(onClear) {
-  setBg('puzzle8_clear.png');
+  setBg('puzzle8_clear.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'四枚のカードが淡く光り、ひとつの言葉になった。' },
     { speaker:'澪',       text:'……てばなす。' },
@@ -5481,7 +5491,7 @@ function playPuzzle8Clear(onClear) {
 }
 
 function playPuzzle8PsychologyTalk(onClear) {
-  setBg('puzzle8_psychology_talk_scale_glow.png');
+  setBg('puzzle8_psychology_talk_scale_glow.jpg');
   showDialogues([
     { speaker:'ノワール', text:'不安なとき、人は自分の手の届かないものまで、抱えようとしてしまいます。' },
     { speaker:'ミネット', text:'相手の気持ちなんて、ボタン一つで操作できないもんね。コントローラーがそもそも無いの。' },
@@ -5566,7 +5576,7 @@ const PUZZLE9_HINTS = [
 
 // 会話などで画面が消えたあと、迷路の画面を元に戻す（迷路の進み具合はそのまま）
 function restorePuzzle9Screen() {
-  setBg('puzzle9_mio_faces_shadow_maze.png');
+  setBg('puzzle9_mio_faces_shadow_maze.jpg');
   $puzzle9Screen.style.display = 'block';
   $hintBtn.style.display = 'block';
   $hintBtn.onclick = showPuzzle9Hint;
@@ -5588,7 +5598,7 @@ function showPuzzle9Hint() {
 }
 
 function playPuzzle9Intro(onClear) {
-  setBg('puzzle9_maze_board_intro.png');
+  setBg('puzzle9_maze_board_intro.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'謎8で、澪は「手放す」という言葉を受け取った。相手を手放すのではなく、答えを急ぐ苦しさを少し手放す。' },
     { speaker:'ナレーション', text:'スマホはまだ静かなままだった。返信は、まだ来ていない。' },
@@ -5613,7 +5623,7 @@ function playPuzzle9Intro(onClear) {
 }
 
 function playPuzzle9IntroPart2(onClear) {
-  setBg('puzzle9_mio_faces_shadow_maze.png');
+  setBg('puzzle9_mio_faces_shadow_maze.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'迷路の入口に、小さな澪のミニチュアが現れる。ランタンを持った、小さな澪。その前の道は、月明かりでぼんやり照らされていた。' },
     { speaker:'ノワール', text:'澪さんが一歩進めば、影も一歩近づきます。' },
@@ -5636,7 +5646,7 @@ function playPuzzle9IntroPart2(onClear) {
 }
 
 function playPuzzle9IntroPart3(onClear) {
-  setBg('puzzle9_mio_determined_before_maze.png');
+  setBg('puzzle9_mio_determined_before_maze.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪はゆっくり息を吸った。' },
     { speaker:'ナレーション', text:'謎6で、事実と不安を分けた。謎7で、まだ途中かもしれないと知った。謎8で、答えを急ぐ苦しさを少し手放した。' },
@@ -5742,7 +5752,7 @@ function updatePuzzle9ItemCounter() {
 
 function startPuzzle9Maze(onClear) {
   hideAll();
-  setBg('puzzle9_mio_faces_shadow_maze.png');
+  setBg('puzzle9_mio_faces_shadow_maze.jpg');
   $puzzle9Screen.style.display = 'block';
   $puzzle9Prompt.textContent = '影に追いつかれないように、月羽のかけらを集めよう。';
   $hintBtn.style.display = 'block';
@@ -5873,7 +5883,7 @@ function playPuzzle9ClearAnimation(onClear) {
 }
 
 function playPuzzle9Clear(onClear) {
-  setBg('puzzle9_maze_clear_pen_appears.png');
+  setBg('puzzle9_maze_clear_pen_appears.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'最後の月羽のかけらを拾った瞬間、迷路の道が淡く光った。' },
     { speaker:'ナレーション', text:'散らばっていた白銀の羽が、ふわりと浮かび上がる。一枚、また一枚と月明かりの中で重なり、細い軸を持つ美しい羽ペンへと姿を変えていく。' },
@@ -5892,7 +5902,7 @@ function playPuzzle9Clear(onClear) {
 }
 
 function playPuzzle9AfterClear(onClear) {
-  setBg('puzzle9_after_clear_talk.png');
+  setBg('puzzle9_after_clear_talk.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪は、月の羽ペンをそっと手に取った。羽の先は、青白い月明かりをまとっている。まだ何も書いていないのに、そこには言葉が宿っているようだった。' },
     { speaker:'澪',       text:'これで……何を書くんですか？' },
@@ -5985,7 +5995,7 @@ function showPuzzle10Hint() {
 }
 
 function playPuzzle10Intro(onClear) {
-  setBg('puzzle10_intro_three_talk.png');
+  setBg('puzzle10_intro_three_talk.jpg');
   showDialogues([
     { speaker:'ノワール', text:'今度は、澪さん自身に返事を書きます。' },
     { speaker:'澪',       text:'私自身に……？' },
@@ -5996,21 +6006,21 @@ function playPuzzle10Intro(onClear) {
 }
 
 function playPuzzle10IntroPart2(onClear) {
-  setBg('puzzle10_noir_gives_pen.png');
+  setBg('puzzle10_noir_gives_pen.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'ノワールが月の羽ペンを差し出す。澪がそれを受け取ると、羽先は月明かりを吸い込むように淡く光った。' },
   ], () => fadeIn(() => playPuzzle10IntroPart3(onClear)));
 }
 
 function playPuzzle10IntroPart3(onClear) {
-  setBg('puzzle10_blank_letter_table.png');
+  setBg('puzzle10_blank_letter_table.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'テーブルの上に白い便箋が現れる。そこには、まだ何も書かれていない。' },
   ], () => fadeIn(() => playPuzzle10IntroPart4(onClear)));
 }
 
 function playPuzzle10IntroPart4(onClear) {
-  setBg('puzzle10_words_appear.png');
+  setBg('puzzle10_words_appear.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'けれど澪がペンを近づけた瞬間、便箋の上に、小さな文字が震えるように浮かび上がった。' },
     { speaker:'澪',       text:'……これ、私の声だ。' },
@@ -6023,7 +6033,7 @@ function playPuzzle10IntroPart4(onClear) {
 
 function startPuzzle10Matching(onClear) {
   hideAll();
-  setBg('puzzle10_matching_screen.png');
+  setBg('puzzle10_matching_screen.jpg');
   $puzzle10Screen.style.display = 'block';
   $puzzle10Prompt.textContent = '便箋に浮かんだ「澪の小さな声」に対して、もっともやさしく寄り添う返事カードを選んでください。';
   $hintBtn.style.display = 'block';
@@ -6087,7 +6097,7 @@ function startPuzzle10Matching(onClear) {
 
 // 会話などで画面が消えたあと、返事を選ぶ画面を元に戻す（正解したものはそのまま）
 function restorePuzzle10Screen() {
-  setBg('puzzle10_matching_screen.png');
+  setBg('puzzle10_matching_screen.jpg');
   $puzzle10Screen.style.display = 'block';
   $hintBtn.style.display = 'block';
   $hintBtn.onclick = showPuzzle10Hint;
@@ -6100,7 +6110,7 @@ function showPuzzle10RevealFragment(text) {
 }
 
 function playPuzzle10Clear(onClear) {
-  setBg('puzzle10_matching_screen.png');
+  setBg('puzzle10_matching_screen.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'便箋が、淡く光った。' },
     { speaker:'ナレーション', text:'こわかったね。苦しかったね。さみしかった気持ちも、ここにあるよ。ちゃんと、ここに届いてる。' },
@@ -6108,7 +6118,7 @@ function playPuzzle10Clear(onClear) {
 }
 
 function playPuzzle10AfterClear(onClear) {
-  setBg('puzzle10_after_three_talk.png');
+  setBg('puzzle10_after_three_talk.jpg');
   showDialogues([
     { speaker:'澪',       text:'……私、ずっと相手からの返事ばかり待ってました。' },
     { speaker:'ノワール', text:'ええ。' },
@@ -6120,7 +6130,7 @@ function playPuzzle10AfterClear(onClear) {
 }
 
 function playPuzzle10MioSmile(onClear) {
-  setBg('puzzle10_mio_gentle_smile.png');
+  setBg('puzzle10_mio_gentle_smile.jpg');
   showDialogues([
     { speaker:'澪',       text:'返信が来ない夜って、私だけ置いていかれたみたいで……すごく怖かったんです。' },
     { speaker:'ノワール', text:'はい。' },
@@ -6132,7 +6142,7 @@ function playPuzzle10MioSmile(onClear) {
 }
 
 function playPuzzle10NoirMinetteSmile(onClear) {
-  setBg('puzzle10_noir_minette_smile.png');
+  setBg('puzzle10_noir_minette_smile.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'ノワールとミネットは、少しやわらいだ澪の表情を、あたたかく見つめていた。' },
   ], () => {
@@ -6155,7 +6165,7 @@ function startEnding(onClear) {
 }
 
 function playEndingScene1(onClear) {
-  setBg('ending_phone_lights_up.png');
+  setBg('ending_phone_lights_up.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'そのとき。テーブルの上に置いていたスマホが、ふっと淡く光った。' },
     { speaker:'澪',       text:'……え？' },
@@ -6163,7 +6173,7 @@ function playEndingScene1(onClear) {
 }
 
 function playEndingScene2(onClear) {
-  setBg('ending_mio_takes_phone.png');
+  setBg('ending_mio_takes_phone.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'画面には、相手からの返信。澪は一瞬、息を止める。けれど、さっきまでのように急いで飛びつくことはなかった。' },
     { speaker:'ナレーション', text:'一度、胸に当てた便箋を見る。そして、小さく息を吐く。' },
@@ -6174,12 +6184,12 @@ function playEndingScene2(onClear) {
 }
 
 function playEndingScene3(onClear) {
-  setBg('ending_phone_message_screen.png');
+  setBg('ending_phone_message_screen.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'スマホ画面には、明るい文字が並んでいた。' },
   ], () => {
     hideAll();
-    setBg('ending_phone_message_screen.png');
+    setBg('ending_phone_message_screen.jpg');
     $endingMessageOverlay.style.display = 'block';
     $endingMessageOverlay.innerHTML = '';
 
@@ -6214,7 +6224,7 @@ function playEndingScene3(onClear) {
 }
 
 function playEndingScene4(onClear) {
-  setBg('ending_mio_teary_smile_minette_comfort.png');
+  setBg('ending_mio_teary_smile_minette_comfort.jpg');
   showDialogues([
     { speaker:'澪',       text:'……ちゃんと、届いてた。' },
     { speaker:'ミネット', text:'ほらね。世界、ちゃんと終わってなかった。' },
@@ -6230,7 +6240,7 @@ function playEndingScene4(onClear) {
 }
 
 function playEndingScene5(onClear) {
-  setBg('ending_mio_leaves_cafe.png');
+  setBg('ending_mio_leaves_cafe.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪は席を立つ。窓の外には、夜明け前の薄い青が混じり始めている。' },
     { speaker:'ノワール', text:'お帰りですか。' },
@@ -6257,7 +6267,7 @@ function startEpilogue(onClear) {
 }
 
 function playEpilogueScene1(onClear) {
-  setBg('epilogue_noir_minette_cafe.png');
+  setBg('epilogue_noir_minette_cafe.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'澪を見送ったあと。喫茶店には、静かな月明かりだけが残っていた。' },
     { speaker:'ナレーション', text:'ノワールは、澪が座っていた席のカップをそっと片づける。ミネットは、テーブルの上に残った光の粒を指先でつついた。' },
@@ -6269,7 +6279,7 @@ function playEpilogueScene1(onClear) {
 }
 
 function playEpilogueScene2(onClear) {
-  setBg('epilogue_noir_minette_cafe.png');
+  setBg('epilogue_noir_minette_cafe.jpg');
   showDialogues([
     { speaker:'ノワール', text:'人は、不安なときほど「空白」を物語で埋めようとするんです。' },
     { speaker:'ミネット', text:'返信がない、っていう空白に、「嫌われたかも」「迷惑だったかも」「もう終わりかも」って、勝手に字幕をつけちゃうやつだね。' },
@@ -6283,7 +6293,7 @@ function playEpilogueScene2(onClear) {
 }
 
 function playEpilogueScene3(onClear) {
-  setBg('epilogue_noir_minette_cafe.png');
+  setBg('epilogue_noir_minette_cafe.jpg');
   showDialogues([
     { speaker:'ノワール', text:'大切なのは、不安を事実と決めつけないこと。そして、不安になった自分を責めないことです。' },
     { speaker:'ミネット', text:'「また考えすぎた！」じゃなくて、「こわかったんだね」って言ってあげる感じだ。' },
@@ -6296,7 +6306,7 @@ function playEpilogueScene3(onClear) {
 }
 
 function playEpilogueScene4(onClear) {
-  setBg('epilogue_noir_minette_greet_player.png');
+  setBg('epilogue_noir_minette_greet_player.jpg');
   showDialogues([
     { speaker:'ノワール', text:'あなたにも、そんな夜があるかもしれません。届いていない気がして、不安になる夜。返事がないだけなのに、自分の価値まで揺れてしまう夜。' },
     { speaker:'ミネット', text:'あるよね。スマホの画面、何回も見ちゃう夜。' },
@@ -6307,7 +6317,7 @@ function playEpilogueScene4(onClear) {
 }
 
 function playEpilogueScene4b(onClear) {
-  setBg('epilogue_cafe_door_close.png');
+  setBg('epilogue_cafe_door_close.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'喫茶店の灯りが、ふわりと揺れる。扉のベルが、遠くで一度だけ鳴った。' },
     { speaker:'ナレーション', text:'そして、月夜の謎解き喫茶の扉が、静かに閉まる。' },
@@ -6316,7 +6326,7 @@ function playEpilogueScene4b(onClear) {
 }
 
 function playEpilogueScene5(onClear) {
-  setBg('epilogue_next_guest_awaiting.png');
+  setBg('epilogue_next_guest_awaiting.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'灯りを落とした喫茶店に、月明かりだけが静かに差し込んでいる。' },
     { speaker:'ナレーション', text:'扉の向こうには、まだ誰の姿もない。けれど、その小さな鈴は、次に誰かが訪れる夜を、静かに待っているようだった。' },
@@ -6324,14 +6334,14 @@ function playEpilogueScene5(onClear) {
 }
 
 function playEpilogueFarewell(onClear) {
-  setBg('epilogue_farewell_see_you_again.png');
+  setBg('epilogue_farewell_see_you_again.jpg');
   showDialogues([
     { speaker:'ナレーション', text:'今夜、ここまで付き合ってくれて、ありがとう。' },
     { speaker:'ノワール', text:'また、月の見える夜に。' },
     { speaker:'ミネット', text:'またね！ お話、待ってるよ。' },
   ], () => {
     hideAll();
-    setBg('epilogue_farewell_see_you_again.png');
+    setBg('epilogue_farewell_see_you_again.jpg');
     $epilogueFarewellText.textContent = 'またお会いしましょう';
     setTimeout(() => {
       $epilogueFarewellText.classList.add('show');
@@ -6472,7 +6482,7 @@ document.addEventListener('focusout', (e) => {
 fitGameToViewport();
 
 window.onload = () => {
-  setBg('title_01_letter_phone_moon.png');
+  setBg('title_01_letter_phone_moon.jpg');
   // デバッグスキップチェック
   if (checkDebugSkip()) return;
   const saved = loadProgress();
