@@ -152,8 +152,10 @@
   #dialogue-back-btn {
     position: absolute;
     top: 10px; right: 16px;
-    font-size: 11px;
-    color: rgba(180,150,220,0.45);
+    font-size: 12px;
+    padding: 8px 10px;
+    margin: -8px -10px;
+    color: rgba(200,175,235,0.75);
     letter-spacing: 0.05em;
     cursor: pointer;
     z-index: 2;
@@ -198,8 +200,10 @@
   #narration-back-btn {
     position: absolute;
     top: 10px; left: 14px;
-    font-size: 11px;
-    color: rgba(180,150,220,0.45);
+    font-size: 12px;
+    padding: 8px 10px;
+    margin: -8px -10px;
+    color: rgba(200,175,235,0.75);
     letter-spacing: 0.05em;
     cursor: pointer;
     z-index: 2;
@@ -2660,6 +2664,7 @@ function showNarration(texts, onEnd) {
     done = false;
     $narText.textContent = '';
     $narBox.style.display = 'block';
+    $narBackBtn.style.display = idx > 0 ? 'block' : 'none'; // 1行目では戻れないので隠す
     typewrite($narText, texts[idx], 70, () => { done = true; });
   }
 
@@ -2740,6 +2745,7 @@ function showDialogues(dialogues, onEnd) {
     }
     $dialText.textContent = '';
     $dialBox.style.display = 'block';
+    $dialBackBtn.style.display = idx > 0 ? 'block' : 'none'; // 1行目では戻れないので隠す
 
     typewrite($dialText, d.text, 70, () => { done = true; });
   }
