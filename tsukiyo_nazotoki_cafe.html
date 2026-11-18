@@ -268,6 +268,38 @@
   }
   .tap-area:active { background: rgba(255,220,100,0.12); }
   .tap-area.collected { pointer-events: none; }
+  /* しばらくタップがないとき、まだ見つけていない場所がふわっと光る */
+  .tap-area.hinting:not(.collected)::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 46px; height: 46px;
+    margin: -23px 0 0 -23px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,240,190,0.95) 0%, rgba(255,215,120,0.45) 40%, rgba(255,215,120,0) 70%);
+    animation: tap-hint-glow 1.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes tap-hint-glow {
+    0%,100% { opacity: 0.35; transform: scale(0.75); }
+    50%     { opacity: 1;    transform: scale(1.15); }
+  }
+  /* 探索中の案内（上に出る） */
+  #explore-guide {
+    position: absolute;
+    top: 96px; left: 16px; right: 16px;
+    z-index: 35;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: #fff3cf;
+    background: rgba(20,14,32,0.62);
+    border: 1px solid rgba(240,210,150,0.45);
+    border-radius: 99px;
+    padding: 7px 12px;
+    pointer-events: none;
+    text-shadow: 0 0 6px rgba(0,0,0,0.6);
+  }
 
   /* きらっ */
   .sparkle {
@@ -2459,7 +2491,10 @@ function addMoonDrop(msg) {
   showToast('🌙 ' + msg);
 }
 
+let __tapHintTimer = null;
 function clearTapAreas() {
+  if (__tapHintTimer) { clearTimeout(__tapHintTimer); __tapHintTimer = null; }
+  const g = document.getElementById('explore-guide'); if (g) g.remove();
   document.querySelectorAll('.tap-area').forEach(e=>e.remove());
   document.querySelectorAll('.sparkle').forEach(e=>e.remove());
 }
@@ -2844,6 +2879,8 @@ function buildTapAreas(onEnd) {
     el.style.cssText = `left:${pt.x}px;top:${pt.y}px;width:${pt.w}px;height:${pt.h}px;`;
     el.onclick = () => {
       if (state.collectedDrops.has(pt.id)) return;
+      if (__tapHintTimer) { clearTimeout(__tapHintTimer); __tapHintTimer = null; }
+      const g = document.getElementById('explore-guide'); if (g) g.remove();
       showSparkle(pt.x + pt.w/2, pt.y + pt.h/2);
       state.collectedDrops.add(pt.id);
       state.exploredCount++;
@@ -2860,6 +2897,19 @@ function buildTapAreas(onEnd) {
     };
     $container.appendChild(el);
   });
+
+  // 上に案内を出す（いくつ見つけたかも）
+  const found = TAP_POINTS.filter(pt => state.collectedDrops.has(pt.id)).length;
+  if (found < TAP_POINTS.length) {
+    const g = document.createElement('div');
+    g.id = 'explore-guide';
+    g.textContent = `気になるところをタップしてみよう（${found} / ${TAP_POINTS.length}）`;
+    $container.appendChild(g);
+    // 8秒タップがなければ、まだの場所をふわっと光らせる
+    __tapHintTimer = setTimeout(() => {
+      document.querySelectorAll('.tap-area').forEach(e => e.classList.add('hinting'));
+    }, 8000);
+  }
 }
 
 function checkExploreCleared(onEnd) {
