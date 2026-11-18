@@ -134,6 +134,21 @@
   }
   @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
+  /* 一度読んだ場面だけ出る「とばす」ボタン */
+  .scene-skip-btn {
+    position: absolute;
+    top: 8px; right: 76px;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    border: 1px solid rgba(240,200,120,0.5);
+    color: #f0d8a0;
+    background: rgba(40,28,60,0.6);
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    z-index: 3;
+    display: none;
+  }
   #dialogue-back-btn {
     position: absolute;
     top: 10px; right: 16px;
@@ -1720,6 +1735,7 @@
   <!-- ナレーション -->
   <div id="narration-box">
     <div id="narration-back-btn">‹ 戻る</div>
+    <div class="scene-skip-btn" id="narration-skip-btn">≫ とばす</div>
     <div id="narration-text"></div>
     <button id="narration-next-btn">タップしてつぎへ ›</button>
   </div>
@@ -1727,6 +1743,7 @@
   <!-- ダイアログ -->
   <div id="dialogue-box">
     <div id="dialogue-back-btn">‹ 戻る</div>
+    <div class="scene-skip-btn" id="dialogue-skip-btn">≫ とばす</div>
     <div id="speaker-tag"></div>
     <div id="dialogue-text"></div>
     <div id="tap-hint">タップしてつぎへ</div>
@@ -2598,6 +2615,32 @@ function spendHintWithConfirm(cost, onProceed) {
 // ============================================================
 // ナレーション（タイプライター付き）
 // ============================================================
+// ============================================================
+// 既読スキップ：一度読んだ場面は「≫ とばす」で飛ばせる
+// ============================================================
+const SEEN_KEY = 'tsukiyoSeenScenes';
+let __seenScenes;
+try { __seenScenes = new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); }
+catch (e) { __seenScenes = new Set(); }
+function sceneKey(lines) {
+  const first = lines[0] || '', last = lines[lines.length - 1] || '';
+  return lines.length + '|' + first.slice(0, 24) + '|' + last.slice(0, 24);
+}
+function markSceneSeen(key) {
+  if (__seenScenes.has(key)) return;
+  __seenScenes.add(key);
+  try { localStorage.setItem(SEEN_KEY, JSON.stringify([...__seenScenes])); } catch (e) {}
+}
+function setupSkipButton(btn, key, finish) {
+  btn.style.display = __seenScenes.has(key) ? 'block' : 'none';
+  btn.onclick = (e) => {
+    e.stopPropagation();
+    if (typewriterTimer) { clearInterval(typewriterTimer); typewriterTimer = null; }
+    btn.style.display = 'none';
+    finish();
+  };
+}
+
 function showNarration(texts, onEnd) {
   hideAll();
   let idx = 0;
@@ -2623,6 +2666,12 @@ function showNarration(texts, onEnd) {
   };
   $narBox.onclick = () => advanceNarration();
 
+  const narKey = 'N' + sceneKey(texts);
+  setupSkipButton(document.getElementById('narration-skip-btn'), narKey, () => {
+    hideAll();
+    if (onEnd) onEnd();
+  });
+
   function advanceNarration() {
     if (!done) {
       // タイプ中→スキップして全文表示
@@ -2632,6 +2681,7 @@ function showNarration(texts, onEnd) {
     }
     idx++;
     if (idx >= texts.length) {
+      markSceneSeen(narKey);
       hideAll();
       if (onEnd) onEnd();
     } else {
@@ -2692,6 +2742,12 @@ function showDialogues(dialogues, onEnd) {
     }
   };
 
+  const dlgKey = 'D' + sceneKey(dialogues.map(d => d.text));
+  setupSkipButton(document.getElementById('dialogue-skip-btn'), dlgKey, () => {
+    hideAll();
+    if (onEnd) onEnd();
+  });
+
   $dialBox.onclick = () => {
     if (!done) {
       skipTypewriter($dialText, dialogues[idx].text);
@@ -2700,6 +2756,7 @@ function showDialogues(dialogues, onEnd) {
     }
     idx++;
     if (idx >= dialogues.length) {
+      markSceneSeen(dlgKey);
       hideAll();
       if (onEnd) onEnd();
     } else {
